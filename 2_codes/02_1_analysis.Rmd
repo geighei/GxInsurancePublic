@@ -948,6 +948,26 @@ hlines <- c(-1,0,1,5,6,8,9)
 print(xtable(table, align = c("l","l", "| p{2.5cm}","p{2.5cm}","| p{2.5cm}","p{2.5cm}")), sanitize.text.function = bold.sometext, hline.after = hlines, include.rownames=FALSE, include.colnames = FALSE, booktabs = TRUE, add.to.row = addtorow, file="../3_output/OLSresults/robustness_mortality.tex", floating = FALSE)
 ```
 
+### Smoking partner
+Load partner data for smoking
+```{r}
+randPartner <- readRDS(file.path(path,"1_data/interim/rand_partnerData.rds")) # 548,125
+randPartner <- randPartner %>% rename(smokenp = smoken,
+                                      smokevp = smokev) 
+dfPartner <- left_join(hrs, randPartner, by = c("hhidpn", "year", "round"))
+
+# Create main analytic sample for smoking
+df6070_100_Partner <- create_df(dfPartner, min_sample_age=60, max_sample_age=70, ptu=100, high_cutoff=0.3333, indep_var = "si_1") 
+```
+
+```{r}
+df6070_100 <- df6070_100_Partner %>% mutate(smokePartner = ifelse(smokenp == 1, 1, 0))
+reg_smokePartner <- reg_hipgs(df6070_100, outcome="smokePartner", shock_var="cv", name = "smokePartner_6070_100_cv")
+smokePartner_6070_100 <- shock_effects(reg_smokePartner, name = "../3_output/shock_effects/smokePartner_6070_100_cv", y_achsis = "%-point change in probability of smoking Partner", nb = 12)
+smokePartner_6070_100$overview_table
+smokePartner_6070_100$plot
+```
+
 ## Other x-variables: Robustness
 In this section we replace the PGS with other variables that could drive differential reaction and interact them with shock
 ### Cognitive Abilities
