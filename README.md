@@ -2,12 +2,14 @@
 This repository contains the latest version of all code necessary to implement the analysis for the paper:  
 "Moral Hazard Heterogeneity: Genes and Heath Insurance Influence Smoking after a Health Shock" (Pietro Biroli and Laura Zwyssig).
 
-**R script files:** This code extracts, cleans, and format the data for the analysis. Also, performs the entire analysis and figures used in the paper. 
+**2_codes** This code extracts, cleans, and format the data for the analysis. Also, performs the entire analysis and figures used in the paper. 
 
-**Latex files:** This code cointains the latest version of the paper. 
+**3_output**: This folder contains all tables and plots used for the analysis.
+
+**4_writing** This code cointains the latest version of the paper. 
 
 ## Content
-### R script files
+### 2_codes
 1. 00_0_install_packages
 2. 00_1_convert_dta
 3. 01_1_reshape_rand
@@ -17,5 +19,7 @@ This repository contains the latest version of all code necessary to implement t
 7. 02_0_functions
 8. 02_1_analysis
 
-### Latex files 
+### 3_output
+
+### 4_writing 
 1. GxInsurance.tex
