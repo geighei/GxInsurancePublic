@@ -14,13 +14,15 @@ rm(list=ls())
 
 # Load and prepare data ---------------------------------------------------
 # Load processed (reduced & reshaped) rand version P data file
-#path <- "~/Dropbox/GxInsurance"
-#path <- "T:/econ/biroli/geighei/code/GxInsurance/"
+
+# Set here the path for "interim" folder
 path <- "C:/Users/parce/Desktop/GeiGhei/GxInsurance/"
 df_rand <- readRDS(file.path(path,"1_data/interim/rand_reshaped.rds"))
 
 # Load publicly available polygenic scores----------------
+# Set here the path for publicly available polygenic scores
 pgs <- read_stata(file.path(path,"1_data/raw/PGENSCOREv2/PGENSCOREE_R.dta"))
+
 # Remove Stata labels
 pgs <- remove_labels(pgs)
 # Remove stata specific format
@@ -151,5 +153,4 @@ df_final2$maxCPD_1 <- -1 * df_final2$maxCPD_1
 df_final2$Bmi_1 <- -1 * df_final2$Bmi_1
 # Save dataset ------------------------------------------------------------
 saveRDS(df_final2, file = file.path(path,"1_data/interim/hrs2.rds"))
-#df_final2 <- readRDS(file = file.path(path,"1_data/interim/hrs2.rds"))
 

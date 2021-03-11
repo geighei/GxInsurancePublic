@@ -4,20 +4,21 @@
 # Last edited: 
 
 # Preliminaries -----------------------------------------------------------
-library(plyr)
-library(tidyverse)
-library(readr)
-library(haven)
-library(stringr)
-library(reshape2)
+xlibrary <- c("plyr", "tidyverse", "readr", "haven", "stringr", "reshape2")
 
-# clear workspace
+# load libraries and automatically install all packages if missing
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(char = xlibrary)
+
+options(xtable.floating = FALSE)
+options(xtable.timestamp = "")
+
+# Clear workspace
 rm(list=ls())
 
 # Load data ---------------------------------------------------------------
-#path <- "~/Dropbox/GxInsurance"
+# Set path to main folder
 path <- "C:/Users/parce/Desktop/GeiGhei/GxInsurance"
-
 df <- readRDS(file.path(path,"1_data/interim/randhrs1992_2016v2.rds"))
 
 # Partner ever smoke and smoking now: Smoken Smokev

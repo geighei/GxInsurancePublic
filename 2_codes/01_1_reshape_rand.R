@@ -1,23 +1,24 @@
 # This Script -------------------------------------------------------------
 # Author: Laura Zwyssig
 # Goal: Reshape RAND data file to long format for relevant variables
-# Last edited: 20.06.2018
+# Last edited: 11-03-2021 Pia Arce
 
 # Preliminaries -----------------------------------------------------------
-library(plyr)
-library(tidyverse)
-library(readr)
-library(haven)
-library(stringr)
-library(reshape2)
+xlibrary <- c("plyr", "tidyverse", "readr", "haven", "stringr", "reshape2")
+
+# load libraries and automatically install all packages if missing
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(char = xlibrary)
+
+options(xtable.floating = FALSE)
+options(xtable.timestamp = "")
 
 # clear workspace
 rm(list=ls())
 
 # Load data ---------------------------------------------------------------
-#path <- "~/Dropbox/GxInsurance"
+# Set here the path for "interim" folder
 path <- "C:/Users/parce/Desktop/GeiGhei/GxInsurance"
-
 df <- readRDS(file.path(path,"1_data/interim/randhrs1992_2016v2.rds"))
 
 # Prepare reshape ---------------------------------------------------------
@@ -35,7 +36,8 @@ vars_varying_base <- c("iwendm", "iwendy", "agem_e", "agey_e", "iwstat",
                        "oopmd",
                        "iearn",
                        "lbrf",
-                       "mstat", "mpart", "risk", "cogtot"
+                       "mstat", "mpart", "risk", "cogtot",
+                       "jhours", "jhour2"
 )
 
 # Select all time-varying variables
@@ -52,7 +54,7 @@ vars_varying <- c(vars_varying, grep(paste0("inw", "[0-9]+"), names(df), value=T
 
 vars_varying_new <- vars_varying
 
-rm(vars_varying)
+#rm(vars_varying)
 
 # Select all constant individual-specific variables
 vars_fixed <- c("hhidpn",
@@ -62,8 +64,7 @@ vars_fixed <- c("hhidpn",
                 "ragender", "raracem", "rahispan",
                 "rameduc", "rafeduc", "raeduc",
                 "raedyrs", "raedegrm",
-                "radyear", "radmonth", "raddate"
-)
+                "radyear", "radmonth", "raddate")
 
 # Create subset of data with only relevant variables
 df <- df[c(vars_fixed, vars_varying_new)]

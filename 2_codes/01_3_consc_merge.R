@@ -1,25 +1,24 @@
 # This Script -------------------------------------------------------------
 # Author: Regina Seibel
 # Goal: Merge conscientiousness questions from LB to hrs data file
-# Last edited: 22.02.2019
+# Last edited: 11-03-2021 Pia Arce
 
 # Preliminaries -----------------------------------------------------------
-library(tidyverse)
-library(haven)
-library(readxl)
-library(stringr)
-library(labelled)
+xlibrary <- c("tidyverse", "haven", "readxl", "stringr", "labelled")
 
+# load libraries and automatically install all packages if missing
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(char = xlibrary)
 
-# clear workspace
+options(xtable.floating = FALSE)
+options(xtable.timestamp = "")
+
+# Clear workspace
 rm(list=ls())
 
-# load data
-#path <- "../../../../Dropbox/GxInsurance/"
-#path <- "T:/econ/biroli/geighei/code/GxInsurance"
+# Load Data -----------------------------------------------------------
+# Set path to main folder
 path <- "C:/Users/parce/Desktop/GeiGhei/GxInsurance/"
-
-#hrs <- readRDS(file.path(path,"1_data/processed/hrs_final.rds"))
 hrs <- readRDS(file.path(path,"1_data/processed/hrs_final2.rds"))
 
 consc <- readRDS(file.path(path,"1_data/interim/consc.rds"))
@@ -45,5 +44,4 @@ colnames(consc_only) <- c("hhidpn", "33d", "33h", "33m", "33z", "33t", "consc_me
 hrs_consc <- left_join(hrs,consc_only, by = c("hhidpn"))
 
 # save dataset
-#saveRDS(hrs_consc, file = file.path(path,"1_data/processed/hrs_consc.rds"))
 saveRDS(hrs_consc, file = file.path(path,"1_data/processed/hrs_consc2.rds"))

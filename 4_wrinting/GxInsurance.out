@@ -1,0 +1,46 @@
+\BOOKMARK [1][-]{section.1}{Introduction}{}% 1
+\BOOKMARK [1][-]{section.2}{Data}{}% 2
+\BOOKMARK [2][-]{subsection.2.1}{Study Sample}{section.2}% 3
+\BOOKMARK [2][-]{subsection.2.2}{Variables of interest}{section.2}% 4
+\BOOKMARK [2][-]{subsection.2.3}{Sample Characteristics}{section.2}% 5
+\BOOKMARK [1][-]{section.3}{Empirical Analysis}{}% 6
+\BOOKMARK [1][-]{section.4}{Results}{}% 7
+\BOOKMARK [2][-]{subsection.4.1}{Estimation Results}{section.4}% 8
+\BOOKMARK [2][-]{subsection.4.2}{Other Interpretations}{section.4}% 9
+\BOOKMARK [2][-]{subsection.4.3}{Robustness checks}{section.4}% 10
+\BOOKMARK [1][-]{section.5}{Discussion}{}% 11
+\BOOKMARK [2][-]{subsection.5.1}{Limitations}{section.5}% 12
+\BOOKMARK [1][-]{section.6}{Conclusions}{}% 13
+\BOOKMARK [1][-]{appendix.A}{Appendix for Online Publication}{}% 14
+\BOOKMARK [1][-]{appendix.B}{Genetics for Economists}{}% 15
+\BOOKMARK [1][-]{appendix.C}{Methods}{}% 16
+\BOOKMARK [2][-]{subsection.C.1}{DNA Extraction and Genotyping}{appendix.C}% 17
+\BOOKMARK [2][-]{subsection.C.2}{Study Sample}{appendix.C}% 18
+\BOOKMARK [3][-]{subsubsection.C.2.1}{Reshaping, Merging, and Sample Restrictions}{subsection.C.2}% 19
+\BOOKMARK [3][-]{subsubsection.C.2.2}{Ever-Smoker Status}{subsection.C.2}% 20
+\BOOKMARK [2][-]{subsection.C.3}{Outcome and Exposure Variables}{appendix.C}% 21
+\BOOKMARK [3][-]{subsubsection.C.3.1}{Smoking Status}{subsection.C.3}% 22
+\BOOKMARK [3][-]{subsubsection.C.3.2}{Health Shocks}{subsection.C.3}% 23
+\BOOKMARK [3][-]{subsubsection.C.3.3}{Medicare Eligibility Status}{subsection.C.3}% 24
+\BOOKMARK [3][-]{subsubsection.C.3.4}{Pre-65 Uninsured Status}{subsection.C.3}% 25
+\BOOKMARK [3][-]{subsubsection.C.3.5}{Polygenic Score for Regular Smoking}{subsection.C.3}% 26
+\BOOKMARK [2][-]{subsection.C.4}{Statistical Analysis}{appendix.C}% 27
+\BOOKMARK [3][-]{subsubsection.C.4.1}{Age Pattern of Health Shock Incidence}{subsection.C.4}% 28
+\BOOKMARK [2][-]{subsection.C.5}{Derivation of the effects from the OLS coefficients}{appendix.C}% 29
+\BOOKMARK [3][-]{subsubsection.C.5.1}{OLS estimation: high and low PGS}{subsection.C.5}% 30
+\BOOKMARK [3][-]{subsubsection.C.5.2}{OLS estimation: low, middle and high PGS}{subsection.C.5}% 31
+\BOOKMARK [1][-]{appendix.D}{Results}{}% 32
+\BOOKMARK [2][-]{subsection.D.1}{Sample Characteristics}{appendix.D}% 33
+\BOOKMARK [2][-]{subsection.D.2}{Main Results}{appendix.D}% 34
+\BOOKMARK [2][-]{subsection.D.3}{Robustness Checks}{appendix.D}% 35
+\BOOKMARK [3][-]{subsubsection.D.3.1}{Using all tertiles}{subsection.D.3}% 36
+\BOOKMARK [3][-]{subsubsection.D.3.2}{Median Split of the polygenic score}{subsection.D.3}% 37
+\BOOKMARK [3][-]{subsubsection.D.3.3}{Older GWAS Summary Statistics}{subsection.D.3}% 38
+\BOOKMARK [3][-]{subsubsection.D.3.4}{Using different polygenic scores}{subsection.D.3}% 39
+\BOOKMARK [3][-]{subsubsection.D.3.5}{Relaxing the Criteria for Inclusion in the Pre-65 Uninsured Group}{subsection.D.3}% 40
+\BOOKMARK [3][-]{subsubsection.D.3.6}{Including Individuals with Shocks Reported at Ages 65 and 66}{subsection.D.3}% 41
+\BOOKMARK [3][-]{subsubsection.D.3.7}{Using Medicare Enrollment Status instead of age 65}{subsection.D.3}% 42
+\BOOKMARK [2][-]{subsection.D.4}{Confounders}{appendix.D}% 43
+\BOOKMARK [1][-]{appendix.E}{The Model}{}% 44
+\BOOKMARK [2][-]{subsection.E.1}{Setup}{appendix.E}% 45
+\BOOKMARK [2][-]{subsection.E.2}{The optimal health-enhancing effort}{appendix.E}% 46

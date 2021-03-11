@@ -1,0 +1,929 @@
+\tableofcontents
+
+%\newpage
+%\listoffigures
+%\listoftables
+
+\newpage
+
+
+\pagebreak
+\setcounter{page}{1}
+
+\section{Genetics for Economists}
+
+The human genome consists of over 3 billion base pairs (6 billion bases) in each cell nucleus, with four possible bases: adenine (A), thymine (T), guanine (G), and cytosine (C).\footnote{A base \textit{pair} is set of two bases, with A always pairing with T, and C always pairing with G.} Comparing any two unrelated human beings, over 99\% of their genome will be identical. The remaining $<$1\% differs between individuals, with a Single Nucleotide Polymorphism (or SNP, pronounced \textit{snip}) being the most common form of genetic variation. A SNP is a single base-pair substitution at a particular location (locus) on the human genome.
+
+To identify genetic variants that are associated with a particular trait of interest, such as coronary heart disease, so-called Genome-Wide Association Studies (GWAS) relate each SNP to the trait in a hypothesis free-approach. Stringent p-values are then used to identify SNPs that are robustly associated with the trait of interest, and replication is performed in other, independent samples. Only SNPs that have consistent associations across the different samples are interpreted as robust. However, this does not guarantee that individual SNPs have large effect sizes. Most human complex traits are polygenic, meaning that they are affected by many SNPs, each with a very small effect size. To increase the predictive power of SNPs, they can then be aggregated into so-called polygenic scores (PGS), defined as:
+
+\begin{equation*}
+PGS_i = \sum_{j=1}^J \beta_j G_{ij}
+\end{equation*}
+
+where $G_{ij}$ is SNP $j$ of individual $i$, and $\beta_j$ is the effect size of that SNP, obtained from an independent Genome-Wide Association Study. GWAS sample sizes have grown substantially in recent years, meaning that (a) SNPs with very small effects are more likely to be identified, and (b) that the effect sizes are estimated with increased precision. Indeed, we have seen large improvements in genetic prediction, with initial PGS being able to explain less than 1\% of the variation in the trait of interest, to more recent ones explaining up to 11-13\% of the variation in educational attainment just by increasing the sample size of the discovery sample \citep[see e.g.,][]{Lee2018}.
+PGS have been shown to be powerful tools to identify patients with increased risk for coronary artery disease, atrial fibrillation, type 2 diabetes, inflammatory bowel disease, and breast cancer. Indeed, \cite{Khera2018} propose the use of polygenic prediction in clinical care.
+
+
+\section{Methods}
+
+\subsection{DNA Extraction and Genotyping}
+\label{supsec:dna_genotyping}
+\noindent In 2006, the Health and Retirement Study (HRS) introduced enhanced face-to-face interviews (EFTFs), which expanded the core interview with measures of physical function, blood-based biomarkers, and DNA samples. Sample selection for the EFTFs was conducted as follows: A random 50\% of the 2006 sample was preselected for an EFTF, and the other half was selected in 2008. A new cohort of households was added to the HRS in 2010. Of these new households, a random 50\% was selected  for EFTF data collection in 2010, while the other half was selected in 2012. The households selected for EFTFs in 2012 are not yet included in the polygenic scores data used in this study. In 2006, saliva collection was conducted using a mouthwash collection method. From 2008 onwards, the Oragene DNA Collection Kit (OG-250) was used.%XXX\cite{HRSPGenscore2017}
+
+Genotype data was obtained for over 15,000 HRS participants. Genotyping was conducted by the Center for Inherited Disease Research (CIDR) in 2011, 2012, and 2015, using the Illumina HumanOmni 2.5 BeadChips (HumanOmni2.4-4v1, HumanOmni2.5-8v1). Approximately 2.4 million single nucleotide polymorphisms (SNPs) were measured. Of the roughly 1.9 million genotyped SNPs that passed quality control, 21 million SNPs were imputed using the 1000 Genomes Reference Panels (phase 3, version 5). More details on genotyping and imputation can be found in the official HRS Documentation Report.%XXX\cite{HRSPGenscore2017}
+\\
+
+\subsection{Study Sample}
+\label{supsec:study_sample}
+
+To improve replicability of the results, we mostly use data from the publicly available RAND HRS file (version P)\citep{HRSRAND}---an easy-to-use longitudinal data set based on the HRS data---as well as the publicly available initial release of the HRS polygenic scores data \citep{HRSPGENSCORE}.
+
+\subsubsection{Reshaping, Merging, and Sample Restrictions}
+\label{supsubsec:reshape}
+This section describes how the study sample was constructed from the RAND HRS version P data file.
+First, the data file was reshaped from wide to long format, with each observation corresponding to a respondent-wave entry. Second, polygenic risk scores (PGSs) for the HRS phenotype ``smoking initiation'' (referred to as ``regular smoking'' in this study, for clarity purposes) from the initial HRS PGS data release, using genetic data from 2006 to 2010, were merged for the 9,991 genotyped individuals of European ancestry. The following shows the list of restrictions that were then imposed to arrive at the study sample used in the main analysis. Regarding notation, note that {\tt VARIABLE} refers to the long-format version of the variables that were called {\tt R1VARIABLE} to {\tt R12VARIABLE} in the RAND HRS data file. From the reshaped data file, the study sample was reached by carrying out the following steps (in this exact order):
+
+\begin{enumerate}
+	\item Drop observations with an age ({\tt AGEY\_E}; see Section \ref{supsec:eligmc}) below 60 or above 70 years
+	\item Drop individuals with only 1 observation
+	\item Drop observations with missing values for the PGS for smoking ({\tt PGS\_EvrSmk\_TAG10}; see Section \ref{supsec:PGS}), the self-constructed health shock indicator (Section \ref{supsec:cv_def}), or the current smoking status ({\tt SMOKEN}; see Section \ref{supsec:smoken})
+	\item Drop individuals who in their first observation (the baseline) reported never having smoked ({\tt SMOKEV} equal to 0; see Section \ref{supsec:ever_smoking})
+	\item Drop individuals with missing values for the self-constructed pre-65 uninsured status indicator (Section \ref{supsec:pre65uninsured})
+	\item Drop individuals who reported a health shock (self-constructed health shock indicator equal to 1; see Section \ref{supsec:cv_def}) when interviewed at ages 65 or 66\\
+\end{enumerate}
+
+
+\subsubsection{Ever-Smoker Status}
+\label{supsec:ever_smoking}
+``Ever-smoker" refers to the RAND variable {\tt SMOKEV}, which indicates whether the respondent has ever smoked cigarettes. Ever smoking means having smoked more than 100 cigarettes throughout one's life, not including pipes or cigars. This is consistent with the Centers for Disease Control classification of the term ``ever-smoker.''\cite{Jamal2016} The ever-smoked question was usually only asked at the respondent's first interview and then carried forward for subsequent waves. For details on the survey questions and recodings for missings into yes/no answers, see the publicly available official RAND HRS documentation.%XXX\cite{RANDVersionP} (p. 638ff.).\\
+
+
+\subsection{Outcome and Exposure Variables}
+\label{supsec:outcome_exposure}
+
+\subsubsection{Smoking Status}
+\label{supsec:smoken}
+Current smoking status refers to the RAND variable {\tt SMOKEN}, which indicates whether the respondent smokes at the time of the interview. The survey question about current smoking status was only asked for respondents who answered yes to being ever-smokers (having smoked more than 100 cigarettes in their lifetime). For details on the survey questions and recodings for missings into yes/no answers, see the RAND HRS documentation. %XXX\cite{RANDVersionP} (p. 641ff.).\\
+
+
+\subsubsection{Health Shocks}
+\label{supsec:cv_def}
+The health shock indicator was defined using the RAND variables {\tt HEARTE} and {\tt STROKE}. The variable {\tt HEARTE} indicates whether or not a doctor has ever told the respondent that he/she had 1 of the following conditions:
+\begin{enumerate}
+	\item Heart attack
+	\item Coronary heart disease
+	\item Angina
+	\item Congestive heart failure
+	\item Other heart problems\\
+\end{enumerate}
+
+The variable {\tt STROKE} indicates whether or not a doctor has ever told the respondent that he/she had 1 of the following conditions:
+\begin{enumerate}
+	\item Stroke
+	\item Transient ischemic attack\\
+\end{enumerate}
+
+For details on the survey questions and the construction of these variables, see the RAND HRS documentation. %XXX\cite{RANDVersionP} (p. 544ff.).\\
+
+The health shock indicator used in this analysis was then defined as follows: It was set to 1 in a given wave if the lagged values of both {\tt HEARTE} and {\tt STROKE} were equal to 0, and if either one of the current values (or both) was equal to 1.\\
+
+
+
+\subsubsection{Medicare Eligibility Status}
+\label{supsec:eligmc}
+The Medicare eligibility status indicator was defined using the RAND variable {\tt AGEY\_E}. This variable indicates the respondent's age in years at the end of the HRS interview in a given wave. For details on the construction of this variable, see the RAND HRS documentation. %XXX\cite{RANDVersionP} (p. 119ff.). \\
+
+
+\subsubsection{Pre-65 Uninsured Status}
+\label{supsec:pre65uninsured}
+The pre-65 uninsured status indicator was defined using the RAND variables {\tt HIGOV}, {\tt COVR}, {\tt COVS},  and {\tt HIOTHP}. The variable {\tt HIGOV} indicates whether the respondent was covered by any government health insurance program. {\tt COVR} indicates whether the respondent was covered by health insurance from his/her current or previous employer. {\tt COVS} indicates whether the respondent was covered by his/her spouse's employer. {\tt HIOTHP} indicates whether the respondent was covered by any health insurance other than the government, employer-provided, or long-term care insurance. For details on the survey questions and the construction of these variables, see the RAND HRS documentation. %XXX\cite{RANDVersionP} (p. 1195ff., p. 1205ff., and p. 1265ff.).\\
+
+The pre-65 uninsured status indicator used in this analysis was then defined as follows: First, we defined a wave-specific uninsured indicator, which was set to 1 in a given wave if the values of {\tt HIGOV}, {\tt COVR}, {\tt COVS},  and {\tt HIOTHP} were all equal to 0. Then, the pre-65 uninsured status indicator was set to 1 for respondents whose wave-specific uninsured indicator was 1 in 100\% of all pre-65 observations (i.e., where {\tt AGEY\_E} $<$ 65).\\
+
+
+
+\subsubsection{Polygenic Score for Regular Smoking}
+\label{supsec:PGS}
+The high-PGS indicator was defined using the PGS for the phenotype ``smoking initiation'' (referred to as ``regular smoking'' in this study, for clarity purposes) using \textbf{all of the genetic variants} (SNPs).
+
+The PGS was calculated using the effect sizes estimated in a genome-wide association study (GWAS) meta-analysis \cite{GSCAN2019gwas} conducted by the GWAS and Sequencing Consortium of Alcohol and Nicotine use (GSCAN).
+The phenotype ``smoking initiation'' studied in this GWAS was defined as ever versus never having been a regular smoker, where regular smokers were individuals who reported having smoked $\geq$ 100 cigarettes throughout their life.
+
+The PGSs used these GWAS-estimated effect sizes for all SNPs that overlapped between the HRS genetic database and the GWAS meta-analysis, without accounting for linkage disequilibrium between SNPs or considering P-value thresholds.
+Scores were calculated according to Equation (1) in the main text using the software packages PRSice and PLINK.
+
+
+The high-PGS indicator used in this analysis was then defined as follows: It was set to 1 for individuals with a PGS above the lowest tertile, and to 0 for individuals with a PGS below or equal to the lowest tertile.
+The two upper-tertiles of the PGS distribution were combined to improve statistical power and simplify the exposition. Initial results using an indicator for each tertile of the distribution, displayed in Appendix Section \ref{appsec:derivation3split}, show that the results for the two upper-tertiles of the PGS distribution are very similar to each other.
+
+The polygenic score is predictive of smoking behavior, as expected and displayed in Figure \ref{fig:PGS}, but not only.
+As shown in Appendix Figure \ref{fig:PGS_pred}---which displays the coefficients of simple OLS regressions of several outcomes on the linear PGS controlling for age, gender, and the 10 principal components of the genomewide matrix---the PGS is also predictive of other unfavorable outcomes: younger age at first birth as well as age started smoking, lower cognitive skills, perseverance, years of education, wealth, income, health rating, higher depressive symptoms, anxiety, non-cancer illnesses, drinking behavior.
+Reassuringly, the correlations with retirement, medications taken, and mortality are positive but extremely small and not distinguishable from zero.
+
+\begin{figure}[!ht]
+	\begin{center}
+	\includegraphics[height=0.7\textheight]{../3_output/make_histograms/PGSprediction.png}
+	\caption{PGS distribution and correlation with smoking behavior.
+	\label{fig:PGS_pred}}
+	\vspace{-0.8cm}
+	\floatfoot{
+	\textit{Notes:} Plot of estimated coefficients associated with the PGS (entered linearly) from several OLS regressions of the different outcomes displayed on the y-axis on the PGS, age, age squared, age cubed, sex, and the first 10 principal components of the genomewide matrix.
+	\\ \textit{Data used}: HRS waves 1-13, restricted to observations with age between 60 and 70 years.
+	}
+	\end{center}
+\end{figure}
+
+As shown in Figure \ref{fig:PGS_gender_cv}, the PGS is mildly correlated with gender and almost uncorrelated with the probability of suffering from a health shock.
+
+\begin{figure}[ht]
+	\begin{center}
+		\subfigure[\textsf{PGS distribution and correlation with female gender.}]{\includegraphics[width=8cm]{../3_output/make_histograms/pgs_density_6070_female_smooth.png}}
+		\subfigure[\textsf{PGS distribution and correlation with the health shock.}]{\includegraphics[width=8cm]{../3_output/make_histograms/pgs_density_6070_cv_smooth.png} }
+		\caption{PGS for Regular Smoking and Smoking Behavior in the HRS Data
+			\label{fig:PGS_gender_cv}}
+	\vspace{-3ex}
+	\floatfoot{
+	\textit{Notes:} Distribution of Polygenic Score (PGS) for baseline smokers (blue) and non-smokers (red).
+	Generalized linear smoothed correlation between current smoking and PGS shown in the blue line (with 95\% confidence intervals in shaded grey area).
+	\\ \textit{Data used}: HRS waves 1-13, restricted to observations with age between 60 and 70 years.
+	}
+	\end{center}
+\end{figure}
+
+
+%Figure \ref{fig:PGS} shows how this binary indicator for genetic risk for smoking as well as the original PGS relate to reported smoking behavior in the HRS data (considering all respondents aged between 60 and 70, without excluding baseline never-smokers).
+%Panel (a) of Figure \ref{fig:PGS} shows a clear level difference in the fraction of smokers between the high- and low-PGS groups. The age pattern of smoking was very similar across the 2 groups. Panel (b) of Figure \ref{fig:PGS} shows the distribution of the PGSs for those who were smokers at baseline and for those who were not. By visual inspection, the distribution of scores is centered around a higher level for baseline smokers than it is for baseline non-smokers.
+%
+%\captionsetup{format=cancaption,labelformat=cancaptionlabelC, width = \textwidth}
+%\begin{figure}[ht]
+%	\begin{center}
+%		\subfigure[\textsf{Mean Smoking Status by Age, Stratified by Genetic Group}]{\includegraphics[width=8cm]{../3_output/smk_over_time/graph_6070plot_agebypgs.png}  }
+%		\subfigure[\textsf{Distribution of PGSs, Stratified by Baseline Smoking Status}]{\includegraphics[width=8cm]{../3_output/make_histograms/graph_6070smoken.png} }
+%		\caption{PGS for Regular Smoking and Smoking Behavior in the HRS Data
+%			\label{fig:PGS}}
+%		\floatfoot{\vspace{-3cm} \\
+%			\textsf{Low PGS = lowest tertile of the polygenic score distribution; high PGS = upper two tertiles of the polygenic score distribution.\\
+%				\textit{Data used}: HRS waves 1-12, restricted to observations with age between 60 and 70 years.}}
+%	\end{center}
+%\end{figure}
+
+\vspace{2mm}
+
+\subsection{Statistical Analysis}
+
+\subsubsection{Age Pattern of Health Shock Incidence}
+\label{supsec:age_pattern_cv}
+With the data used in this study, it was not possible to narrow down the exact timing of a health shock to more than the between-survey 2-year window. Therefore, the probability of having a health shock at a specific age could not be determined. What could be said from this data about the age at the health shock is that for all shocks reported at ages 64 or below, the shocks must have occurred before the age of 65. Similarly, for all health shocks reported at ages 67 or above, the shocks must have occurred after the age of 65. For shocks reported at interview ages 65 or 66, it could not be determined whether the shock occurred before or after age 65 (as interviews were conducted biennially). \\
+
+Figure \ref{fig:cv_prob} visualizes the fraction of HRS respondents who reported experiencing a health shock since the last survey wave at a given interview age, stratified both by genetic group and by gender. By visual inspection, there seems to be a positive trend in the fraction of respondents reporting health events with age, with frequent deviations but no obvious jump between 64 and 67. \\
+
+
+\begin{figure}[!tbp]
+	\begin{center}
+		\caption{Percentage of Reported Health Shocks by Age \label{fig:cv_prob}}
+		\subfigure[\textsf{Cutoff at age 64}]{\includegraphics[width=5cm]{../3_output/over_time/graph_6070_cut64cvrdd_agebypgs.png}}
+		\hfill
+		\subfigure[\textsf{Cutoff at age 65}]{\includegraphics[width=5cm]{../3_output/over_time/graph_6070cvrdd_agebypgs.png}}
+		\hfill
+		\subfigure[\textsf{Cutoff at age 66}]{\includegraphics[width=5cm]{../3_output/over_time/graph_6070_cut66cvrdd_agebypgs.png}}
+		\floatfoot{ \vspace{-0.8cm} \\
+		Self-reported indicator of having been diagnosed for the first time with a cardiovascular condition since the last HRS survey.
+		Age refers to the time of the survey, not the time of the health shock, which is unknown up to a 2-year windows, since HRS surveys are bi annual.
+		Bin-scattered plot and generalized linear smoothed correlation between age at interview and cardiovascular health shock shown in red (low PGS) and blue (high PGS).
+		Linear smoothed correlation estimated separately to the left and to the right of age cutoff: (a) age 64; (b) age 65; (c) age 66. \\
+		\textit{Data used}: HRS waves 1-13, restricted to observations with age between 60 and 70 years.
+		}
+	\end{center}
+\end{figure}
+
+
+To formally test for a jump or change in trend in the incidence of health shocks around the age of 65, a segmented regression approach was used. Specifically, we tested if the change between the percentage of respondents who reported a health shock at age 64 and the percentage of respondents who reported a health shock at age 67 was larger than what could be explained by a linear age trend. For this test, all observations where respondents were aged 65 or 66 were excluded. For all remaining observations, the binary health shock indicator ($shock$) was regressed on the age variable ($age$), a post-age-67 indicator variable ($post67$), and a post-age-67 trend ($post67slope$):
+\begin{align} \label{supcv_regression}
+shock_{it} \thinspace = \thinspace \beta_0 + \beta_1 \thinspace age_{it} + \beta_2 \thinspace post67_{it} + \beta_3 \thinspace post67slope_{it} + \varepsilon_{it}
+\end{align}
+
+The post-age-67 indicator variable was defined to take the value 1 if a respondent was aged 67 or older at the time of the HRS interview. Therefore, it guaranteed that any potential health shocks were experienced after the age of 65. The post-age-67 slope variable was a continuous variable coded 0 up to and including age 67, and increased sequentially from 1 thereafter. $\beta_1$ captured the general age trend in the probability of reporting a health shock; $\beta_2$ estimated the jump in the report of health shocks at age 67; $\beta_3$ reflected changes in the age trend of reported health shocks after age 67.\\
+
+
+The linear probability model in Equation (\ref{supcv_regression}) was estimated using ordinary least squares (OLS) regression for (i) the study sample (HRS waves 1-12, restricted to observations with age between 60 and 70 years, and additionally excluding all observations with ages 65 or 66), (ii) both genetic groups separately, and (iii) both men and women separately. Estimation results are shown in Table \ref{suptab:cv_regression}. Across all groups, there were no statistically significant jumps for health shocks reported at age 67 compared to age 64 (accounting for a linear age trend). Similarly, the age trend was not significantly different after age 67 than before. In the study sample and in the low-PGS group, the increase with age in the probability of reporting a health shock was statistically significant.
+
+
+%%%%%%%%%%%%%%%%%%%% PROBABILITY OF A CV SHOCK REGRESSION %%%%%%%%%%%%%%%%%%%%
+\captionsetup{width = 11cm}
+% Table created by stargazer v.5.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
+% Date and time: Fr, Apr 27, 2018 - 15:00:48
+\begin{table}[ht] \centering
+	\caption{Coefficients from Estimating the Linear Probability Model in Equation (\ref{supcv_regression}) Using OLS}
+	\label{suptab:cv_regression}
+	\input{../3_output/OLSresults/shock_prob}
+		\begin{flushleft}
+			Low PGS = lowest tertile of the polygenic score distribution; high PGS = upper two tertiles of the polygenic score distribution.\\
+			 \textit{Data used}: HRS waves 1-13, restricted to observations with age between 60 and 70 years and non-missing smoking status, and additionally excluding all observations with ages 65 or 66.
+			\vspace{5mm}
+		\end{flushleft}
+\end{table}
+\captionsetup{width = \columnwidth}
+
+
+\pagebreak
+
+\subsection{Derivation of the effects from the OLS coefficients}
+\label{appsec:derivation}
+\subsubsection{OLS estimation: high and low PGS}
+Current smoking status ($Y$) is regressed on the full set of interactions between the indicators for the health shock ($shock$), being uninsured pre-65 ($uninsured$), Medicare eligibility ($post65$), and high polygenic risk for smoking ($g$):
+	\begin{align*} \label{eq:reg2}
+	Y_{it}& \thinspace  = \thinspace
+	\beta \thinspace shock_{it} + \gamma \thinspace post65_{it} \\
+	&+\lambda_1 \thinspace  (shock_{it} \times post65_{it}) \nonumber \\
+	&+ \lambda_2 \thinspace (shock_{it} \times uninsured_i) \nonumber \\
+	&+\lambda_3  \thinspace (post65_{it} \times uninsured_i) \nonumber \\
+	&+ \lambda_4 \thinspace (shock_{it} \times g_i) \nonumber \\
+	&+\lambda_5 \thinspace (post65_{it} \times g_i) \nonumber \\
+	&+ \delta_1 \thinspace (shock_{it} \times post65_{it} \times uninsured_i) \nonumber \\
+	&+ \delta_2 \thinspace (shock_{it} \times uninsured_i \times g_i) \nonumber \\
+	&+ \delta_3 \thinspace (shock_{it} \times post65_{it} \times g_i) \nonumber \\
+	&+ \delta_4 \thinspace (post65_{it} \times uninsured_i \times g_i) \nonumber\\
+	&+ \zeta \thinspace (shock_{it} \times post65_{it} \times uninsured_i \times g_i) \nonumber \\
+	&+ \sum_{a=1}^3 \phi_a \thinspace age_{it}^{a} + \eta_i + \tau_t + \varepsilon_{it} \nonumber
+	\end{align*}
+
+%Hence the decomposition is as follows:
+%\begin{align}
+%\phantom{E\left[ Y_{it}| post65_{it}=1, g_i=1, shock_{it}=1,uninsured_i=1\right]}
+%&\begin{aligned}
+%	\mathllap{E\left[ Y_{it}| post65_{it}=0, g_i=0, shock_{it}=1,uninsured_i=1\right]} &=\beta+\lambda_2
+%\end{aligned}\\
+%&\begin{aligned}
+%	\mathllap{E\left[ Y_{it}| post65_{it}=1, g_i=0, shock_{it}=1,uninsured_i=1\right]} &=\beta+\gamma+\lambda_1+\lambda_2\\ &+\lambda_3+\delta_1
+%\end{aligned}\\
+%&\begin{aligned}
+%	\mathllap{E\left[ Y_{it}| post65_{it}=0, g_i=1, shock_{it}=1,uninsured_i=1\right]} &=\beta+\lambda_2+\lambda_4+\delta_2
+%\end{aligned}\\
+%&\begin{aligned}
+%	\mathllap{E\left[ Y_{it}| post65_{it}=1, g_i=1, shock_{it}=1,uninsured_i=1\right]} &=\beta+\gamma+\lambda_1+\lambda_2\\
+%	&+\lambda_3+\lambda_4+\lambda_5+\delta_1+\delta_2\\
+%	&+\delta_3+\delta_4+\zeta
+%\end{aligned}
+%\end{align}
+%
+%Then the first two differences yield:
+%
+%\begin{align}
+%(2)-(1)&=\gamma+\lambda_1+\lambda_3+\delta_1\\
+%(4)-(3)&=\gamma+\lambda_1+\lambda_3+\lambda_5+\delta_1+\delta_3+\delta_4+\zeta
+%\end{align}
+%
+%And finally the genetic heterogeneity in this difference:
+%\begin{align}
+%	(6)-(5)&=\lambda_5+\delta_3+\delta_4+\zeta
+%\end{align}
+
+\paragraph{Effect of the health shock on the outcome for the previously uninsured}
+To calculate the effect of the shock on the outcome, we evaluate the derivative of the outcome with respect to shock:
+\begin{align}
+\begin{aligned}
+	\frac{\partial Y_{it}}{\partial shock_{it}}&=\beta+\lambda_1post65_{it}+\lambda_2uninsured_{i}+\lambda_4g_i\\
+	&+\delta_1(post65 \times uninsured_i)+\delta_2(uninsured_i \times g_i)+\delta_3(post65_{it} \times g_i)\\
+	&+\zeta(post65_{it} \times uninsured_i \times g_i)
+\end{aligned}
+\end{align}
+
+We can look at the decomposition for the different genotypes (high and low PGS) and shock timing (before and after 65):
+\begin{align}
+\phantom{E\left[ \frac{\partial Y_{it}}{\partial shock_{it}}| post65_{it}=1, g_i=1,uninsured_i=1\right]}%
+%
+%
+&\begin{aligned}
+\mathllap{E\left[ \frac{\partial Y_{it}}{\partial shock_{it}}| post65_{it}=0, g_i=0,uninsured_i=1\right]} &=\beta+\lambda_2
+\end{aligned}
+\label{eq:prelow} \\
+&\begin{aligned}
+\mathllap{E\left[ \frac{\partial Y_{it}}{\partial shock_{it}}| post65_{it}=1, g_i=0,uninsured_i=1\right]} &=\beta+\lambda_1+\lambda_2+\delta_1
+\end{aligned}
+\label{eq:postlow} \\
+&\begin{aligned}
+\mathllap{E\left[ \frac{\partial Y_{it}}{\partial shock_{it}}| post65_{it}=0, g_i=1,uninsured_i=1\right]} &=\beta+\lambda_2+\lambda_4+\delta_2
+\end{aligned}
+\label{eq:prehigh} \\
+&\begin{aligned}
+\mathllap{E\left[ \frac{\partial Y_{it}}{\partial shock_{it}}| post65_{it}=1, g_i=1,uninsured_i=1\right]} &=\beta+\lambda_1+\lambda_2+\lambda_4\\
+&+\delta_1+\delta_2+\delta_3+\zeta
+\end{aligned}
+\label{eq:posthigh}
+\end{align}
+
+Calculating the first two differences as above::
+
+\begin{align}
+(\ref{eq:postlow})-(\ref{eq:prelow})&=\lambda_1+\delta_1
+\label{eq:difflow}\\
+(\ref{eq:posthigh})-(\ref{eq:prehigh})&=\lambda_1+\delta_1+\delta_3+\zeta
+\label{eq:diffhigh}
+\end{align}
+
+And finally the genetic heterogeneity in this difference:
+\begin{align}
+(\ref{eq:diffhigh})-(\ref{eq:difflow})&=\delta_3+\zeta
+\end{align}
+
+
+%\paragraph{Effect of the health shock on outcome for the already insured}
+%As before, we can look at the decomposition for the different genotypes (high and low PGS) and shock timing (before and after 65) but this time without conditioning for $uninsured_i=0$:
+%\begin{align}
+%\phantom{E\left[ \frac{\partial Y_{it}}{\partial shock_{it}}| post65_{it}=1, g_i=1,uninsured_i=0\right]}%
+%%
+%%
+%&\begin{aligned}
+%\mathllap{E\left[ \frac{\partial Y_{it}}{\partial shock_{it}}| post65_{it}=0, g_i=0,uninsured_i=0\right]} &=\beta
+%\end{aligned}
+%\label{eq:ins_prelow} \\
+%&\begin{aligned}
+%\mathllap{E\left[ \frac{\partial Y_{it}}{\partial shock_{it}}| post65_{it}=1, g_i=0,uninsured_i=0\right]} &=\beta+\lambda_1
+%\end{aligned}
+%\label{eq:ins_postlow} \\
+%&\begin{aligned}
+%\mathllap{E\left[ \frac{\partial Y_{it}}{\partial shock_{it}}| post65_{it}=0, g_i=1,uninsured_i=0\right]} &=\beta+\lambda_4
+%\end{aligned}
+%\label{eq:ins_prehigh} \\
+%&\begin{aligned}
+%\mathllap{E\left[ \frac{\partial Y_{it}}{\partial shock_{it}}| post65_{it}=1, g_i=1,uninsured_i=0\right]} &=\beta+\lambda_1+\lambda_4\\
+%&+\delta_3
+%\end{aligned}
+%\label{eq:ins_posthigh}
+%\end{align}
+%
+%Calculating the first two differences as above::
+%
+%\begin{align}
+%(\ref{eq:ins_postlow})-(\ref{eq:ins_prelow})&=\lambda_1
+%\label{eq:ins_difflow}\\
+%(\ref{eq:ins_posthigh})-(\ref{eq:ins_prehigh})&=\lambda_1+\delta_3
+%\label{eq:ins_diffhigh}
+%\end{align}
+%
+%And finally the genetic heterogeneity in this difference:
+%\begin{align}
+%(\ref{eq:ins_diffhigh})-(\ref{eq:ins_difflow})&=\delta_3
+%\end{align}
+
+
+\subsubsection{OLS estimation: low, middle and high PGS} \label{appsec:derivation3split}
+	Current smoking status ($Y$) is regressed on the full set of interactions between the indicators for the health shock ($shock$), being uninsured pre-65 ($uninsured$), Medicare eligibility ($post65$), medium polygenic risk for smoking ($g^m$) and high polygenic risk for smoking ($g^h$):
+
+		\begin{align*} \label{eq:reg3}
+	Y_{it}& \thinspace  = \thinspace
+	\beta \thinspace shock_{it} + \gamma \thinspace post65_{it} \\
+	&+\lambda_1 \thinspace  (shock_{it} \times post65_{it}) \nonumber \\
+	&+ \lambda_2 \thinspace (shock_{it} \times uninsured_i) \nonumber \\
+	&+\lambda_3  \thinspace (post65_{it} \times uninsured_i) \nonumber \\
+	&+ \lambda_4 \thinspace (shock_{it} \times g^m_i) \nonumber \\
+	&+\lambda_5 \thinspace (post65_{it} \times g^m_i) \nonumber \\
+	&+ \lambda_6 \thinspace (shock_{it} \times g^h_i) \nonumber \\
+	&+\lambda_7 \thinspace (post65_{it} \times g^h_i) \nonumber \\
+	&+ \delta_1 \thinspace (shock_{it} \times post65_{it} \times uninsured_i) \nonumber \\
+	&+ \delta_2 \thinspace (shock_{it} \times uninsured_i \times g^m_i) \nonumber \\
+	&+ \delta_3 \thinspace (shock_{it} \times post65_{it} \times g^m_i) \nonumber \\
+	&+ \delta_4 \thinspace (post65_{it} \times uninsured_i \times g^m_i) \nonumber\\
+	&+ \delta_5 \thinspace (shock_{it} \times uninsured_i \times g^h_i) \nonumber \\
+	&+ \delta_6 \thinspace (shock_{it} \times post65_{it} \times g^h_i) \nonumber \\
+	&+ \delta_7 \thinspace (post65_{it} \times uninsured_i \times g^h_i) \nonumber\\
+	&+ \zeta_1 \thinspace (shock_{it} \times post65_{it} \times uninsured_i \times g^m_i) \nonumber \\
+	&+ \zeta_2 \thinspace (shock_{it} \times post65_{it} \times uninsured_i \times g^h_i) \nonumber \\
+	&+ \sum_{a=1}^3 \phi_a \thinspace age_{it}^{a} + \eta_i + \tau_t + \varepsilon_{it} \nonumber
+	\end{align*}
+
+%Hence the decomposition is as follows:
+%\begin{align}
+%\phantom{E\left[ Y_{it}| post65_{it}=1, g^m_i=1, g^h_i=1, shock_{it}=1,uninsured_i=1\right]}
+%&\begin{aligned}
+%\mathllap{E\left[ Y_{it}| post65_{it}=0, g^m_i=0, g^h_i=0, shock_{it}=1,uninsured_i=1\right]} &=\beta+\lambda_2
+%\end{aligned}\\
+%&\begin{aligned}
+%\mathllap{E\left[ Y_{it}| post65_{it}=1, g^m_i=0, g^h_i=0, shock_{it}=1,uninsured_i=1\right]} &=\beta+\gamma+\lambda_1+\lambda_2\\ &+\lambda_3+\delta_1
+%\end{aligned}\\
+%&\begin{aligned}
+%\mathllap{E\left[ Y_{it}| post65_{it}=0, g^m_i=1, g^h_i=0, shock_{it}=1,uninsured_i=1\right]} &=\beta+\lambda_2+\lambda_4+\delta_2
+%\end{aligned}\\
+%&\begin{aligned}
+%\mathllap{E\left[ Y_{it}| post65_{it}=1, g^m_i=1, g^h_i=0, shock_{it}=1,uninsured_i=1\right]} &=\beta+\gamma+\lambda_1+\lambda_2\\
+%&+\lambda_3+\lambda_4+\lambda_5+\delta_1+\delta_2\\
+%&+\delta_3+\delta_4+\zeta_1
+%\end{aligned}\\
+%&\begin{aligned}
+%\mathllap{E\left[ Y_{it}| post65_{it}=0, g^m_i=0, g^h_i=1, shock_{it}=1,uninsured_i=1\right]} &=\beta+\lambda_2+\lambda_6+\delta_5
+%\end{aligned}\\
+%&\begin{aligned}
+%\mathllap{E\left[ Y_{it}| post65_{it}=1, g^m_i=0, g^h_i=1, shock_{it}=1,uninsured_i=1\right]} &=\beta+\gamma+\lambda_1+\lambda_2\\
+%&+\lambda_3+\lambda_6+\lambda_7+\delta_1+\delta_5\\
+%&+\delta_6+\delta_7+\zeta_2
+%\end{aligned}
+%\end{align}
+%
+%Then the first two differences yield:
+%
+%\begin{align}
+%(17)-(16)&=\gamma+\lambda_1+\lambda_3+\delta_1\\
+%(19)-(18)&=\gamma+\lambda_1+\lambda_3+\lambda_5+\delta_1+\delta_3+\delta_4+\zeta_1\\
+%(21)-(20)&=\gamma+\lambda_1+\lambda_3+\lambda_7+\delta_1+\delta_6+\delta_7+\zeta_2
+%\end{align}
+%
+%And finally the genetic heterogeneity in this difference:
+%\begin{align}
+%(23)-(22)&=\lambda_5+\delta_3+\delta_4+\zeta_1\\
+%(24)-(22)&=\lambda_7+\delta_6+\delta_7+\zeta_2
+%\end{align}
+
+\paragraph{Effect of the shock on the outcome}
+The derivative of the outcome with respect to shock is:
+\begin{align}
+\begin{aligned}
+\frac{\partial Y_{it}}{\partial shock_{it}}&=\beta+\lambda_1post65_{it}+\lambda_2uninsured_{i}+\lambda_4g^m_i+\lambda_6g^h_i\\
+&+\delta_1(post65 \times uninsured_i)+\delta_2(uninsured_i \times g^m_i)+\delta_3(post65_{it} \times g^m_i)\\
+&+\delta_5(uninsured_i \times g^h_i)+\delta_6(post65_{it} \times g^h_i)\\
+&+\zeta_1(post65_{it} \times uninsured_i \times g^m_i)+\zeta_2(post65_{it} \times uninsured_i \times g^h_i)
+\end{aligned}
+\end{align}
+
+Again, we can look at the decomposition:
+\begin{align}
+\phantom{E\left[ \frac{\partial Y_{it}}{\partial shock_{it}}| post65_{it}=1, g^m_i=1,g^h_i=1,uninsured_i=1\right]}
+&\begin{aligned}
+\mathllap{E\left[ \frac{\partial Y_{it}}{\partial shock_{it}}| post65_{it}=0, g^m_i=0,g^h_i=0,uninsured_i=1\right]} &=\beta+\lambda_2
+\end{aligned}\\
+&\begin{aligned}
+\mathllap{E\left[ \frac{\partial Y_{it}}{\partial shock_{it}}| post65_{it}=1, g^m_i=0,g^h_i=0,uninsured_i=1\right]} &=\beta+\lambda_1+\lambda_2+\delta_1
+\end{aligned}\\
+&\begin{aligned}
+\mathllap{E\left[ \frac{\partial Y_{it}}{\partial shock_{it}}| post65_{it}=0, g^m_i=1,g^h_i=0,uninsured_i=1\right]} &=\beta+\lambda_2+\lambda_4+\delta_2
+\end{aligned}\\
+&\begin{aligned}
+\mathllap{E\left[ \frac{\partial Y_{it}}{\partial shock_{it}}| post65_{it}=1, g^m_i=1,g^h_i=0,,uninsured_i=1\right]} &=\beta+\lambda_1+\lambda_2+\lambda_4\\
+&+\delta_1+\delta_2+\delta_3+\zeta_1
+\end{aligned}\\
+&\begin{aligned}
+\mathllap{E\left[ \frac{\partial Y_{it}}{\partial shock_{it}}| post65_{it}=0, g^m_i=0,g^h_i=1,uninsured_i=1\right]} &=\beta+\lambda_2+\lambda_6+\delta_5
+\end{aligned}\\
+&\begin{aligned}
+\mathllap{E\left[ \frac{\partial Y_{it}}{\partial shock_{it}}| post65_{it}=1, g^m_i=0,g^h_i=1,,uninsured_i=1\right]} &=\beta+\lambda_1+\lambda_2+\lambda_6\\
+&+\delta_1+\delta_5+\delta_6+\zeta_2
+\end{aligned}
+\end{align}
+
+Calculating the first two differences as above::
+
+\begin{align}
+(29)-(28)&=\lambda_1+\delta_1\\
+(31)-(30)&=\lambda_1+\delta_1+\delta_3+\zeta_1\\
+(33)-(32)&=\lambda_1+\delta_1+\delta_6+\zeta_2
+\end{align}
+
+And again the genetic heterogeneity in this difference:
+\begin{align}
+(35)-(34)&=\delta_3+\zeta_1\\
+(36)-(34)&=\delta_6+\zeta_2
+\end{align}
+
+
+
+%------------------------------------------------------------------------------------------
+\section{Results}
+\label{supsec:results}
+
+%------------------------------------------------------------------------------------------
+\subsection{Sample Characteristics}
+\label{supsec:descriptive}
+
+Table \ref{suptab:descriptive_subgroup} displays summary statistics for the subset of the study sample that experienced a cardiovascular health shock over the course of the observation period, stratified by timing of the shock (pre-65 versus post-65) and genetic group.
+Within a genetic group, demographics are mostly similar across the timing strata.
+However, in both groups, those experiencing the shock after age 65 are on average older at baseline.
+In the high-PGS group, there are also relatively more women experiencing the shock after the age of 65 than before 65.
+This is consistent with the general pattern that women experience cardiovascular disease later in life than men \citep{Lloyd-Jones2010}.
+
+
+%\captionsetup{width = 16.2cm}
+\captionsetup{format=cancaption,labelformat=cancaptionlabelD, width = \textwidth}
+% TABLE WITH P-value COLUMN
+\begin{table}[!ht] \centering
+	\caption{Descriptive Statistics for the Subset of the study sample with a Health Shock, Stratified by Timing of the Shock and Genetic Group}
+	\label{suptab:descriptive_subgroup}
+	%\resizebox{\textwidth}{!}{
+	\input{../3_output/descriptive/descriptive_subgroups.tex}
+	\begin{flushleft}
+			\footnotesize
+			Pre-65: Health shock since the last survey reported at ages 60-64.\\
+			Post-65: Health shock since the last survey reported at ages 67-70.\\
+			P-values report significance tests for the difference in means between the shock timing strata.\\
+			Low PGS = lowest tertile of the polygenic score distribution; high PGS = upper two tertiles of the polygenic score distribution.\\
+			Cessation rates are defined as smoking in the previous but not in the current wave.\\
+			\textit{Data used}: study sample restricted to individuals experiencing a health shock during the observation period.
+	\end{flushleft}
+	%	}
+\end{table}
+
+The subset of respondents affected by cardiovascular illness during the observed years differed in some characteristics from those unaffected.
+Table \ref{suptab:descriptives_full} shows a comparison.
+
+\begin{table}[ht] \centering
+	\vspace{-3mm}
+	\caption{Descriptive Statistics for the Study Sample, Stratified by Future Health Shock Status}
+	\label{suptab:descriptives_full}
+	\resizebox{\textwidth}{!}{
+	\input{../3_output/descriptive/descriptive_shock.tex}
+	}
+	\begin{flushleft}
+	Health shock: diagnosed with a new cardiovascular condition during the time since the last HRS survey, but no history of cardiovascular disease prior to this diagnosis.
+	P-values report significance tests for the difference in means between the health shock strata.
+	Cessation rates were defined as smoking in the previous but not in the current wave.\\
+	\textit{Data used}: HRS study sample, n = 5,854.
+	\end{flushleft}
+\end{table}
+
+%Table \ref{tab:numcells} counts the number of people in our dataset that suffer a health shock in each of the four possible cells: before or after the age of 65, with high or low polygenic score.
+%
+%\begin{table}[ht] \centering
+%	\vspace{-3mm}
+%	\caption{Number of Individuals Suffering a Health Shock, Stratified by Timing of the Shock and Genetic Type}
+%	\label{tab:numcells}
+%	%\resizebox{\textwidth}{!}{
+%	\input{../3_output/descriptive/numberObservations.tex}
+%	%}
+%	\begin{flushleft}
+%	Health shock = diagnosed with a new cardiovascular condition during the time since the last HRS survey, but no history of cardiovascular disease prior to this diagnosis.
+%	Low PGS = polygenic score below the median; high PGS = polygenic score above the median.
+%	Pre-65: Health shock since the last survey reported at ages 60-64.
+%	Post-65: Health shock since the last survey reported at ages 67-70.
+%	\textit{Data used}: HRS study sample, n = 5,854.
+%	\end{flushleft}
+%\end{table}
+%
+%----------------------------------------------------------------------------------%
+\subsection{Main Results}
+\label{supsec:main}
+
+Table \ref{suptab:cov_matrix} reports the covariance matrix of these estimated coefficients.
+These coefficients and standard errors are used to calculate the effect of health shocks on the smoking probability of individuals who are uninsured before the age of 65---the subgroup of interest---for the 4 combinations of shock timing (before or after 65) and polygenic score (high or low).
+The derivation of these effects is described in Appendix Section \ref{appsec:derivation}.
+
+% Table created by stargazer v.5.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
+\begin{sidewaystable}[h!] \centering
+	%\vspace{-3mm}
+			\caption{Covariance Matrix for Regression Coefficients in the last column of Table \ref{tab:reg_results_multi}}
+			\label{suptab:cov_matrix}
+	\resizebox{!}{0.14\textheight}{
+		\input{../3_output/OLSresults/vcovmatrix.tex}
+	}
+	\begin{flushleft}
+	Variances and covariances were used for calculating the standard errors of the effects of interest displayed in Table \ref{tab:main_effects} and Figure \ref{fig:shock_effects}.
+	\end{flushleft}
+\end{sidewaystable}
+
+
+%----------------------------------------------------------------------------------%
+\subsection{Robustness Checks}
+\label{supsec:robustness}
+
+\subsubsection{Using all tertiles} \label{appsec:3pgs}
+
+In this section, we derive the results using all of the three tertiles of the PGS distribution, as derived in Appendix Section \ref{appsec:3pgs}.
+Results shown in Tables \ref{tab:3pgs} and Figure \ref{fig:3pgs}, show that the effects for the upper two tertiles of the polygenic score are virtually the same.
+To improve statistical power and simplicity of exposition, the main results are always presented by pooling these two tertiles toghether into a single category labeled high-PGS.
+
+%%\captionsetup{width = 9cm}
+\begin{table*}[!ht]
+	\caption{Summary of Statistical Results for the Pre-65 Uninsured Subgroup, Stratified by Timing of the Shock and Genetic Group (Median)}
+	\label{tab:3pgs}
+	%\resizebox{7.5cm}{!}{
+	\input{../3_output/OLSresults/3pgs.tex}
+		\begin{flushleft}
+			Low PGS = polygenic score below the median; high PGS = polygenic score above the median.
+			Pre-65: Health shock since the last survey reported at ages 60-64.
+			Post-65: Health shock since the last survey reported at ages 67-70.
+			$^{*}$P $<$ 0.1; $^{**}$P $<$ 0.05; $^{***}$P $<$ 0.01. Robust standard errors in parentheses are clustered at the individual level.
+			The covariance matrix used for calculating standard errors is shown in Appendix Table \ref{suptab:cov_matrix}.
+			Effects are estimated using the coefficients in Table \ref{tab:reg_results_multi} and following the derivation described in \ref{appsec:derivation}.\\
+			\textit{Data used}: HRS study sample, n = 5,854.
+			%Composition of all effects is shown in Tables \ref{suptab:main_explained}, \ref{suptab:main_explained2}, and \ref{suptab:main_explained3} in the Supplement.
+		\end{flushleft}
+	%\headrule
+\end{table*}
+
+
+%\captionsetup{width = \columnwidth}
+\begin{figure}[!ht]
+	\begin{center}
+		\includegraphics[width=0.8\textwidth]{../3_output/shock_effects/robustness_6070__3pgs_cvplot.png}
+		\caption{Effect of a Health Shock on the Smoking Probability in the Pre-65 Uninsured Subgroup, Stratified by Timing of the Shock and Genetic Type (median split)
+		\label{fig:3pgs}
+		}
+	\vspace{-0.8cm}
+	\floatfoot{
+	\textsf{
+	\textit{Notes:} Low PGS = lowest tertile of the polygenic score distribution;
+	Middle PGS = high PGS = upper two tertiles of the polygenic score distribution.
+	Pre-65: Health shock since the last survey reported at ages 60-64.
+	Post-65: Health shock since the last survey reported at ages 67-70.
+	Estimates and standard errors are shown in Panel A of Table \ref{tab:main_effects}.
+	Effects are estimated using the coefficients in Table \ref{tab:reg_results_multi} and following the derivation described in \ref{appsec:derivation}.
+	Bars show 95\% confidence intervals, standard error clustered at the individual level.
+	\\ \textit{Data used}: HRS study sample, n = 5,854.
+Supplement.
+	} %end of textsf
+	} %end of floatfoot
+	\end{center}
+\end{figure}
+
+
+\subsubsection{Median Split of the polygenic score} \label{appsec:median}
+
+In this section, we derive the results by using a median-split for the PGS, instead of tertiles.
+Results shown in Tables \ref{tab:reg_results_multi_median} \ref{tab:median_effects}, as well as Figure \ref{fig:shock_effects_median}, show that the effects are virtually the same, albeit a bit smaller in magnitude and less precisely estimated, as when splitting the PGS according to tertiles.
+
+%\captionsetup{width = 9cm}
+\begin{table}[!ht] \centering
+	\caption{Coefficients from estimating the linear probability model in equation (\ref{eq:regression}) using OLS (PGS median split) \vspace{-0.4cm}}
+	\addtolength{\tabcolsep}{-7pt}
+	\label{tab:reg_results_multi_median}
+	\resizebox{0.60\textheight}{!}{
+	\input{../3_output/OLSresults/reg_results_multi_checkmarks_median.tex}
+	} %end of resizebox
+	\begin{flushleft}
+	\textit{Notes:}
+	Health shock = binary indicator for having suffered a cardiovascular health shock for the first time since the previous wave.
+	Post-65 = indicator for age $>$ 65 at the time of the interview.
+	Uninsured = binary indicator for being persistently uninsured in every observation of the study sample before the age of 65.
+	High PGS = indicator for being above the median polygenic score.
+    Age = controls for 3$^{rd}$ degree polynomial in age.
+    FE = adding fixed effects.
+	Robust standard errors in parentheses are clustered at the individual level.
+	$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01.
+	\\ \textit{Data used}: HRS study sample, n = 5,854.
+	\end{flushleft}
+\end{table}
+
+
+%%\captionsetup{width = 9cm}
+\begin{table*}[!ht]
+	\caption{Summary of Statistical Results for the Pre-65 Uninsured Subgroup, Stratified by Timing of the Shock and Genetic Group (Median)}
+	\label{tab:median_effects}
+	%\resizebox{7.5cm}{!}{
+	\input{../3_output/OLSresults/median_results.tex}
+		\begin{flushleft}
+			Low PGS = polygenic score below the median; high PGS = polygenic score above the median.
+			Pre-65: Health shock since the last survey reported at ages 60-64.
+			Post-65: Health shock since the last survey reported at ages 67-70.
+			$^{*}$P $<$ 0.1; $^{**}$P $<$ 0.05; $^{***}$P $<$ 0.01. Robust standard errors in parentheses are clustered at the individual level.
+			The covariance matrix used for calculating standard errors is shown in Appendix Table \ref{suptab:cov_matrix}.
+			Effects are estimated using the coefficients in Table \ref{tab:reg_results_multi} and following the derivation described in \ref{appsec:derivation}.\\
+			\textit{Data used}: HRS study sample, n = 5,854.
+			%Composition of all effects is shown in Tables \ref{suptab:main_explained}, \ref{suptab:main_explained2}, and \ref{suptab:main_explained3} in the Supplement.
+		\end{flushleft}
+	%\headrule
+\end{table*}
+
+
+
+
+%\captionsetup{width = \columnwidth}
+\begin{figure}[!ht]
+	\begin{center}
+		\includegraphics[width=0.8\textwidth]{../3_output/shock_effects/main_6070_100_cv_Medianplot.png}
+		\caption{Effect of a Health Shock on the Smoking Probability in the Pre-65 Uninsured Subgroup, Stratified by Timing of the Shock and Genetic Type (median split)
+		\label{fig:shock_effects_median}
+		}
+	\vspace{-0.8cm}
+	\floatfoot{
+	\textsf{
+	\textit{Notes:} Low PGS = polygenic score below the median; high PGS = polygenic score above the median.
+	Pre-65: Health shock since the last survey reported at ages 60-64.
+	Post-65: Health shock since the last survey reported at ages 67-70.
+	Estimates and standard errors are shown in Panel A of Table \ref{tab:main_effects}.
+	Effects are estimated using the coefficients in Table \ref{tab:reg_results_multi} and following the derivation described in \ref{appsec:derivation}.
+	Bars show 95\% confidence intervals, standard error clustered at the individual level.
+	\\ \textit{Data used}: HRS study sample, n = 5,854.
+	%Composition of all effects is shown in Tables \ref{suptab:main_explained}, \ref{suptab:main_explained2}, and \ref{suptab:main_explained3} in the Supplement.
+	} %end of textsf
+	} %end of floatfoot
+	\end{center}
+\end{figure}
+
+\subsubsection{Older GWAS Summary Statistics} \label{appsec:TAG2010}
+
+In this section, we also use the polygenic score publicly provided by the HRS \citep{HRSPGenscore2017} for the smoking phenotype ``regular smoking'' (having smoked more than 100 cigarettes throughout one's life).
+This score is constructed as a weighted sum of the genotype over the 779,538 SNPs that overlap between the HRS genetic database and a 2010 GWAS meta-analysis conducted by the Tobacco and Genetics Consortium \citep{TAG2010}.
+
+Results shown in Tables \ref{tab:oldpgs_effects} and Figure \ref{fig:shock_effects_oldpgs}, show that the effects are virtually the same, possibly even a bit stronger.
+
+%%\captionsetup{width = 9cm}
+\begin{table*}[!ht]
+	\caption{Summary of Statistical Results for the Pre-65 Uninsured Subgroup, Stratified by Timing of the Shock and Genetic Group (older PGS)}
+	\label{tab:oldpgs_effects}
+	%\resizebox{7.5cm}{!}{
+	\input{../3_output/OLSresults/oldpgs_results.tex}
+		\begin{flushleft}
+			Low PGS = polygenic score below the median; high PGS = polygenic score above the median, constructed using the summary statistics from the Tobacco and Genetics Consortium \citep{TAG2010} (PGS publicly available from the HRS website).
+			Pre-65: Health shock since the last survey reported at ages 60-64.
+			Post-65: Health shock since the last survey reported at ages 67-70.
+			$^{*}$P $<$ 0.1; $^{**}$P $<$ 0.05; $^{***}$P $<$ 0.01. Robust standard errors in parentheses are clustered at the individual level.
+			The covariance matrix used for calculating standard errors is shown in Appendix Table \ref{suptab:cov_matrix}.
+			Effects are estimated using the coefficients in Table \ref{tab:reg_results_multi} and following the derivation described in \ref{appsec:derivation}.\\
+			\textit{Data used}: HRS study sample, n = 5,854.
+			%Composition of all effects is shown in Tables \ref{suptab:main_explained}, \ref{suptab:main_explained2}, and \ref{suptab:main_explained3} in the Supplement.
+		\end{flushleft}
+	%\headrule
+\end{table*}
+
+
+
+
+%\captionsetup{width = \columnwidth}
+\begin{figure}[!ht]
+	\begin{center}
+\includegraphics[width=0.6\textwidth]{../3_output/shock_effects/robustness_6070__oldpgs_cvplot.png}
+		\caption{Effect of a Health Shock on the Smoking Probability in the Pre-65 Uninsured Subgroup, Stratified by Timing of the Shock and Genetic Type (older PGS)
+		\label{fig:shock_effects_oldpgs}
+		}
+	\vspace{-0.8cm}
+	\floatfoot{
+	\textsf{
+	\textit{Notes:} Low PGS = polygenic score below the median; high PGS = polygenic score above the median.
+	Pre-65: Health shock since the last survey reported at ages 60-64.
+	Post-65: Health shock since the last survey reported at ages 67-70.
+	Estimates and standard errors are shown in Panel A of Table \ref{tab:main_effects}.
+	Effects are estimated using the coefficients in Table \ref{tab:reg_results_multi} and following the derivation described in \ref{appsec:derivation}.
+	Bars show 95\% confidence intervals, standard error clustered at the individual level.
+	\\ \textit{Data used}: HRS study sample, n = 5,854.
+	%Composition of all effects is shown in Tables \ref{suptab:main_explained}, \ref{suptab:main_explained2}, and \ref{suptab:main_explained3} in the Supplement.
+	} %end of textsf
+	} %end of floatfoot
+	\end{center}
+\end{figure}
+
+
+%--------------------------------------------------------
+\subsubsection{Using different polygenic scores} \label{appsec:otherPGS}
+Other polygenic scores (PGS), besides the one for being a smoker, might be driving this heterogeneity in moral hazard.
+We estimated the same analysis outlined in equation \ref{eq:regression} but replacing $g_i$ with the following PGS:
+the PGS for cigarettes per day (CPD) \citep{GSCAN2019gwas}, the PGS for educational attainment and the one for cognitive abilities \citep{Lee2018}, the PGS for risk tolerance \citep{KarlssonLinner2019}, the PGS for non-cognitive skills \citep{Demange2020}, and the PGS for Body-Mass-Index \citep{Yengo2018}.
+We chose polygenic scores for traits that are genetically correlated with smoking, such as CPD and risk tolerance, or plausibly related to strategic behaviors and moral hazard, such as education, cognition, and non-cognitive skills. BMI is meant more as a placebo.
+
+\begin{figure}[ht]
+	\begin{center}
+		\subfigure[\textsf{PGS cigarettes per day}]
+		{\includegraphics[width=0.3\textwidth]
+		{../3_output/shock_effects/cpdPGS_6070_100_cvplot.png}
+		}
+		\subfigure[\textsf{PGS for educational attainment}]
+		{\includegraphics[width=0.3\textwidth]
+		{../3_output/shock_effects/robustness_eaPGS_6070_100_cvplot.png}
+		}
+		\subfigure[\textsf{PGS for cognitive abilities}]
+		{\includegraphics[width=0.3\textwidth]
+		{../3_output/shock_effects/robustness_cogPGS_6070_100_cvplot.png}
+		}
+		\subfigure[\textsf{PGS for risk tolerance}]
+		{\includegraphics[width=0.3\textwidth]
+		{../3_output/shock_effects/robustness_riskPGS_GWAS_6070_100_cvplot.png}
+		}
+		\subfigure[\textsf{PGS for non-cognitive skills}]
+		{\includegraphics[width=0.3\textwidth]
+		{../3_output/shock_effects/robustness_noncogPGS_6070_100_cvplot.png}
+		}
+		\subfigure[\textsf{PGS for BMI}]
+		{\includegraphics[width=0.3\textwidth]
+		{../3_output/shock_effects/robustness_bmiPGS_6070_100_cvplot.png}
+		}
+		%
+		\caption{Other Polygenic Scores as Proxy for Moral Hazard Heterogeneity
+					\label{fig:otherPGS}}
+	\vspace{-5ex}
+	\floatfoot{
+	\textit{Notes:}
+	The figures report the effect of suffering a health shock on the probability of smoking for the pre-65 uninsured subgroup, stratified by timing of the shock (before and after the age of 65) and different polygenic scores.
+	Pre-65: Health shock since the last survey reported at ages 60-64.
+	Post-65: Health shock since the last survey reported at ages 67-70.
+	Effects are estimated using a combination of the coefficients from equation \ref{eq:regression} where $g_i$ is replaced by the different polygenic scores reported in the sub-figure captions, following the derivation described in \ref{appsec:derivation}.
+	Bars show 95\% confidence intervals, standard error clustered at the individual level.
+	\\ \textit{Data used}: HRS study sample, n = 5,854.
+	}
+	\end{center}
+\end{figure}
+
+\clearpage
+\subsubsection{Relaxing the Criteria for Inclusion in the Pre-65 Uninsured Group}
+% Table created by stargazer v.5.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
+\begin{table}[!ht]
+	\centering
+	\caption{Summary of Statistical Results for the Pre-65 Uninsured Subgroup (Using Different Definitions of the Pre-65 Uninsured Status Indicator)}
+	%\label{suptab:65def}
+	%\resizebox{\textwidth}{!}{
+%	\input{../3_output/OLSresults/unins7550.tex}
+	\input{../3_output/OLSresults/unins6633.tex}
+		\footnotesize
+		\begin{flushleft}
+		Main study results, for comparison.\\
+		Pre-65 uninsured status indicator set to 1 for respondents who were uninsured in at least 66\% of all pre-65 observations.\\
+		Pre-65 uninsured status indicator set to 1 for respondents who were uninsured in at least 33\% of all pre-65 observations.\\
+		$^{*}$P $<$ 0.1; $^{**}$P $<$ 0.05; $^{***}$P $<$ 0.01. Robust standard errors in parentheses were clustered at the individual level.\\
+		Low PGS = lowest tertile of the polygenic score distribution; high PGS = upper two tertiles of the polygenic score distribution.\\
+		Pre-65: Health shock since the last survey reported at ages 60-64. Post-65: Health shock since the last survey reported at ages 67-70.\\
+		\textit{Data used}: HRS study sample, n = 5,854.
+		\end{flushleft}
+%}
+\end{table}
+
+\clearpage
+%\subsubsection{Expanding the Age Range}
+%% Table created by stargazer v.5.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
+%\begin{table}[ht] \centering
+%	\vspace{-4mm}
+%	\caption{Summary of Statistical Results for the Pre-65 Uninsured Subgroup (Using Different Age Range Restrictions in the study Sample)}
+%	\label{suptab:Agedef}
+%	\resizebox{\textwidth}{!}{
+%	\input{../3_output/OLSresults/ageranges.tex}
+%	}
+%			\begin{flushleft}
+%			\textsuperscript{a}Main study results, for comparison.\\
+%			$^{*}$P $<$ 0.1; $^{**}$P $<$ 0.05; $^{***}$P $<$ 0.01. Robust standard errors in parentheses were clustered at the individual level.\\
+%			Low PGS = lowest tertile of the polygenic score distribution; high PGS = upper two tertiles of the polygenic score distribution.\\
+%			Pre-65: Health shock since the last survey reported at ages 60-64. Post-65: Health shock since the last survey reported at ages 67-70.\\
+%			\textit{Data used}: study sample, but changing the age limits used in Step 1 in Section \ref{supsubsec:reshape}.
+%			\end{flushleft}
+%
+%\end{table}
+%
+
+
+\subsubsection{Including Individuals with Shocks Reported at Ages 65 and 66}
+%\captionsetup{width = 12.5cm}
+% Table created by stargazer v.5.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
+\begin{table}[ht] \centering
+	\vspace{-4mm}
+	\caption{Summary of Statistical Results for the Pre-65 Uninsured Subgroup (Including Individuals Reporting a Health Shock when Aged 65 or 66 in the study Sample)}
+	\label{suptab:6566}
+	\vspace{4mm}
+	%\resizebox{0.8\textwidth}{!}{
+	\input{../3_output/OLSresults/shockat6566.tex}
+			\begin{flushleft}
+				Main study results, for comparison.\\
+				study sample additionally includes individuals who reported experiencing a health shock since the last survey wave when interviewed at ages 65 or 66.\\
+				$^{*}$P $<$ 0.1; $^{**}$P $<$ 0.05; $^{***}$P $<$ 0.01. Robust standard errors in parentheses were clustered at the individual level.\\
+				Low PGS = lowest tertile of the polygenic score distribution; high PGS = upper two tertiles of the polygenic score distribution.\\
+				Pre-65: Health shock since the last survey reported at ages 60-64. Post-65: Health shock since the last survey reported at ages 67-70.\\
+				\textit{Data used}: study sample, but skipping Step 6 in Section \ref{supsubsec:reshape}.
+				\vspace{5mm}
+			\end{flushleft}
+%	}
+\end{table}
+
+
+\pagebreak
+\newpage
+
+\subsubsection{Using Medicare Enrollment Status instead of age 65}
+\label{supsec:robustness_enrollment}
+Medicare enrollment refers to the RAND variable {\tt GOVMR}, which indicates whether the respondent is covered by Medicare in a given wave. For details on the survey questions and construction of this variable, see the RAND HRS documentation. %XXX\cite{RANDVersionP} (p. 1195ff.).\\
+
+
+%\captionsetup{width = 10.2cm}
+% Table created by stargazer v.5.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
+% Date and time: Do, Apr 26, 2018 - 12:58:22
+\begin{table}[!ht] \centering
+	\caption{Summary of Statistical Results for the Pre-65 Uninsured Subgroup (Using Medicare Enrollment Status Instead of Medicare Eligibility Status)}
+	\label{suptab:main_effects_medicare}
+	%\resizebox{7.5cm}{!}{
+\input{../3_output/OLSresults/medicare.tex}
+		\begin{flushleft}
+			$^{*}$P $<$ 0.1; $^{**}$P $<$ 0.05; $^{***}$P $<$ 0.01. Robust standard errors in parentheses, clustered at the individual level.
+			Low PGS = lowest tertile of the polygenic score distribution; high PGS = upper two tertiles of the polygenic score distribution.
+			Effects are estimated using the coefficients in Table \ref{tab:reg_results_multi} and following the derivation described in \ref{appsec:derivation}, but replacing the post-65 indicator with Medicare enrollment status.
+			%Composition of all effects as shown in Tables \ref{suptab:main_explained}, \ref{suptab:main_explained2}, and \ref{suptab:main_explained3}, but replacing the post-65 indicator with Medicare enrollment status.
+			\textit{Data used}: HRS study sample with the additional restriction of a non-missing Medicare enrollment status.
+		\end{flushleft}
+
+	%\headrule
+\end{table}
+
+
+\subsection{Confounders} \label{appsec:confounders}
+Tables \ref{suptab:placebo_1}-\ref{suptab:placebo_mortality} report the results for the effect of the shock on potential confounding variables.
+
+\begin{table} \centering
+	\caption{Summary of Placebo Checks for the Pre-65 Uninsured Subgroup for Income and Wealth}
+	\label{suptab:placebo_1}
+	\resizebox{\textwidth}{!}{
+	\input{../3_output/OLSresults/robustness1.tex}}
+\end{table}
+
+\begin{table} \centering
+	\caption{Summary of Placebo Checks for the Pre-65 Uninsured Subgroup for Retirement, Relationship Status and Out-of-Pocket Medical Expenditures}
+	\label{suptab:placebo_2}
+	\resizebox{\textwidth}{!}{
+		\input{../3_output/OLSresults/robustness2.tex}}
+\end{table}
+
+\begin{table} \centering
+	\caption{Summary of Placebo Checks for the Pre-65 Uninsured Subgroup for Mortality within 2 and 5 years}
+	\label{suptab:placebo_mortality}
+	\resizebox{\textwidth}{!}{
+		\input{../3_output/OLSresults/robustness_mortality.tex}}
+\end{table}

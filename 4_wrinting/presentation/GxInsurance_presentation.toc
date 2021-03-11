@@ -1,0 +1,23 @@
+\babel@toc {english}{}
+\beamer@sectionintoc {1}{Research Question}{2}{0}{1}
+\beamer@sectionintoc {2}{Genes for Econ}{10}{0}{2}
+\beamer@sectionintoc {3}{Empirical Analysis}{14}{0}{3}
+\beamer@subsectionintoc {3}{1}{Data and setting}{15}{0}{3}
+\beamer@subsectionintoc {3}{2}{Regression}{21}{0}{3}
+\beamer@sectionintoc {4}{Sanity Checks}{27}{0}{4}
+\beamer@subsectionintoc {4}{1}{Confounders}{28}{0}{4}
+\beamer@subsectionintoc {4}{2}{Robustness}{39}{0}{4}
+\beamer@subsectionintoc {4}{3}{Is it really genes?}{45}{0}{4}
+\beamer@sectionintoc {5}{Conclusion}{53}{0}{5}
+\beamer@subsectionintoc {5}{1}{Limitations}{54}{0}{5}
+\beamer@subsectionintoc {5}{2}{Take home}{56}{0}{5}
+\beamer@sectionintoc {6}{Appendix: Genetics of Smoking}{60}{1}{6}
+\beamer@subsectionintoc {6}{1}{App: Smoking and Mortality}{61}{1}{6}
+\beamer@subsectionintoc {6}{2}{App: Summary Statistics}{65}{1}{6}
+\beamer@subsectionintoc {6}{3}{App: Regression Results}{68}{1}{6}
+\beamer@subsectionintoc {6}{4}{Robustness}{72}{1}{6}
+\beamer@subsubsectionintoc {6}{4}{1}{App: Robustness by Age}{73}{1}{6}
+\beamer@subsubsectionintoc {6}{4}{2}{App: Robustness by uninsured spells}{76}{1}{6}
+\beamer@subsubsectionintoc {6}{4}{3}{App: Robustness by PGS cutoffs}{78}{1}{6}
+\beamer@subsubsectionintoc {6}{4}{4}{App Robustness by other PGS}{78}{1}{6}
+\beamer@subsubsectionintoc {6}{4}{5}{App: Potential mediators}{80}{1}{6}

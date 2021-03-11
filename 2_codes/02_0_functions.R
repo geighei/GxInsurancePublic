@@ -1,7 +1,7 @@
 # This Script -------------------------------------------------------------
 # Author: Laura Zwyssig, Pietro Biroli, Regina Seibel
 # Goal: Contains functions used in 02_1_analysis.Rmd
-# Last edited: March 2020
+# Last edited: 11-03-2021 Pia Arce
 
 # Preliminaries -----------------------------------------------------------
 xlibrary <- c("readr", "haven", "stringr", "stargazer", "plm", "sandwich", "lmtest", "car", "ggplot2", "scales", "multcomp",
@@ -261,6 +261,253 @@ create_df_median <- function(df_raw, min_sample_age, max_sample_age, ptu, indep_
                       agem3 = agem^3)
   return(df)
 }
+# Function: Creates a dataframe for analysis ------------------------------
+# Two special inputs: outcome for different y-variables, indep_var for different x-variables
+# on which health shock effect might differ
+create_df_nogen <- function(df_raw, min_sample_age, max_sample_age, ptu, indep_var , outcome = "smoken",  high_cutoff = 0.33333, only_baseline = TRUE, drop_6566_cv = TRUE, drop_6566_nsr = FALSE, drop_non_gen = TRUE){
+  ## Inputs:
+  # df_raw:             dataset (string)
+  # min_sample_age      minumum age to be part of sample (integer, e.g. 60)
+  # max_sample_age      maximum age to be part of sample (integer, e.g. 70)
+  # ptu                 percentage of waves without insurance to be considered unisurance (integere, e.g. 100)
+  # outcome             main outcome variable (e.g. "smoken")
+  # indep_var           main PGS (e.g. = "si_1")
+  # high_cutoff         percentile cutoff above wich you're considered high PGS (default = 0.33)
+  # only_baseline       = TRUE if dropping never smokers at baseline
+  # drop_6566_cv        = TRUE if dropping individuals with reported health shocks at age 65/66
+  # drop_6566_nsr       = TRUE if dropping non-smoking related health shocks at age 65/66
+  # drop_non_gen        = TRUE if dropping missing values in outcome, indep var, and cardiovascular disease (cv)
+  
+  # Individuals need to be observed for two different waves minimally
+  df <- df_raw %>%
+    filter(age >= min_sample_age,
+           age <= max_sample_age) %>%
+    group_by(hhidpn) %>%
+    filter(n() >= 2) %>%
+    ungroup()
+  
+  # Use only individuals with non-missing data in any variable needed for the analysis
+  # Exception: unins, post65 (variables created further below) and indep_var sonce we wat to keeo non genetic sample too. 
+  if(drop_non_gen){
+    df <- df %>% filter(!is.na(cv),
+                        !is.na(get(outcome))) # need get() so it realizes that this is a variable
+  }
+  
+  # Exclude the ones who reported having never smoked at baseline (first observation per hhidpn)
+  if (outcome == "smoken") {
+    if(only_baseline) {
+      smk_baseline <- df %>%
+        group_by(hhidpn) %>%
+        arrange(year) %>%
+        filter(row_number() == 1) %>%
+        filter(smokev == 1) %>%
+        ungroup() %>%
+        select(hhidpn)
+      stopifnot(anyDuplicated(smk_baseline$hhidpn) == 0)
+      
+      df <- df %>% filter(hhidpn %in% smk_baseline$hhidpn)
+    }
+  }
+  
+  # Create persistent uninsured dummy, Medicare eligibility dummy, and pre-65 dummy
+  uninsured_hhidpn <- df %>%
+    group_by(hhidpn) %>%
+    filter(age < 65) %>%
+    mutate(unins = ifelse(sum(uninsured) >= ptu/100*n(), 1, 0)) %>%
+    ungroup() %>%
+    filter(unins == 1) %>%
+    select(hhidpn) %>%
+    distinct() %>%
+    pull(hhidpn)
+  
+  df <- df %>%
+    mutate(unins = ifelse(hhidpn %in% uninsured_hhidpn, 1, 0),
+           post65 = ifelse(age >= 65, 1, 0),
+           pre65 = ifelse(age < 65, 1, 0))
+  
+  # Keep individuals with non-missing pre-65 insurance status
+  df <- df %>% filter(!is.na(unins),
+                      !is.na(post65))
+  
+  # Exclude individuals with reported health shocks at age 65/66
+  if (drop_6566_cv) {
+    df <- df %>%
+      group_by(hhidpn) %>%
+      mutate(cv_6566 = ifelse(
+        (
+          age == 65 |
+            age == 66
+        ) & cv == 1, 1, 0)) %>%
+      mutate(cv_6566 = max(cv_6566, na.rm = TRUE)) %>%
+      ungroup() %>%
+      filter(cv_6566 != 1) %>%
+      select(-cv_6566)
+  }
+  
+  # Exclude non-smoking related health shocks at age 65/66
+  if (drop_6566_nsr) {
+    df <- df %>%
+      group_by(hhidpn) %>%
+      mutate(nsr_6566 = ifelse(
+        (
+          age == 65 |
+            age == 66
+        ) & nsr == 1, 1, 0)) %>%
+      mutate(nsr_6566 = max(nsr_6566, na.rm = TRUE)) %>%
+      ungroup() %>%
+      filter(nsr_6566 != 1) %>%
+      select(-nsr_6566)
+  }
+  
+  # Create low and high PGS dummies and lagged CV dummy
+  df <- df %>%
+    mutate(high_pgs = ifelse(get(indep_var) >  quantile(get(indep_var), high_cutoff , na.rm = TRUE), 1, 0),
+           low_pgs  = ifelse(get(indep_var) <= quantile(get(indep_var), high_cutoff , na.rm = TRUE), 1, 0)) %>%
+    group_by(hhidpn) %>%
+    mutate(lag1_cv = dplyr::lag(cv, n = 1, default = NA),
+           lag2_cv = dplyr::lag(cv, n = 2, default = NA),
+           cv_2w = ifelse(
+             lag1_cv == 1 |
+               cv==1, 1, 0
+           ),
+           cv_3w = ifelse(
+             lag1_cv == 1 |
+               lag2_cv == 1 |
+               cv == 1, 1, 0
+           )) %>%
+    ungroup()
+  
+  # Create age polynomials (of demeaned age to avoid multicollinearity problems)
+  df <- df %>% mutate(agem = agem_e - mean(agem_e, na.rm = TRUE),
+                      agem2 = agem^2,
+                      agem3 = (agem^3/100))
+  return(df)
+}
+# Function: Creates a dataframe for analysis ------------------------------
+# Two special inputs: outcome for different y-variables, indep_var for different x-variables
+# on which health shock effect might differ
+create_df_age <- function(df_raw, min_sample_age, max_sample_age, ptu, shockage = 65, indep_var , outcome = "smoken",  high_cutoff = 0.33333, only_baseline = TRUE, drop_6566_cv = TRUE, drop_6566_nsr = FALSE, drop_non_gen = TRUE){
+  ## Inputs:
+  # df_raw:             dataset (string)
+  # min_sample_age      minumum age to be part of sample (integer, e.g. 60)
+  # max_sample_age      maximum age to be part of sample (integer, e.g. 70)
+  # ptu                 percentage of waves without insurance to be considered unisurance (integere, e.g. 100)
+  # outcome             main outcome variable (e.g. "smoken")
+  # indep_var           main PGS (e.g. = "si_1")
+  # high_cutoff         percentile cutoff above wich you're considered high PGS (default = 0.33)
+  # only_baseline       = TRUE if dropping never smokers at baseline
+  # drop_6566_cv        = TRUE if dropping individuals with reported health shocks at age 65/66
+  # drop_6566_nsr       = TRUE if dropping non-smoking related health shocks at age 65/66
+  # drop_non_gen        = TRUE if dropping missing values in outcome, indep var, and cardiovascular disease (cv)
+  # shockage            age of the shock (default 65 years)
+  # Individuals need to be observed for two different waves minimally
+  df <- df_raw %>%
+    filter(age >= min_sample_age,
+           age <= max_sample_age) %>%
+    group_by(hhidpn) %>%
+    filter(n() >= 2) %>%
+    ungroup()
+  
+  # Use only individuals with non-missing data in any variable needed for the analysis
+  # Exception: unins, post65 (variables created further below)
+  if(drop_non_gen){
+    df <- df %>% filter(!is.na(get(indep_var)),
+                        !is.na(cv),
+                        !is.na(get(outcome))) # need get() so it realizes that this is a variable
+  }
+  
+  # Exclude the ones who reported having never smoked at baseline (first observation per hhidpn)
+  if (outcome == "smoken") {
+    if(only_baseline) {
+      smk_baseline <- df %>%
+        group_by(hhidpn) %>%
+        arrange(year) %>%
+        filter(row_number() == 1) %>%
+        filter(smokev == 1) %>%
+        ungroup() %>%
+        select(hhidpn)
+      stopifnot(anyDuplicated(smk_baseline$hhidpn) == 0)
+      
+      df <- df %>% filter(hhidpn %in% smk_baseline$hhidpn)
+    }
+  }
+  
+  # Create persistent uninsured dummy, Medicare eligibility dummy, and pre-shockage dummy
+  uninsured_hhidpn <- df %>%
+    group_by(hhidpn) %>%
+    filter(age < shockage) %>%
+    mutate(unins = ifelse(sum(uninsured) >= ptu/100*n(), 1, 0)) %>%
+    ungroup() %>%
+    filter(unins == 1) %>%
+    select(hhidpn) %>%
+    distinct() %>%
+    pull(hhidpn)
+  
+  df <- df %>%
+    mutate(unins = ifelse(hhidpn %in% uninsured_hhidpn, 1, 0),
+           post65 = ifelse(age >= shockage, 1, 0),
+           pre65 = ifelse(age < shockage, 1, 0))
+  
+  # Keep individuals with non-missing pre-65 insurance status
+  df <- df %>% filter(!is.na(unins),
+                      !is.na(post65))
+  
+  # Exclude individuals with reported health shocks at age 65/66
+  if (drop_6566_cv) {
+    df <- df %>%
+      group_by(hhidpn) %>%
+      mutate(cv_6566 = ifelse(
+        (
+          age == shockage |
+            age == (shockage + 1)
+        ) & cv == 1, 1, 0)) %>%
+      mutate(cv_6566 = max(cv_6566, na.rm = TRUE)) %>%
+      ungroup() %>%
+      filter(cv_6566 != 1) %>%
+      select(-cv_6566)
+  }
+  
+  # Exclude non-smoking related health shocks at age 65/66
+  if (drop_6566_nsr) {
+    df <- df %>%
+      group_by(hhidpn) %>%
+      mutate(nsr_6566 = ifelse(
+        (
+          age == shockage |
+            age == (shockage + 1)
+        ) & nsr == 1, 1, 0)) %>%
+      mutate(nsr_6566 = max(nsr_6566, na.rm = TRUE)) %>%
+      ungroup() %>%
+      filter(nsr_6566 != 1) %>%
+      select(-nsr_6566)
+  }
+  
+  # Create low and high PGS dummies and lagged CV dummy
+  df <- df %>%
+    mutate(high_pgs = ifelse(get(indep_var) >  quantile(get(indep_var), high_cutoff , na.rm = TRUE), 1, 0),
+           low_pgs  = ifelse(get(indep_var) <= quantile(get(indep_var), high_cutoff , na.rm = TRUE), 1, 0)) %>%
+    group_by(hhidpn) %>%
+    mutate(lag1_cv = dplyr::lag(cv, n = 1, default = NA),
+           lag2_cv = dplyr::lag(cv, n = 2, default = NA),
+           cv_2w = ifelse(
+             lag1_cv == 1 |
+               cv==1, 1, 0
+           ),
+           cv_3w = ifelse(
+             lag1_cv == 1 |
+               lag2_cv == 1 |
+               cv == 1, 1, 0
+           )) %>%
+    ungroup()
+  
+  # Create age polynomials (of demeaned age to avoid multicollinearity problems)
+  df <- df %>% mutate(agem = agem_e - mean(agem_e, na.rm = TRUE),
+                      agem2 = agem^2,
+                      agem3 = (agem^3/100))
+  
+  return(df)
+}
+
 # Function: Counts individuals --------------------------------------------
 count_individuals <- function(df, by_round=FALSE, simple=FALSE){
   print_count <- function(df_hhidpn) {
@@ -632,7 +879,7 @@ descriptive_table_pgs_short <- function(df, name){
                                "Persistently uninsured",
                                "CV health shock",
                                "No. of individuals",
-                               "Person-year observations"),
+                               "No. Person-year observations"),
                   All = "",
                   lowPGS = "",
                   highPGS = ""
@@ -1085,11 +1332,6 @@ descriptive_table_subgroups <- function(df,  name, pgs = "si_1"){
 # Function: Regression with high_pgs dummy --------------------------------
 # PGS3 is TRUE if pgs is divided into three parts, so the respective regression with two PGS dummies is implemented, however, it is FALSE by default
 reg_hipgs <- function(df, outcome, shock_var, PGS3 = FALSE, name) {
-  # df <- df5575_100
-  # outcome <- "smoken"
-  # shock_var <- "cv"
-  # name  <-  f_identifier
-  # PGS3 <-  FALSE
 
   df_reg <- df
   
@@ -1256,7 +1498,7 @@ signif_stars <- function(p_value) {
 # percent: True if coefficient can be interpreted as percentage
 # nb: is the number of breaks in the plot (hogher nb givers more numbers un the y axis). Default is 10
 # scale: defalut is TRUE. Allows to modify y axis scale
-shock_effects <- function(regression, name, percent = TRUE, scale = TRUE, nb=10, y_achsis = "%-point-change in smoking probability", x_achsis = c("Low PGS", "High PGS"), PGS3 = FALSE){
+shock_effects <- function(regression, name, percent = TRUE, scale = TRUE, nb=10, y_achsis = "%-point-change in smoking probability", x_achsis = c("Low PGS", "High PGS"), PGS3 = FALSE, label1 = "Pre-65" , label2 = "Post-65" ){
 
   # Effect of a health shock for low-PGS people BEFORE 65
   glht_low_pre65 <- summary(glht(regression,
@@ -1465,7 +1707,7 @@ shock_effects <- function(regression, name, percent = TRUE, scale = TRUE, nb=10,
       labs(x = NULL,
            y = y_achsis) +
       scale_x_discrete(labels = x_achsis)  +
-      scale_color_manual(labels = c("Pre-65", "Post-65"),
+      scale_color_manual(labels = c(label1, label2),
                          name = "Shock timing",
                          values=c("#F36A6A", "#5CACEE")) +
       geom_hline(aes(yintercept = 0), color = "gray40", linetype = "dashed") +
@@ -2345,17 +2587,20 @@ over_time <- function(df, outcome = "smoken", name, filedir){
   
   reg_results_high <- coeftest(reg_high, vcov. = vcovHC(reg_high))
   reg_results_low <- coeftest(reg_low, vcov. = vcovHC(reg_low))
-  
-  reg_results_high_tidy <- tidy(reg_results_high) %>%
+
+    reg_results_high_tidy <- tidy(reg_results_high) %>%
     mutate(age = 60 + (row_number()-1)/12,
            high_pgs = 1)
   
   reg_results_low_tidy <- tidy(reg_results_low) %>%
     mutate(age = 60 + (row_number()-1)/12,
            high_pgs = 0)
-  
+
   reg_results_tidy <- rbind(reg_results_low_tidy, reg_results_high_tidy)
-  
+
+  #Remove estimate for remale in the plot 
+  reg_results_tidy <-reg_results_tidy[!(reg_results_tidy$term=="female"),]
+
   # y-axis label
   if (outcome == "smoken") {
     lab_y_axis <- "% of respondents who smoke"
@@ -2400,6 +2645,7 @@ over_time <- function(df, outcome = "smoken", name, filedir){
          plot = plot_by_pgs, width = 9, height = 6)
   
   return(plot_by_pgs)
+
 }
 
 # Function: Plot smoking over time with discontinuity at 65----------------------
@@ -2429,6 +2675,10 @@ over_time_discontinuity <- function(df, outcome = "smoken", name, cutoff = "65",
            high_pgs = 0)
   
   reg_results_tidy <- rbind(reg_results_low_tidy, reg_results_high_tidy)
+  
+  #Remove estimate for remale in the plot 
+  reg_results_tidy <-reg_results_tidy[!(reg_results_tidy$term=="female"),]
+  
   
   # y-axis label
   if (outcome == "smoken") {
@@ -2485,6 +2735,160 @@ over_time_discontinuity <- function(df, outcome = "smoken", name, cutoff = "65",
   
   return(plot_by_pgs)
 }
+# Function: Plot smoking over time ---------------------------------------
+over_time_allsample <- function(df, outcome = "smoken", name, filedir){
+  # df <- df6070_whole_sample
+  # df2 <- df6070_nogen
+  # outcome  <-  "retired"
+  # name  <-  "graph_6070"
+  # filedir  <-  "../3_output/over_time/graph_6070smokenplot_agebypgs.png"
+  
+  df$outcome <- df[[outcome]]
+  
+  # Dummy age variables
+  df$agem_e12 <- df$agem_e/12
+  df$f_age <- as.factor(df$agem_e12)
+  
+  # Regression for PGS-divided plot
+  reg_df <- lm(outcome ~ f_age - 1 + female,
+               data = df)
+  
+  
+  reg_results_df <- coeftest(reg_df, vcov. = vcovHC(reg_df))
+  
+  reg_results_df_tidy <- tidy(reg_results_df) %>%
+    mutate(age = 60 + (row_number()-1)/12)
+  
+  reg_results_tidydf <- reg_results_df_tidy
+  
+  #Remove estimate for remale in the plot 
+  reg_results_tidydf <-reg_results_tidydf[!(reg_results_tidydf$term=="female"),]
+  
+  # y-axis label
+  if (outcome == "smoken") {
+    lab_y_axis <- "% of respondents who smoke"
+  }
+  else if (outcome == "retired") {
+    lab_y_axis <- "% of respondents who retired"
+  }
+  else if (outcome == "govmr") {
+    lab_y_axis <- "% of respondents enrolled in Medicare"
+  }
+  else if (outcome == "iearn") {
+    lab_y_axis <- "Individual earnings"
+  }
+  else if (outcome == "cv") {
+    lab_y_axis <- "% of respondents rerporting a health shock"
+  }
+  else {
+    lab_y_axis <- paste0(outcome)
+  }
+  
+  # Regression for PGS-divided plot
+  plot_by_pgs <- ggplot(reg_results_tidydf %>% mutate(estimate = estimate * 100),
+                        aes(x = age, y = estimate)) +
+    geom_smooth(method = "auto",
+                #formula = y ~ x + I(x^2) + I(x^3),
+                size = 1) +
+    geom_point() +
+    labs(x = "Age at interview",
+         y = lab_y_axis) +
+    scale_color_manual(labels = c("Low PGS", "High PGS"),
+                       name = "Genetic group",
+                       values=c("#F36A6A", "#5CACEE")) +
+    theme_minimal() +
+    scale_x_continuous(breaks = seq(60, 70, 2), labels = seq(60, 70, 2)) +
+    theme(panel.grid.minor.x = element_blank(),
+          legend.position = c(0.85, 0.88))
+  ggsave(paste0(filedir),
+         plot = plot_by_pgs, width = 9, height = 6)
+  
+  return(plot_by_pgs)
+  
+}
+
+# Function: Plot smoking over time with discontinuity at 65----------------------
+over_time_discontinuity_allsample <- function(df, outcome = "smoken", name, cutoff = "65", filedir){
+  # cutoff <-  "65"
+  
+  df$outcome <- df[[outcome]]
+  
+  # Dummy age variables
+  df$agem_e12 <- df$agem_e/12
+  df$f_age <- as.factor(df$agem_e12)
+  
+  # Regression for PGS-divided plot
+  reg_df <- lm(outcome ~ f_age - 1 + female,
+               data = df)
+  
+  
+  reg_results_df <- coeftest(reg_df, vcov. = vcovHC(reg_df))
+  
+  reg_results_df_tidy <- tidy(reg_results_df) %>%
+    mutate(age = 60 + (row_number()-1)/12)
+  
+  reg_results_tidydf <- reg_results_df_tidy
+  
+  #Remove estimate for remale in the plot 
+  reg_results_tidydf <-reg_results_tidydf[!(reg_results_tidydf$term=="female"),]
+  
+  
+  # y-axis label
+  if (outcome == "smoken") {
+    lab_y_axis <- "% of respondents who smoke"
+  }
+  else if (outcome == "retired") {
+    lab_y_axis <- "% of respondents who retired"
+  }
+  else if (outcome == "govmr") {
+    lab_y_axis <- "% of respondents enrolled in Medicare"
+  }
+  else if (outcome == "iearn") {
+    lab_y_axis <- "Individual earnings"
+  }
+  else if (outcome == "cv") {
+    lab_y_axis <- "% of respondents rerporting a health shock"
+  }
+  else {
+    lab_y_axis <- paste0(outcome)
+  }
+  
+  # add some final columns to improve plots and allow for age discontinuity
+  data_for_discont_plot <- reg_results_tidydf %>%
+    mutate(estimate = estimate * 100,
+           above_64 = age >= cutoff)
+  
+  # Regression for PGS-divided plot
+  plot_by_pgs <- ggplot(mapping=aes(x = age, y = estimate)) +
+    geom_smooth(data = data_for_discont_plot %>% filter(!above_64),
+                method = "auto",
+                #formula = y ~ x + I(x^2) + I(x^3),
+                size = 1) +
+    geom_point(data = data_for_discont_plot %>% filter(!above_64)) +
+    geom_smooth(data = data_for_discont_plot %>% filter(above_64),
+                method = "auto",
+                #formula = y ~ x + I(x^2) + I(x^3),
+                size = 1) +
+    geom_point(data = data_for_discont_plot %>% filter(above_64)) +
+    # geom_errorbar(aes(ymin = estimate - 1.96 * std.error, ymax = estimate + 1.96 * std.error),
+    #               width=.5,
+    #               position = position_dodge(width = 0.4),
+    #               size = 1) +
+    labs(x = "Age at interview",
+         y = lab_y_axis) +
+    scale_color_manual(labels = c("Low PGS", "High PGS"),
+                       name = "Genetic group",
+                       values=c("#F36A6A", "#5CACEE")) +
+    theme_minimal() +
+    scale_x_continuous(breaks = seq(60, 70, 2), labels = seq(60, 70, 2)) +
+    theme(panel.grid.minor.x = element_blank(),
+          legend.position = c(0.85, 0.78))
+  ggsave(paste0(filedir),
+         plot = plot_by_pgs, width = 9, height = 6)
+  
+  return(plot_by_pgs)
+}
+
 
 # Function: RDD style regressions----------------------
 rdd_over_time <- function(df, outcome, cutoff, treatment_name) {

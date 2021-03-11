@@ -1,0 +1,286 @@
+%% LyX 2.2.3 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[12pt,a4paper,american]{article}
+\usepackage[latin9]{inputenc}
+\setlength{\parindent}{2em}
+\usepackage{babel}
+\usepackage{verbatim}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[authoryear]{natbib}
+\usepackage[unicode=true,
+ bookmarks=false,
+ breaklinks=false,pdfborder={0 0 1},backref=section,colorlinks=false]
+ {hyperref}
+\usepackage{breakurl}
+
+
+\makeatletter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
+\special{papersize=\the\paperwidth,\the\paperheight}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+
+\usepackage{tikz}
+\usetikzlibrary{decorations.pathreplacing}
+
+\usepackage{epigraph}
+
+
+
+
+\newtheorem{result}{Result}\newtheorem{lemma}{Lemma}\newtheorem{proposition}{Proposition}
+
+
+
+
+ \setlength{\topmargin}{-0.5cm}
+ \setlength{\footskip}{1.5cm}
+ \setlength{\oddsidemargin}{.5cm}
+ \setlength{\textwidth}{15.0cm}
+ \addtolength{\textheight}{3.5cm}
+ \addtolength{\headheight}{2.5pt}
+ \addtolength{\skip\footins}{0,3cm}
+
+
+
+\usepackage{babel}
+
+\makeatother
+
+\begin{document}
+
+\title{Endogenizing Health Risk: Heterogeneity in Moral Hazard}
+
+\author{Regina Seibel\thanks{University of Zurich; regina.seibel@econ.uzh.ch} }
+\maketitle
+
+\section{Introduction}
+
+Adverse selection and Moral hazard received a lot of attention from scholars studying market failures in insurance markets. As already explicit from the name, adverse selection is considered to be selection based on exogenous risk of individuals into an insurance. The central problem lies in the observation that riskier types have a higher valuation for the insurance. Thus, the insurer faces a downward sloping demand, but also her marginal costs decrease in quantity. In a competitive equilibrium, she sets prices according to average costs. This, however, will cause some agents not to choose the insurance although it is worthwhile for both parties (insurer and agent) to do so because the marginal costs of insuring them is below the equilibrium price in the market \footnote{See \cite{Einav2011}, for a more extensive analysis of this logic.}. Moral hazard, on the other side, is traditionally considered to occur ex-post once the agent has already decided to buy an insurance. In general terms, he is then less likely to prevent the incident, which he has insured himself against, to occur - called ex-ante moral hazard - and less inclined to reduce costs once the incident occurs - called ex-post moral hazard. In contrast to adverse selection, moral hazard is rarely explicitly considered to be heterogenous. Apart from a few exemptions\footnote{\cite{Richards2014} show that, following a health shock there is a clear difference, in behavioral response between those insured and those not.}, studies explicitly testing for moral hazard usually just consider a uniform, or average, reaction to insurance coverage, without taking the possibility of heterogeneity seriously (see for example \citealp{Dave2006} or \citealp{Rashad}). At the same time, there is no apparent reason why moral hazard should be equally pronounced across different individuals.\\
+
+Once taking heterogeneity in moral hazard more seriously, however, the distinction to adverse selection gets less clear-cut. The paper of \cite{Einav2013} is the only paper, to my knowledge, that estimated heterogeneity in moral hazard. But the authors not only show existence, but their results also support the idea of \textit{selection on moral hazard}. This suggests that the extent of moral hazard might be another source of private information of the agent and thus amplify the market failure result in insurance markets. While \cite{Einav2013} focus on the empirical implications of selection on moral hazard (interpreted as price sensitivity to medical costs in the context of health insurance), no work has analyzed heterogeneity in moral hazard theoretically. I would like to fill this gap and explore the exact consequences of private information about health risk as well as moral hazard type on selection into insurance. In a next step, I would like to analyze the optimal contract offered by the insurer and thus solve for the market equilibrium.\\
+
+But what exactly drives heterogeneous in moral hazard reaction? In health insurance, most researchers consider moral hazard to be a monetary reaction to insurance coverage: If coverage rate of medical expenditures increases, individuals will have higher medical expenditures. Hence moral hazard boils down to be price sensitivity of the agent (as in \citealp{Einav2013}), which includes behavioral as well as purely monetary responses of the agent. On the one hand, knowing that he can afford to go to the doctor if he falls sick, the insured agent might be more inclined to engage in immediately rewarding behavior which is harmful in the long run, such as sugary food and smoking. This behavioral response, in turn, might alter his exogenous risk type. Heterogeneity can then be driven by biological factors, like genetic propensity to smoke. The behavioral response does not result in an immediate rise in cost for the insurance, but will do so in the future, once the agent suffers the consequences of his unhealthy behavior. On the other hand, the agent might just restrict his doctor visits to a lesser extent because they are less costly to him, without changing his risk of falling sick, which I denote as monetary response\footnote{One could argue that more frequent doctor visits might be beneficial for the agent's risk type in the sense that the doctor might spot diseases early on and thereby prevent the progression of it. I will not go into detail here.} (although it is, of course, also a change in behavior).\\
+
+Although, ultimately both moral hazard responses increase insurance costs of the insurer, only the behavioral response is also affecting the agent's risk type. However, in particular in the health insurance context, such a negative feedback effect of coverage on health risk is usually not considered. Insurance might make agents better off in financial terms and enable to smooth consumption, but at the same time make it more likely that the negative incident occurs it is supposed to insure against \cite{Rashad}. In this paper, I will model the demand side of a health insurance market with agents who are heterogenous in two dimensions: exogenous health risk and a moral hazard parameter which will govern the behavioral response towards being insured. Moreover, agents can partly influence their health risk, thus grasping the behavioral response mentioned above.
+
+
+\section{The Model}
+\subsection{Setup}
+
+I will allow for heterogeneity in both health risk as well as moral hazard. To start off with a model as simple as possible, I abstract from the supply side and just assume that the insurer offers a fixed contract with premium $p$ and coverage rate $1-t$. A special case would be complete insurance with $t=0$.\\
+I consider 2 time periods: At the beginning of period 1, the agent decides if he wants to be insured, while he knows his probability of an adverse health incident. I will generally refer to the adverse health incident as falling sick. Hence, in period 2, there are two states of the world: Either the agent is sick or healthy. In the first period, to simplify the analysis, everybody starts off as a healthy individual. Knowing his own risk type, by exerting effort in the first period, the agent can reduce the probability of the adverse health incident in the second period to, i.e. more effort leads to a lower probability of falling sick. In period 2, the health incident occurs with a probability mediated by mentioned health enhancing effort. In case of sickness, if insured, the agent receives the agreed upon coverage $1-t$ and pays the premium $p$. Otherwise he has to pay the full medical treatment. In the healthy state of the world, he still has to pay the premium if insured and can keep his own income to himself if he is not insured. \\
+
+Utility depends on consumption and health, where I assume that the agent enjoys being healthy given a fixed consumption:
+\begin{align}
+	u(c;H)>u(c;S)
+\end{align}
+Moreover, utility is increasing and concave in consumption, i.e. $u'(c;\cdot)>0,\ u''(c;\cdot)\leq0$. Utility from no consumption at all is $0$ irrespective of the state of health, $u(0;\cdot)=0$ and utility in consumption satisfies the Inada conditions\footnote{Inada conditions: $\lim_{c\rightarrow 0}u'(c;\cdot)=\infty,\ \lim_{c\rightarrow \infty}u'(c;\cdot)=0$}.
+The agent's consumption is just the money available for consumption goods, i.e. a fixed income $y$ which he receives in every period, less potentially insurance premia and medical expenses in case of sickness. Exerting health enhancing effort is reducing his utility in the period it is exerted, which I will phrase as effort costs. I assume effort costs to be additively separable from consumption utility and to be increasing and convex in effort, i.e. $c'(\mu;\cdot)>0,\ c''(\mu;\cdot)>0, c(0,\cdot)=0$. The effort costs are governed by the agent's moral hazard type $g$. On can interpret this as some characteristics of the individual, which make it harder for him to refrain from harmful behavior such as smoking and eating unhealthy food or similarly to engage in health enhancing behavior such as exercising. An important mediator has been found to be genetic predisposition, but it could also be interpreted as self-discipline. However, while self-discipline might partly be an outcome of environmental factors, genes are arguably exogenous conditional on the gene pool of the parents. Thus genes seem to better match the idea of an ex-ante heterogeneity not influenced by circumstances. Higher genetic predisposition to unhealthy behavior $g$, leads to higher effort costs given same level of effort, $\forall\mu$:  $c(\mu;g')>c(\mu,g)$ if $g'>g$. While the agent does, of course, not know his genetic make-up, he is at least partly aware of his general type in the sense that he knows how easy it is for him to exert self-discipline. \\
+
+The benefit if health enhancing effort is the reduced probability of getting sick in the second period, which will depend linearly on effort $\lambda=\lambda_0-\mu$. Ex-ante risk type of the agent $\lambda_0$ is equivalent to this probability, if no effort is exerted. The specification naturally bounds the maximal effort to $\mu\in\left[ 0,\lambda_0\right]$, which raises the question of boundary solutions. I would like to note that boundary solutions are not very interesting, but I will address them later when going through the steps of the model\footnote{Another way to model the problem would be to allow for a more general functional form $\lambda(\mu)$. In this case, it is straightforward to model risk to be decreasing in effort, i.e. $\lambda'(\mu)$. However, it is not so intuitive to think about convexity of concavity in this context. One could find examples supporting both increasing and decreasing marginal effects of effort on risk. Consider, for example, going for a run once a week instead of not going at all. This has huge effects on health and reduces the risk of, say, getting a heart attack, by a lot. On the other hand, going four times a week instead of three times probably does not have such a high impact on health anymore, indicating convexity in effort. One could also construct an example where the reverse is intuitive. Consider the case of smoking: Smoking 9 instead of 10 cigarettes a day does probably not reduce the risk of lung cancer substantially. However, not smoking at all instead of one cigarette a day is improving one's health quite a bit. Note that the results are robust to slight convexity or concavity. However, if too concave, there is no interior solution (the problem basically becomes a binary choice between no effort and maximal effort), while if too convex, Proposition 1 will not be as clear-cut.}.
+
+%If risk is a function of effort: An increase in effort now leads to a decrease in this probability. Potentially, the agent could exert sufficient effort to reduce his risk to zero, i.e. $\mu=\lambda_0$. However, I will assume that health risk is convex in effort, $\lambda''(\mu)\geq0$, such that an interior maximum of the problem is garantueed. This corresponds to weakly decreasing marginal returns to health enhancing effort. Consider, for example, going for a run once a week instead of not going at all. This has huge effects on health and reduces the risk of, say, getting a heart attack, by a lot. On the other hand, going four times a week instead of three times probably does not have such a high impact on health anymore\footnote{I acknowldege that this is not an innocuous assumption. One could also construct an example where the reverse is intuitive. Consider the case of smoking: Smoking 9 instead of 10 cigarettes a day does probably not reduce the risk of lung cancer substantially. However, not smoking at all instead of one cigarette a day is improving ones health quite a bit. I want to note here that convexity of risk is sufficient, but not necessary for an interior maximum to exist.}.
+
+
+\subsection{The optimal health enhancing effort}
+Since the game is finite, I solve it by backwards induction. There is no decision to be made in the second period, the uncertainty about the health state just unfolds and the agent consumes what is left from his budget after paying his potential bills on insurance and medical expenditures\footnote{One could think of an additional decision here about the size of the medical expenditures: The agent could for instance choose to receive an expensive treatment vs a cheap treatment. This is actually what \cite{Einav2013} consider as moral hazard. Insured agents are more likely to choose the expensive treatment. I will explore this alternative defintion in the Appendix.}.
+In the first period, the agent decides about the health enhancing effort he is willing to exert. Hence, he will maximize the present value of his utility stream, both if he chose high and low insurance:
+\begin{align}
+	V_I(\mu;\lambda_0,g)&=u(y-p;H)-c(\mu;g)+\delta\left[ (\lambda_0-\mu) u(y-p-tm;S)+(1-(\lambda_0-\mu))u(y-p;H)\right] \\
+	V_{NI}(\mu;\lambda_0,g)&=u(y;H)-c(\mu;g)+\delta \left[ (\lambda_0-\mu) u(y-m;S)+(1-(\lambda_0-\mu))u(y;H)\right]
+\end{align}
+
+\begin{proposition}
+	The agent will exert at least as much health enhancing effort $\mu$ if he is insured compared to if he is not insured.
+\end{proposition}
+
+Proof: Assuming an interior solution, if insured, the agent will choose optimal health enhancing effort $\mu_I$ according to:
+\begin{align}
+	\frac{ c'(\mu_I;g)}{\delta}= u(y-p;H)-u(y-p-tm;S)
+\end{align}
+If uninsured, the FOC can be rearranged to:
+\begin{align}
+	\frac{c'(\mu_{NI};g)}{\delta}= u(y;H)-u(y-m;S)
+\end{align}
+Now irrespective of the specific form of the utility function\footnote{In particular, irrespective of the interaction between health and income in determining the agent's utility, i.e. utility being sub-modular or supermodular in health and consumption.}, $\mu_{NI}>\mu_I$. To see this more clearly consider subtracting $(4)$ from $(5)$:
+\begin{align}
+\begin{aligned}
+	\frac{c'(\mu_{NI};g)-c'(\mu_I;g)}{\delta}=&\left[ u(y;H)-u(y-m;S)\right]-\left[ u(y-p;H)-u(y-p-tm;S)\right]
+\end{aligned}
+\end{align}
+Effort in the uninsured state is larger than in the insured state, if the RHS of this expression is larger than zero (since effort costs are increasing and convex), which can be rearranged to:
+\begin{align}
+	 u(y;H)-u(y-p;H) > u(y-m;S)-u(y-p-tm;S)
+\end{align}
+The LHS of this inequality is always positive, while the RHS must be negative, since $m> p+tm$, otherwise no agent will ever choose the insurance\footnote{If $m\leq p+tm$, the insurance will render the agent weakly worse off in the sick state, while making him strictly worse off in the healthy state, since he has to pay the premium. A rational agent, irrespective of his idiosyncratic health risk, would never choose such an insurance.}. Consequently, above inequality will always hold in an interior optimum.\\
+Now, let's consider the boundary solutions. Since marginal gains of exerting one extra unit of effort is constant, this consideration is rather simple. Suppose marginal cost at zero effort is higher than marginal gain in case of no insurance:
+	$\frac{c'(0)}{\delta}>u(y;H)-u(y-m;S) \Rightarrow \mu_{NI}=0$.
+Then, we know that it must also be larger than marginal gain in case of insurance, i.e. $\mu_I=0$. In this case, health enhancing effort is the same in both cases and the agent does not gain anything from being given the possibility to exert it. If marginal cost at zero effort is below marginal gain in case of no insurance, but above marginal gain in case of insurance, effort will be positive if not insured and thus higher than if not insured.\\
+On the other bound, if marginal cost at exerting $\lambda_0$ effort is lower than marginal gain if insured, then the agent will exert maximal effort in both cases. Finally, effort will again be higher in case of no insurance compared to insurance, if marginal costs $c'(\lambda_0)$ is lower than marginal gain in case of no insurance, but higher in case of insurance, $\mu_I<\mu_{NI}=\lambda_0$. $\square$ \\
+
+For the remaining part, I will assume an interior solution.
+
+\begin{proposition}
+	Higher moral hazard parameter $g$ leads to
+	\begin{itemize}
+		\item a smaller difference in health enhancing effort $\mu$ between an agent having insurance and an agent not having insurance, all else equal.
+		\item lower levels of effort when being insured and when not being insured respectively, compared to an agent with lower $g$ and all else equal.
+	\end{itemize}
+\end{proposition}
+Proof: As already mentioned, I assume that $\forall\mu$:  $c(\mu;g')>c(\mu,g)$ if $g'>g$ and $\forall g: c(0,g)=0$. Therefore it must be true that effort costs are supermodular in effort and genetic predisposition, i.e. $\frac{\partial c'(\mu;g)}{\partial g}>0$. Consider (4) and (5) for two different values of genetic predisposition $g'>g$. Since the RHS of both equations is independent of $g$, it follows from the assumptions that $\mu_I(g)>\mu_I(g')$ and $\mu_{NI}(g)>\mu_{NI}(g')$.
+Moreover, note that the RHS of equation (6) is independent of the moral hazard parameter g. Hence, it must hold in equilibrium that:
+\[c'(\mu_{NI}(g);g)-c'(\mu_I(g);g)=c'(\mu_{NI}(g');g')-c'(\mu_I(g');g')
+\]
+But since $\mu_{NI}(g)>\mu_I(g)$, we know that $c'(\mu_{NI}(g);g)-c'(\mu_I(g);g)<c'(\mu_{NI}(g');g')-c'(\mu_I(g');g')$. Consequently, it must hold that $\mu_{NI}(g)-\mu_I(g)>\mu_{NI}(g')-\mu_I(g')$. $\square$\\
+
+Intuitively, Proposition 2 means, that agents for whom it is harder to engage in healthy or disengage in unhealthy behavior, as e.g. starting to exercise or quit smoking, will react less to an increasing benefit to do so. Thus, a higher moral hazard parameter $g$ coincides with less moral hazard because there is less leeway for the individual to adjust effort to insurance coverage. In addition, a higher moral hazard parameter also implies a lower effort of the agent, in both states of the world. This agent is \textit{more} risky from the perspective of the insurance \textit{ex-ante as well as ex-post} despite showing less reaction to insurance coverage.\\
+
+\begin{proposition}
+	Given genetic predispostition $g$, an agent with higher risk type $\lambda_0$ has a higher net benefit from being insured.
+\end{proposition}
+
+Proof: Let us denote the present values of the optimal health enhancing effort level given the moral hazard type $g$ as $V_I(\mu_I(g);\lambda_0,g)=v_I^*(\lambda_0,g),\ V_{NI}(\mu_{NI}(g);\lambda_0,g)=v_{NI}^*(\lambda_0,g)$.
+In period 1, the agent will choose to be insured, if $v_I^*(\lambda_0,g)>v_{NI}^*(\lambda_0,g)$. Both expressions consist of parts that are dependent of optimal health preventing effort and those that are not :
+\begin{align*}
+	v_I^*(\lambda_0,g)=&\underbrace{u(y-p;H)+\delta\left[ \lambda_0 u(y-p-tm;S)+(1-\lambda_0)u(y-p;H)\right]}_{G_I(\lambda_0)} \\
+	&\underbrace{-c(\mu_I(g);g)+\mu_I\delta\left[ u(y-p;H)-u(y-p-tm;S)\right]}_{B_I(g)}\\
+	v_{NI}^*(\lambda_0,g)=&\underbrace{u(y;H)+\delta\left[ \lambda_0 u(y-m;S)+(1-\lambda_0)u(y;H)\right]}_{G_{NI}(\lambda_0)} \\
+	&\underbrace{-c(\mu_{NI}(g);g)+\mu_{NI}\delta\left[ u(y;H)-u(y-m;S)\right]}_{B_{NI}(g)}
+\end{align*}
+From equation (7), it follows that $v_I^*(\lambda_0,g)-v_{NI}^*(\lambda_0,g)=G_I(\lambda_0)-G_{NI}(\lambda_0)+B_I(g)-B_{NI}(g)$ is linearly increasing in health risk $\lambda_0$. $\square$ \\
+
+\begin{proposition}
+	Given risk type $\lambda_0$, an agent with higher moral hazard parameter $g$, i.e. lower moral hazard, has a higher net benefit from being insured.
+\end{proposition}
+
+Proof: Optimal health enhancing effort increases the present value both if insured and not, but more so in case of not being insured. To see this, consider the difference in present value if insured and the present value if not insured:
+
+\begin{align*}
+	v_I^*(\lambda_0,g)-v_{NI}^*(\lambda_0,g)=&G_I(\lambda_0)-G_{NI}(\lambda_0)\\&+\left\lbrace c(\mu_{NI};g)-\mu_{NI}\delta\left[ u(y;H)-u(y-m;S)\right]\right\rbrace \\&-\left\lbrace c(\mu_I;g)-\mu_I\delta\left[ u(y-p;H)-u(y-p-tm;S)\right]\right\rbrace
+\end{align*}
+
+Remember that effort costs $c(\mu;\cdot)$ are assumed to be increasing and strictly convex, while the benefit of exerting this effort is linear in effort and higher in the case of no insurance. Thus:
+\begin{align}
+ \mu_I\delta\left[ u(y-p;H)-u(y-p-tm;S)\right]-c(\mu_I;g)<\mu_{NI}\delta\left[ u(y;H)-u(y-m;S)\right]-c(\mu_{NI};g)
+\end{align}
+Hence $B_I(g)<B_{NI}(g)$, which means that having some, although limited, control over the likelihood that a health incident occurs, reduces the gain in having a given insurance for all risk types $\lambda_0$. An increase in the moral hazard parameter then leads to the following change in benefit from being insured:
+
+\begin{align*}
+	\frac{d(v_I^*(\lambda_0,g)-v_{NI}^*(\lambda_0,g))}{dg}&=\frac{\partial V_I(\mu;\lambda_0,g)}{\partial\mu}|_{\mu=\mu_I(g)}\frac{\partial\mu_I}{\partial g}-\frac{\partial V_{NI}(\mu;\lambda_0,g)}{\partial\mu}|_{\mu=\mu_{NI}(g)}\frac{\partial\mu_{NI}}{\partial g}\\&+\frac{\partial(v_I^*(\lambda_0,g)-v_{NI}^*(\lambda_0,g))}{\partial g}\\
+	&=\frac{\partial c(\mu_{NI}(g);g)}{\partial g}-\frac{\partial c(\mu_I(g);g)}{\partial g}>0
+\end{align*}
+This follows from effort costs being supermodular and $\mu_{NI}(g)>\mu_I(g)$. $\square$\\
+
+An agent for whom it is harder to exert self-discipline, will benefit more from being insured, than an agent with the same health risk type for whom it is relatively easy to exert self-discipline. Since agents with a larger behavioral reaction towards insurance coverage are considered to exhibit more moral hazard, this result implies that there is advantageous selection on moral hazard.\\
+
+Equipped with the previous two propositions, we can now examine how those two channels of selection interact with each other. Note that for the rest of the paper, I assume that health risk $\lambda_0$ and moral hazard parameter $g$ are distributed independently in the population. Moreover, I relate adverse selection directly to the threshold health risk, which separates agents who choose insurance versus no insurance, given parameters $g$ and $y$ being equal. I denote a subgroup to exhibit larger adverse selection than another subgroup of the population, if the threshold health risk is larger in the former subgroup compared to the latter.
+
+\begin{proposition}
+	Higher genetic predisposition $g$ leads to higher adverse selection on risk type.
+\end{proposition}
+
+%\footnote{Assuming that the insurance offer is such that there exists an agent with $ \tilde{\lambda_0}\in(0,1)$ who is indifferent between being insured or not. Note that, although I do not solve the insurance optimization for now, this has to hold in the general equilibrium.}
+%Hence, there either exists a $\hat{\lambda_0}(g)\in\left( 0,1\right] $ such that $v_I^*(\hat{\lambda_0}(g),g)=v_{NI}^*(\hat{\lambda_0}(g),g)$, or agents with genetic predisposition $g$ will never choose the insurance irrespective of their risk type. Having the same genetic predisposition $g$, all agents with $\lambda_0\in\left[ \hat{\lambda_0}(g),1\right] $ will choose insurance and all agents with $\lambda_0\in\left[ 0,\hat{\lambda_0}(g)\right) $ will choose no insurance. \\
+
+Proof: For the lowest risk type $\lambda_0=0$ there is no effort he can exert to improve his health prospect, and he will never choose to be insured:
+\[v_I^*(0,g)=u(y-p;H)+\delta u(y-p;H)<u(y;H)+\delta u(y;H)=v_{NI}^*(0,g)
+\]
+Note that a risk type $\tilde{\lambda}_0$, who is indifferent between insurance and no insurance with zero health enhancing effort, is \textit{not} choosing the insurance with optimal effort:  $v_I^*(\tilde{\lambda}_0,g)-v_{NI}^*(\tilde{\lambda}_0,g)<G_I(\tilde{\lambda}_0)-G_{NI}(\tilde{\lambda}_0)=0$ (see equation (8)).
+Hence there exists a new threshold $\hat{\lambda}_0(g)>\tilde{\lambda}_0$, above which all agents choose to be insured given genetic predisposition.
+
+From Proposition 4, we know that a higher moral hazard parameter $g$ leads to a higher net benefit in being insured.
+To evaluate how the threshold risk type $\tilde{\lambda}_0(g)$ is changing in the moral hazard parameter, we can use the implicit function theorem on equation (8):
+\begin{align}
+	\frac{d\hat{\lambda}_0(g)}{dg}=-\frac{\overbrace{\frac{\partial(G_I(\hat{\lambda}_0(g),y)-G_{NI}(\hat{\lambda}_0(g),y))}{\partial \lambda}_0}^{>0}}{\underbrace{\frac{\partial (c(\mu_{NI}(g),g)-c(\mu_I(g),g))}{\partial g}}_{>0}}<0
+\end{align}
+
+Consequently, if we have two groups of agents with genetic predispositions $g_1>g_2$, then adverse selection will be less severe for the group with the higher moral hazard parameter $\hat{\lambda}_0(g_1)<\hat{\lambda}_0(g_2)$ and lower reaction of effort to insurance. $\square$\\
+
+
+Note that because we did not further specify the insurance contract offered by the insurer, nothing prevents some thresholds to be above 1, i.e. no agent of a given genetic predisposition might choose the insurance.
+I assume that without health-enhancing effort, the highest risk type $\lambda_0=1$ would always like to choose the insurance, i.e.\footnote{This is an assumption that needs to be justified by looking at the firm side later and solve for the market equilibrium of the problem}:
+\begin{align*}
+G_I(1)-G_{NI}(1)=u(y-p;H)+\delta u(y-p-tm;S)-u(y;H)-\delta u(y-m;S)>0
+\end{align*}
+This is equvalent to stating that there exists a $\tilde{\lambda}_0\in(0,1)$.
+Now allowing for health enhancing effort, it will depend on $g$, wether insurance is preferred to no insurance:
+\begin{align*}
+v_I^*(1,g)=&u(y-p;H)+\delta u(y-p-tm;S)+B_I(g)\\
+&\gtrless u(y;H)+\delta u(y-m;S)+B_{NI}(g)=v_{NI}^*(1,g)
+\end{align*}
+%Now relaxing the effort restriction, since health enhancing effort makes not being insured more attractive to the agent, there exists a new threshold risk type $\hat{\lambda}_0(g)>\tilde{\lambda}_0$ for which it holds that
+%\begin{align}
+%	v_I^*(\hat{\lambda}_0(g),g))-v^*_{NI}(\hat{\lambda}_0(g),g)=0
+%\end{align}
+Finally, if $\hat{\lambda}_0(g)\leq1$, $\forall \lambda_0 \in \left[ \hat{\lambda}_0(g),1\right] $ the agent is choosing the insurance and $\forall \lambda_0\in\left[ 0,\hat{\lambda}_0(g)\right) $ the agent is not choosing the insurance, all else equal. This is the usual adverse selection result: Agents with a higher risk of falling sick inflict more costs to the insurance, but also have a higher valuation for insurance. If $\hat{\lambda}_0(g)>1$, which might happen for very low level of $g$, we have the extreme case that no agent of a given moral hazard parameter $g$ is choosing an insurance.\\
+
+The following picture summarizes the relationship:
+
+\begin{tikzpicture}
+\draw[step=0.5cm,gray,very thin] (0,0) ;
+\draw[thick,->] (0,0) -- (0,10) node[anchor=south east] {$\lambda_0$};
+\draw[thick,->] (0,0) -- (10,0) node[anchor=north west] {$g$};
+\draw (10,3.5) node[anchor=west] {$\hat{\lambda}_0(g)$} parabola (1,10) ;
+
+\draw (1pt,3) -- (-1pt,3) node[anchor=east] {$\tilde{\lambda}_0$};
+\draw[dashed] (0,3) -- (10,3);
+
+\draw (3,4) node[anchor=north] {no insurance};
+\draw (8,7) node[anchor=north] {insurance};
+\end{tikzpicture}
+
+
+Over a population with independently distributed risk and moral hazard types we should expect to see agents of low risk type choosing an insurance only if they have high costs of self-discipline. Agents with high exogenous health risk should choose an insurance irrespective of their moral hazard type. Consequently, within a self-selected population with insurance we should observe a positive correlation of risk type and degree of moral hazard (or a negative correlation of risk type and moral hazard parameter g), despite advantageous selection on moral hazard, i.e. despite the fact that within each risk group, agents with the largest moral hazard potential do not choose the insurance. \\
+
+While exogenous risk type $\lambda_0$ is an interesting variable to look at theoretically, it is neither the realized risk of the insured or uninsured agent. To compare the realized risk with and without health enhancing effort, it is useful to divide the indirect utility when insured and uninsured into it's components. I define $\hat{\lambda}(g)-\mu_{NI}(g)$ as the threshold ex-ante risk of an insured agent, which is what researcher usually consider the exogenous risk type on which adverse selection occurs.
+
+\begin{align*}
+	v_I^*(\lambda_0,g)=&u(y-p;H)+\delta\left[ (\lambda_0-\mu_{NI}(g)) u(y-p-tm;S)+(1-(\lambda_0-\mu_{NI}(g)))u(y-p;H)\right] \\
+	&-c(\mu_I(g);g)+(\mu_{NI}(g)-\mu_I(g)\delta\left[ u(y-p-tm;S)-u(y-p;H)\right]  \\
+	v_{NI}^*(\lambda_0,g)=&u(y;H)+\delta\left[ (\lambda_0-\mu_{NI}(g)) u(y-m;S)+(1-(\lambda_0-\mu_{NI}(g)))u(y;H)\right] \\
+	&-c(\mu_{NI}(g);g)
+\end{align*}
+
+From this reformulation it is easy to see that the relatively higher attractiveness of no insurance does not only result from the lower realized health risk $\lambda_0-\mu_{NI}(g)$ compared to exogenous risk type $\lambda_0$.
+Also the behavioral reaction to being covered\footnote{Note that $\mu_{NI}\delta( u(y-p;H)-u(y-p-tm;S))-c(\mu_{NI}(g);g)<\mu_I\delta( u(y-p;H)-u(y-p-tm;S))-c(\mu_I(g);g)$, since $\mu_{I}(g)$ is the maximum of the problem of the insured agent.} makes insurance \textit{less} attractive. Moral hazard drives a wedge between the health risk if an agent is covered and the health risk if he is not covered, which can be interpreted as the agent's differential attempt to prevent the bad state of the world himself.
+ Consequently, it must be true that $\hat{\lambda}_0(g)-\mu_{NI}(g)<\tilde{\lambda}_0$, but $\hat{\lambda}_0(g)-\mu_I(g)>\tilde{\lambda}_0$, so health enhancing effort leads to an increase in realized risk among the insured agents given the same contract. This, in general makes the adverse selection problem more severe. An insurer offering a fixed contract, thus should increase premia in a world with a behavioral response of the agent compared to one without a behavioral response. which would exclude more agents from being insured. The welfare statement, however, is ambiguous because not being insured has the positive side effect of the agents partly reduce risk themselves and staying healthy more likely.
+
+\section{Final Remarks}
+A complete analysis of the model with both heterogeneity in risk and moral hazard would require the consideration of the problem of the insurer beyond assuming that she is just offering a fixed contract. Depending on the market concentration and distributional assumptions, it could for example be optimal to offer a continuum of contracts which screens the different types. Since types in this setting are 2-dimensional, solving for the general equilibrium is more complicated as usual and, at this point, I leave it open as a next step.\\
+
+Finally, I want to emphasize that the above analysis of a problem with two-dimensional heterogeneity of agents does not contradict traditional literature on health insurance, but rather complements it by taking heterogeneity in moral hazard seriously. Still, moral hazard is an unintended side-effect of insuring people against adverse events. An efficient insurance has to balance out the harm done by moral hazard against the benefit of smoothing consumption of the agent. However, as I have shown, when considering moral hazard as a behavioral response in contrast to a pure monetary response, moral hazard counteracts consumption smoothing, as it makes health status of the agent riskier. Thus, those two factors are not independent, but interact with each other.
+
+
+
+\section{Appendix: Behavioral vs. monetary response (Einav et al. 2013)}
+It seems striking that the above formulation results in agents with higher extent of moral hazard choosing no insurance. To my knowledge, \cite{Einav2013} are the first to consider the possibility of selection on moral hazard. In their specification, however, agents with higher moral hazard choose higher insurance coverage, thereby contradicting my result. Although they model moral hazard as price sensitivity instead of the behavioral response I chose to define as moral hazard, this difference in specification is not the root for the different results. Instead, this is the result of the specific utility function they used, which is a positive transformation of the following (also very simple) expression:
+\[ u(m;\lambda,\omega,j)=\left[ (m-\lambda)-\frac{1}{2\omega}(m-\lambda)^2\right] +\left[ y-c_jm-p_j\right]  \]
+
+Hence, the agent extracts positive utility from medical spending $m$, but tries to match his risk type $\lambda$ as close as possible, while the negative effect of not being able to cover all necessary medical treatment is mediated by what they call price sensitivity $\omega$. The second square bracket is the available income for consumption $y$ after paying the deductible as a share of medical expenditures $c_jm$ and the premium $p_j$. \\
+
+It is the positive utility from medical spending that fully drives their adverse selection on moral hazard. Higher price sensitivity leads to higher medical spending in case of insurance, which increases utility mechanically. To see this more formally, consider the optimal medical expenditures chosen by the agent given his insurance:
+\[ m^*(\lambda,\omega,j)=\max\left[ 0, \lambda+\omega(1-c_j)\right]
+\]
+Given positive medical expenditures, we get the following indirect utility:
+\[ u^*(\lambda,\omega, j)=u(m^*;\lambda,\omega,j)=\frac{1}{2}\omega(1-c_j)^2+y-\lambda c_j-p_j
+\]
+It is easy to see now that higher price sensitivity $\omega$ increases the marginal utility of higher coverage ($(1-c_j)\uparrow$). Thus agents with a larger reaction in medical expenditures towards lower deductible will choose higher coverage.\\
+
+Now, if the agent would not value medical expenditures themselves, e.g. doctor visits and getting prescription drugs, a small modification of the utility function exactly reverses the result. Dropping the linear part of the expression in the first square brackets leads to the following optimal medical expenditures and indirect utility:
+\begin{align*}
+\hat{m}(\lambda,\omega,j)&=\max\left[ 0,\lambda-\omega c_j\right] \\
+\Rightarrow \hat{u}(\hat{m};\lambda,\omega,j)&=\frac{1}{2}\omega c_j^2+y-\lambda c_j-p_j
+\end{align*}
+Here, higher price sensitivity $\omega$ decreases the marginal utility of higher coverage ($c_j\downarrow$)! This seems to be counterintuitive at the first glance, but does make sense when putting some more thought in it:
+Higher $\omega$ means the agent cares less about missing the target $\lambda$, while equally enjoying to save on medical expenditures. Higher coverage is less attractive to him because he would not spend much on medical expenditures in the first place. Consequently, very price-sensitive agents don't choose the insurance and try to keep medical expenditures down.\\
+
+One should note, that, empirically, \cite{Einav2013} found support for their claim of adverse selection on moral hazard in addition to adverse risk selection. While this is an interesting empirical result, they only consider medical expenditures and not health related behavior.
+
+
+\bibliography{bibliography}
+\bibliographystyle{apa}
+\end{document}

@@ -1,21 +1,24 @@
 # This Script -------------------------------------------------------------
 # Author: Laura Zwyssig
 # Goal: Create uninsured and cardiovascular health shock indicators
-# Last edited: 20.06.2018
+# Last edited: 11-03-2021 Pia Arce
 
 # Preliminaries -----------------------------------------------------------
-library(tidyverse)
-library(readr)
+xlibrary <- c("tidyverse", "readr")
+
+# load libraries and automatically install all packages if missing
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(char = xlibrary)
+
+options(xtable.floating = FALSE)
+options(xtable.timestamp = "")
 
 # Clear workspace
 rm(list=ls())
 
 # Load data ---------------------------------------------------------------
-#path <- "~/Dropbox/GxInsurance"
-#path <- "T:/econ/biroli/geighei/code/GxInsurance"
+# Set path to main folder
 path <- "C:/Users/parce/Desktop/GeiGhei/GxInsurance/"
-
-#hrs <- readRDS(file.path(path,"1_data/interim/hrs.rds"))
 hrs <- readRDS(file.path(path,"1_data/interim/hrs2.rds"))
 
 # NOT done in this version: dropping observations which were created
@@ -84,6 +87,5 @@ dupe <- hrs[duplicated(hrs$d),] # 9492 dupe
 hrs <- hrs[!duplicated(hrs$d), ] #538653 
 
 # Save data ---------------------------------------------------------------
-#saveRDS(hrs,file.path(path, "1_data/processed/hrs_final.rds"))
  saveRDS(hrs,file.path(path, "1_data/processed/hrs_final2.rds"))
 

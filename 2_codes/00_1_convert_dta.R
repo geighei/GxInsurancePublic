@@ -1,13 +1,18 @@
 # This Script -------------------------------------------------------------
 # Author: Laura Zwyssig
 # Goal: Convert RAND Stata file to an .rds file
-# Last edited: 20.06.2018
+# Last edited: 11-03-2021 Pia Arce
 
 # Preliminaries -----------------------------------------------------------
-library(tidyverse)
-library(haven)
-library(labelled)
-library(readstata13)
+xlibrary <- c("tidyverse", "haven", "labelled", "readstata13")
+
+# load libraries and automatically install all packages if missing
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(char = xlibrary)
+
+options(xtable.floating = FALSE)
+options(xtable.timestamp = "")
+
 # clear workspace
 rm(list=ls())
 
@@ -16,14 +21,10 @@ rm(list=ls())
 # Data source: https://ssl.isr.umich.edu/hrs/files2.php?versid=34 (RAND Version P data file)
 
 # Load data
-#path <- "~/Dropbox/GxInsurance"
-#path <- "T:/econ/biroli/geighei/data/HRS/RANDfiles/randhrs1992_2016v2_STATA/"
+# Set here the path for data (RAND and LB questionnaires).
 path <- "C:/Users/parce/Desktop/GeiGhei/GxInsurance/1_data"
 
-#path <- "/home/debian/biroli/geighei/code/GxInsurance/1_data"
-
-#rand <- readstata13::read.dta13(file.path(path,"raw/randhrs1992_2016v2.dta"),
-#                                generate.factors=T, nonint.factors = FALSE)
+# Load RAND files
 rand <- read_dta(file.path(path,"raw/randhrs1992_2016v2.dta"))
 
 # Remove Stata labels
