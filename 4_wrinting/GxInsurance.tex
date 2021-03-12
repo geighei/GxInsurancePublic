@@ -92,6 +92,7 @@ Christian Z\"und,
 all of the members of GEIGHEI team, and the various seminar participants for useful discussions, comments, and suggestions.
 Regina Seibel, Pia Arce, Jeremy Vollen, and Alex Thannhuber are the brave and fierce programmers whose research assistantship brought this project to a new level.
 All remaining errors are probably Pietro's fault.
+All the code necessary to replicate the results can be found on \url{http://github.com/geighei/GxInsurancePublic}
 We gratefully acknowledge financial support from NORFACE DIAL (Grant Reference 462-16-100).
 } %end of thanks
 %\\
@@ -101,20 +102,20 @@ We gratefully acknowledge financial support from NORFACE DIAL (Grant Reference 4
 \maketitle
 
 \abstract{
-% 155 words
-Decision-making in the realm of health behaviors, such as smoking or drinking, is influenced both by biological factors, such as genetic predispositions, as well as environmental factors, such as financial liquidity and health insurance status.
-We show how the choice of smoking after a cardio-vascular health shock is jointly determined by the interplay between these biological and environmental constraints.
-Individuals who suffer a health shock when uninsured are 25.6 percentage points more likely to reduce smoking, but this is true only for those who have a low index of genetic predisposition to smoking.
-Individuals with a low index of genetic predisposition are more strategic and flexible in their behavioral response to an external shock.
-This differential elasticity of response depending on your genetic variants is evidence of individual-level heterogeneity in moral hazard.
-These results suggest that genetic heterogeneity is a factor that should be considered when evaluating the effectiveness and fairness of health insurance policies.
-
-%%% 97 words
-%Decision-making is influenced both by biological and environmental factors.
-%We show how the interplay between these biological and environmental constraints shapes smoking decisions after a cardio-vascular health shock.
+%% 155 words
+%Decision-making in the realm of health behaviors, such as smoking or drinking, is influenced both by biological factors, such as genetic predispositions, as well as environmental factors, such as financial liquidity and health insurance status.
+%We show how the choice of smoking after a cardio-vascular health shock is jointly determined by the interplay between these biological and environmental constraints.
 %Individuals who suffer a health shock when uninsured are 25.6 percentage points more likely to reduce smoking, but this is true only for those who have a low index of genetic predisposition to smoking.
-%This differential elasticity of response depending on genetic variants is evidence of individual-level heterogeneity in moral hazard.
-%These results suggest that genetic heterogeneity should be considered when evaluating the effectiveness and fairness of health policies.
+%Individuals with a low index of genetic predisposition are more strategic and flexible in their behavioral response to an external shock.
+%This differential elasticity of response depending on your genetic variants is evidence of individual-level heterogeneity in moral hazard.
+%These results suggest that genetic heterogeneity is a factor that should be considered when evaluating the effectiveness and fairness of health insurance policies.
+%
+%% 97 words
+Decision-making is influenced both by biological and environmental factors.
+We show how the interplay between these biological and environmental constraints shapes smoking decisions after a cardio-vascular health shock.
+Individuals who suffer a health shock when uninsured are 25.6 percentage points more likely to reduce smoking, but this is true only for those who have a low index of genetic predisposition to smoking.
+This differential elasticity of response depending on genetic variants is evidence of individual-level heterogeneity in moral hazard.
+These results suggest that genetic heterogeneity should be considered when evaluating the effectiveness and fairness of health policies.
 
 
 \vspace{2ex}
@@ -452,7 +453,7 @@ All of the regression coefficients are presented in the last column of Table \re
 %\captionsetup{width = \columnwidth}
 \begin{figure}[!ht]
 	\begin{center}
-		\includegraphics[width=0.8\textwidth]{../3_output/shock_effects/main_6070_100_cvplot.png}
+		\includegraphics[width=0.8\textwidth]{../3_output/shock_effects/main_6070_100_cv.png}
 		\caption{Effect of a Health Shock on the Smoking Probability in the Pre-65 Uninsured Subgroup, Stratified by Timing of the Shock and Genetic Type
 		\label{fig:shock_effects}
 		}
@@ -610,27 +611,27 @@ For completeness, results are shown split by tertiles for continuous measures, a
 	\begin{center}
 		\subfigure[\textsf{Years of Education}]
 		{\includegraphics[width=0.3\textwidth]
-		{../3_output/shock_effects/edu_6070_100_cvplot.png}
+		{../3_output/shock_effects/edu_6070_100_cv.png}
 		}
 		\subfigure[\textsf{Cognitive Skills}]
 		{\includegraphics[width=0.3\textwidth]
-		{../3_output/shock_effects/cog_6070_100_cvplot.png}
+		{../3_output/shock_effects/cog_6070_100_cv.png}
 		}
 		\subfigure[\textsf{Risk Aversion}]
 		{\includegraphics[width=0.3\textwidth]
-		{../3_output/shock_effects/risk_6070_100_cvplot.png}
+		{../3_output/shock_effects/risk_6070_100_cv.png}
 		}
 		\subfigure[\textsf{Conscientiousness (Big-5)}]
 		{\includegraphics[width=0.3\textwidth]
-		{../3_output/shock_effects/consc_6070_100_cvplot.png}
+		{../3_output/shock_effects/consc_6070_100_cv.png}
 		}
 		\subfigure[\textsf{Gender}]
 		{\includegraphics[width=0.3\textwidth]
-		{../3_output/shock_effects/female_6070_100_cvplot.png}
+		{../3_output/shock_effects/female_6070_100_cv.png}
 		}
 		\subfigure[\textsf{Earnings}]
 		{\includegraphics[width=0.3\textwidth]
-		{../3_output/shock_effects/inc_6070_100_cvplot.png}
+		{../3_output/shock_effects/inc_6070_100_cv.png}
 		}
 		%
 		\caption{Other Individual Characteristics as Proxy for Moral Hazard Heterogeneity
@@ -662,35 +663,35 @@ If anything, the symmetric results for out-of-pocket medical expenditure shown i
 	\begin{center}
 		\subfigure[\textsf{Earned Income (IHS)}]
 		{\includegraphics[width=0.22\textwidth]
-		{../3_output/shock_effects/IHSwage_6070_100_cvplot.png}
+		{../3_output/shock_effects/IHSwage_6070_100_cv.png}
 		}
 		\subfigure[\textsf{Total Household Income (IHS)}]
 		{\includegraphics[width=0.22\textwidth]
-		{../3_output/shock_effects/IHShitot_noout_6070_100_cvplot.png}
+		{../3_output/shock_effects/IHShitot_noout_6070_100_cv.png}
 		}
 %		\subfigure[\textsf{Wealth (IHS)}]
 %		{\includegraphics[width=0.22\textwidth]
-%		{../3_output/shock_effects/IHSwealth_6070_100_cvplot.png}
+%		{../3_output/shock_effects/IHSwealth_6070_100_cv.png}
 %		}
 		\subfigure[\textsf{Probability of Retiring}]
 		{\includegraphics[width=0.22\textwidth]
-		{../3_output/shock_effects/retired_6070_100_cvplot.png}
+		{../3_output/shock_effects/retired_6070_100_cv.png}
 		}
 		\subfigure[\textsf{Relationship status}]
 		{\includegraphics[width=0.22\textwidth]
-		{../3_output/shock_effects/mpart_6070_100_cvplot.png}
+		{../3_output/shock_effects/mpart_6070_100_cv.png}
 		}
 		\subfigure[\textsf{Medical expenditure}]
 		{\includegraphics[width=0.22\textwidth]
-		{../3_output/shock_effects/medexp_6070_100_cvplot.png}
+		{../3_output/shock_effects/medexp_6070_100_cv.png}
 		}
 		\subfigure[\textsf{2 Year Mortality}]
 		{\includegraphics[width=0.22\textwidth]
-		{../3_output/shock_effects/dead2_6070_100_cvplot.png}
+		{../3_output/shock_effects/dead2_6070_100_cv.png}
 		}
 		\subfigure[\textsf{5 Year Mortality}]
 		{\includegraphics[width=0.22\textwidth]
-		{../3_output/shock_effects/dead5_6070_100_cvplot.png}
+		{../3_output/shock_effects/dead5_6070_100_cv.png}
 		}
 		\caption{Testing for Potential Confounders
 		\label{fig:confounders}

@@ -468,7 +468,6 @@ $W_j$ = taken from \cite{GSCAN2019gwas}
 	\item Outcome \textit{\color{Verde} Y} = current smoking status $\in \{0,1\}$
 	\begin{itemize}
 		\item Self reported
-		\item Also calculate cessation rates (smoking in previous but not current wave)
 	\end{itemize}
 
 	\smallskip
@@ -567,30 +566,6 @@ Share of smokers over different ages, split by PGS
 
 \end{frame}
 
-
-%%--------------------------------------------------------------%
-%\begin{frame}
-%\frametitle{Raw data}
-%If always uninsured: diff in cessation rates after health-shock
-%%by:
-%%\begin{itemize}
-%%	\item High vs. low PGS
-%%	\item Pre vs. post 65 / free insurance
-%%\end{itemize}
-%
-%\begin{figure}[hbtp]
-%%\caption{Raw cessation rate by group}
-%\centering
-%%\includegraphics[height=0.8\textheight]{../../3_output/cess_rates_graph/graph_6070plot2.png}
-%\includegraphics[height=0.8\textheight]{../../3_output/cess_rates_graph/graph_6070_TAGpgsplot2.png}
-%\label{fig:rawcessation}
-%\end{figure}
-%
-%\hyperlink{frame:sumstats}{\beamergotobutton{Sumstats1}}
-%\hyperlink{frame:sumstats2}{\beamergotobutton{Sumstats2}}
-%\end{frame}
-
-
 %--------------------------------------------------------------%
 \subsection{Regression}
 %--------------------------------------------------------------%
@@ -673,10 +648,8 @@ And the diff-in-diff (G$\times$E):
 Controlling for individual and time F.E. + age:
 
 \begin{figure}[hbtp]
-%\caption{Raw cessation rate by group}
 \centering
-%\includegraphics[height=0.8\textheight]{../../3_output/shock_effects/main_6070_100_cvinverse_plot.png}
-\includegraphics[height=0.8\textheight]{../../3_output/shock_effects/main_6070_100_cvplot.png}
+\includegraphics[height=0.8\textheight]{../../3_output/shock_effects/main_6070_100_cv.png}
 \label{fig:maincoeffplot}
 \end{figure}
 \hyperlink{frame:fullreg}{\beamergotobutton{all coefficients}}
@@ -699,13 +672,6 @@ Controlling for individual and time F.E. + age:
 
 \end{table}
 
-%\begin{figure}[hbtp]
-%\caption{Raw cessation rate by group}
-%\centering
-%\includegraphics[height=0.8\textheight]{table4.png}
-%\label{tab:maincoeff}
-%\end{figure}
-
 \end{frame}
 
 %--------------------------------------------------------------%
@@ -714,7 +680,7 @@ Controlling for individual and time F.E. + age:
 
 \begin{figure}[hbtp]
 \centering
-\includegraphics[height=0.8\textheight]{../../3_output/shock_effects/robustness_6070__3pgs_cvplot.png}
+\includegraphics[height=0.8\textheight]{../../3_output/shock_effects/robustness_6070_3pgs_cv.png}
 \label{fig:3pgs}
 \end{figure}
 
@@ -772,9 +738,8 @@ Check for differential response to shock on possible confounders \cite{Pei2018}
 \frametitle{Retirement: not likely a Confounder}
 Coefficient plot of the effect of the shock on being retired.
 \begin{figure}[hbtp]
-%\caption{Raw cessation rate by group}
 \centering
-\includegraphics[height=0.8\textheight]{../../3_output/shock_effects/retired_6070_100_cvplot.png}
+\includegraphics[height=0.8\textheight]{../../3_output/shock_effects/retired_6070_100_cv.png}
 \label{fig:retire}
 \end{figure}
 %\hyperlink{frame:robustness}{\beamergotobutton{back}}
@@ -785,9 +750,8 @@ Coefficient plot of the effect of the shock on being retired.
 \frametitle{Wage: not likely a Confounder}
 Coefficient plot of the effect of the shock on log reported earnings.
 \begin{figure}[hbtp]
-%\caption{Raw cessation rate by group}
 \centering
-\includegraphics[height=0.8\textheight]{../../3_output/shock_effects/IHSwage_6070_100_cvplot.png}
+\includegraphics[height=0.8\textheight]{../../3_output/shock_effects/IHSwage_6070_100_cv.png}
 \label{fig:wage}
 \end{figure}
 %\hyperlink{frame:robustness}{\beamergotobutton{back}}
@@ -798,9 +762,8 @@ Coefficient plot of the effect of the shock on log reported earnings.
 \frametitle{Household Income: not likely a Confounder}
 Coefficient plot of the effect of the shock on household income.
 \begin{figure}[hbtp]
-%\caption{Raw cessation rate by group}
 \centering
-\includegraphics[height=0.8\textheight]{../../3_output/shock_effects/hhinc_6070_100_cvplot.png}
+\includegraphics[height=0.8\textheight]{../../3_output/shock_effects/hhinc_6070_100_cv.png}
 \label{fig:hhinc}
 \end{figure}
 %\hyperlink{frame:robustness}{\beamergotobutton{back}}
@@ -811,9 +774,9 @@ Coefficient plot of the effect of the shock on household income.
 %\frametitle{Wealth: possibly a Confounder?}
 %Coefficient plot of the effect of the shock on household wealth.
 %\begin{figure}[hbtp]
-%%\caption{Raw cessation rate by group}
+%
 %\centering
-%\includegraphics[height=0.8\textheight]{../../3_output/shock_effects/wealth_6070_100_cvplot.png}
+%\includegraphics[height=0.8\textheight]{../../3_output/shock_effects/wealth_6070_100_cv.png}
 %\label{fig:wealth}
 %\end{figure}
 %%\hyperlink{frame:robustness}{\beamergotobutton{back}}
@@ -824,9 +787,9 @@ Coefficient plot of the effect of the shock on household income.
 \frametitle{Medical expenditure: not likely a Confounder}
 Coefficient plot of the effect of the shock on out of poket medical enxpenditure.
 \begin{figure}[hbtp]
-%\caption{Raw cessation rate by group}
+
 \centering
-\includegraphics[height=0.8\textheight]{../../3_output/shock_effects/medexp_6070_100_cvplot.png}
+\includegraphics[height=0.8\textheight]{../../3_output/shock_effects/medexp_6070_100_cv.png}
 \label{fig:medexp}
 \end{figure}
 %\hyperlink{frame:robustness}{\beamergotobutton{back}}
@@ -837,9 +800,9 @@ Coefficient plot of the effect of the shock on out of poket medical enxpenditure
 %\frametitle{Married: not likely a Confounder}
 %Coefficient plot of the effect of the shock on being married.
 %\begin{figure}[hbtp]
-%%\caption{Raw cessation rate by group}
+%
 %\centering
-%\includegraphics[height=0.8\textheight]{../../3_output/shock_effects/married_6070_100_cvplot.png}
+%\includegraphics[height=0.8\textheight]{../../3_output/shock_effects/married_6070_100_cv.png}
 %\label{fig:married}
 %\end{figure}
 %%\hyperlink{frame:robustness}{\beamergotobutton{back}}
@@ -850,9 +813,9 @@ Coefficient plot of the effect of the shock on out of poket medical enxpenditure
 \frametitle{Having a partner: not likely a Confounder}
 Coefficient plot of the effect of the shock on having a partner.
 \begin{figure}[hbtp]
-%\caption{Raw cessation rate by group}
+
 \centering
-\includegraphics[height=0.8\textheight]{../../3_output/shock_effects/mpart_6070_100_cvplot.png}
+\includegraphics[height=0.8\textheight]{../../3_output/shock_effects/mpart_6070_100_cv.png}
 \label{fig:mpart}
 \end{figure}
 %\hyperlink{frame:robustness}{\beamergotobutton{back}}
@@ -863,7 +826,7 @@ Coefficient plot of the effect of the shock on having a partner.
 \frametitle{Partner smoking: not likely a Confounder}
 Coefficient plot of the effect of the shock on having a partner.
 \begin{figure}[hbtp]
-%\caption{Raw cessation rate by group}
+
 \centering
 \includegraphics[height=0.8\textheight]{../../3_output/shock_effects/smokePartner_6070_100_cv.png}
 \label{fig:smokePartner}
@@ -877,7 +840,7 @@ Coefficient plot of the effect of the shock on having a partner.
 Coefficient plot of the probability of dying within 2 years of the shock.
 \begin{figure}[hbtp]
 \centering
-\includegraphics[height=0.8\textheight]{../../3_output/shock_effects/dead2_6070_100_cvplot.png}
+\includegraphics[height=0.8\textheight]{../../3_output/shock_effects/dead2_6070_100_cv.png}
 \label{fig:dead2}
 \end{figure}
 %\hyperlink{frame:robustness}{\beamergotobutton{back}}
@@ -889,7 +852,7 @@ Coefficient plot of the probability of dying within 2 years of the shock.
 Coefficient plot of the probability of dying within 5 years of the shock.
 \begin{figure}[hbtp]
 \centering
-\includegraphics[height=0.8\textheight]{../../3_output/shock_effects/dead5_6070_100_cvplot.png}
+\includegraphics[height=0.8\textheight]{../../3_output/shock_effects/dead5_6070_100_cv.png}
 \label{fig:dead5}
 \end{figure}
 %\hyperlink{frame:robustness}{\beamergotobutton{back}}
@@ -944,9 +907,9 @@ Robustness checks:
 \frametitle{Robustness: high PGS if above 25$^{th}$ percentile}
 Coefficient plot of the main regression.
 \begin{figure}[hbtp]
-%\caption{Raw cessation rate by group}
+
 \centering
-\includegraphics[height=0.8\textheight]{../../3_output/shock_effects/robustness_6070__25pt_cvplot.png}
+\includegraphics[height=0.8\textheight]{../../3_output/shock_effects/robustness_6070_25pt_cv.png}
 \label{fig:coeffplot25highPGS}
 \end{figure}
 \hyperlink{frame:robustness}{\beamergotobutton{back}}
@@ -957,9 +920,9 @@ Coefficient plot of the main regression.
 \frametitle{Robustness: high PGS if above 50$^{th}$ percentile}
 Coefficient plot of the main regression.
 \begin{figure}[hbtp]
-%\caption{Raw cessation rate by group}
+
 \centering
-\includegraphics[height=0.8\textheight]{../../3_output/shock_effects/robustness_6070__50pt_cvplot.png}
+\includegraphics[height=0.8\textheight]{../../3_output/shock_effects/robustness_6070_50pt_cv.png}
 \label{fig:coeffplot50highPGS}
 \end{figure}
 \hyperlink{frame:robustness}{\beamergotobutton{back}}
@@ -970,9 +933,9 @@ Coefficient plot of the main regression.
 \frametitle{Robustness: high PGS if above 75$^{th}$ percentile}
 Coefficient plot of the main regression.
 \begin{figure}[hbtp]
-%\caption{Raw cessation rate by group}
+
 \centering
-\includegraphics[height=0.8\textheight]{../../3_output/shock_effects/robustness_6070__75pt_cvplot.png}
+\includegraphics[height=0.8\textheight]{../../3_output/shock_effects/robustness_6070_75pt_cv.png}
 \label{fig:coeffplot75highPGS}
 \end{figure}
 \hyperlink{frame:robustness}{\beamergotobutton{back}}
@@ -983,9 +946,9 @@ Coefficient plot of the main regression.
 \frametitle{Robustness: using publicly available PGS (older GWAS)}
 Coefficient plot of the main regression.
 \begin{figure}[hbtp]
-%\caption{Raw cessation rate by group}
+
 \centering
-\includegraphics[height=0.8\textheight]{../../3_output/shock_effects/robustness_6070__oldpgs_cvplot.png}
+\includegraphics[height=0.8\textheight]{../../3_output/shock_effects/robustness_6070_oldpgs_cv.png}
 
 \label{fig:oldPGS}
 \end{figure}
@@ -1028,7 +991,7 @@ Are there other characteristics that might be driving this relationship?
 
 \begin{figure}[hbtp]
 \centering
-\includegraphics[height=0.8\textheight]{../../3_output/shock_effects/cog_6070_100_cvplot.png}
+\includegraphics[height=0.8\textheight]{../../3_output/shock_effects/cog_6070_100_cv.png}
 \label{fig:cog}
 \end{figure}
 \hyperlink{frame:otherX}{\beamergotobutton{back}}
@@ -1040,7 +1003,7 @@ Are there other characteristics that might be driving this relationship?
 
 \begin{figure}[hbtp]
 \centering
-\includegraphics[height=0.8\textheight]{../../3_output/shock_effects/consc_6070_100_cvplot.png}
+\includegraphics[height=0.8\textheight]{../../3_output/shock_effects/consc_6070_100_cv.png}
 \label{fig:consc}
 \end{figure}
 \hyperlink{frame:otherX}{\beamergotobutton{back}}
@@ -1052,7 +1015,7 @@ Are there other characteristics that might be driving this relationship?
 
 \begin{figure}[hbtp]
 \centering
-\includegraphics[height=0.8\textheight]{../../3_output/shock_effects/risk_6070_100_cvplot.png}
+\includegraphics[height=0.8\textheight]{../../3_output/shock_effects/risk_6070_100_cv.png}
 \label{fig:risk}
 \end{figure}
 \hyperlink{frame:otherX}{\beamergotobutton{back}}
@@ -1063,7 +1026,7 @@ Are there other characteristics that might be driving this relationship?
 
 \begin{figure}[hbtp]
 \centering
-\includegraphics[height=0.8\textheight]{../../3_output/shock_effects/female_6070_100_cvplot.png}
+\includegraphics[height=0.8\textheight]{../../3_output/shock_effects/female_6070_100_cv.png}
 \label{fig:female}
 \end{figure}
 \hyperlink{frame:otherX}{\beamergotobutton{back}}
@@ -1074,7 +1037,7 @@ Are there other characteristics that might be driving this relationship?
 
 \begin{figure}[hbtp]
 \centering
-\includegraphics[height=0.8\textheight]{../../3_output/shock_effects/edu_6070_100_cvplot.png}
+\includegraphics[height=0.8\textheight]{../../3_output/shock_effects/edu_6070_100_cv.png}
 \label{fig:edu}
 \end{figure}
 \hyperlink{frame:otherX}{\beamergotobutton{back}}
@@ -1282,7 +1245,7 @@ What does this tell us?
 \end{table}
 
 %\begin{figure}[hbtp]
-%\caption{Raw cessation rate by group}
+
 %\centering
 %\includegraphics[height=0.8\textheight]{table2.png}
 %\label{tab:sumstat2}
@@ -1437,9 +1400,9 @@ And again the diff-in-diff (G$\times$E):
 \frametitle{Robustness: age range 59-71}
 Coefficient plot of the main regression.
 \begin{figure}[hbtp]
-%\caption{Raw cessation rate by group}
+
 \centering
-\includegraphics[height=0.8\textheight]{../../3_output/shock_effects/robustness_5971_100_cvplot.png}
+\includegraphics[height=0.8\textheight]{../../3_output/shock_effects/robustness_5971_100_cv.png}
 \label{fig:coeffplot59-71}
 \end{figure}
 \hyperlink{frame:robustness}{\beamergotobutton{back}}
@@ -1450,9 +1413,9 @@ Coefficient plot of the main regression.
 \frametitle{Robustness: age range 58-72}
 Coefficient plot of the main regression.
 \begin{figure}[hbtp]
-%\caption{Raw cessation rate by group}
+
 \centering
-\includegraphics[height=0.8\textheight]{../../3_output/shock_effects/robustness_5872_100_cvplot.png}
+\includegraphics[height=0.8\textheight]{../../3_output/shock_effects/robustness_5872_100_cv.png}
 \label{fig:coeffplot58-72}
 \end{figure}
 \hyperlink{frame:robustness}{\beamergotobutton{back}}
@@ -1463,9 +1426,9 @@ Coefficient plot of the main regression.
 \frametitle{Robustness: age range 55-70}
 Coefficient plot of the main regression.
 \begin{figure}[hbtp]
-%\caption{Raw cessation rate by group}
+
 \centering
-\includegraphics[height=0.8\textheight]{../../3_output/shock_effects/robustness_5570_100_cvplot.png}
+\includegraphics[height=0.8\textheight]{../../3_output/shock_effects/robustness_5570_100_cv.png}
 \label{fig:coeffplot55-70}
 \end{figure}
 \hyperlink{frame:robustness}{\beamergotobutton{back}}
@@ -1477,9 +1440,9 @@ Coefficient plot of the main regression.
 %\frametitle{Robustness: age range 57-73}
 %Coefficient plot of the main regression.
 %\begin{figure}[hbtp]
-%%\caption{Raw cessation rate by group}
+%
 %\centering
-%\includegraphics[height=0.8\textheight]{../../3_output/shock_effects/robustness_5773_100_cvplot.png}
+%\includegraphics[height=0.8\textheight]{../../3_output/shock_effects/robustness_5773_100_cv.png}
 %\label{fig:coeffplot57-73}
 %\end{figure}
 %\hyperlink{frame:robustness}{\beamergotobutton{back}}
@@ -1490,9 +1453,9 @@ Coefficient plot of the main regression.
 %\frametitle{Robustness: age range 56-74}
 %Coefficient plot of the main regression.
 %\begin{figure}[hbtp]
-%%\caption{Raw cessation rate by group}
+%
 %\centering
-%\includegraphics[height=0.8\textheight]{../../3_output/shock_effects/robustness_5674_100_cvplot.png}
+%\includegraphics[height=0.8\textheight]{../../3_output/shock_effects/robustness_5674_100_cv.png}
 %\label{fig:coeffplot56-74}
 %\end{figure}
 %\hyperlink{frame:robustness}{\beamergotobutton{back}}
@@ -1505,9 +1468,9 @@ Coefficient plot of the main regression.
 \frametitle{Robustness: uninsured only 2/3 of the time}
 Coefficient plot of the main regression.
 \begin{figure}[hbtp]
-%\caption{Raw cessation rate by group}
+
 \centering
-\includegraphics[height=0.8\textheight]{../../3_output/shock_effects/robustness_607066_cvplot.png}
+\includegraphics[height=0.8\textheight]{../../3_output/shock_effects/robustness_607066_cv.png}
 \label{fig:coeffplot66unins}
 \end{figure}
 \hyperlink{frame:robustness}{\beamergotobutton{back}}
@@ -1518,9 +1481,9 @@ Coefficient plot of the main regression.
 \frametitle{Robustness: uninsured only 1/3 of the time}
 Coefficient plot of the main regression.
 \begin{figure}[hbtp]
-%\caption{Raw cessation rate by group}
+
 \centering
-\includegraphics[height=0.8\textheight]{../../3_output/shock_effects/robustness_607033_cvplot.png}
+\includegraphics[height=0.8\textheight]{../../3_output/shock_effects/robustness_607033_cv.png}
 \label{fig:coeffplot33unins}
 \end{figure}
 \hyperlink{frame:robustness}{\beamergotobutton{back}}
@@ -1533,9 +1496,9 @@ Coefficient plot of the main regression.
 %\frametitle{Robustness: high PGS if above 75$^{th}$ percentile}
 %Coefficient plot of the main regression.
 %\begin{figure}[hbtp]
-%%\caption{Raw cessation rate by group}
+%
 %\centering
-%\includegraphics[height=0.8\textheight]{../../3_output/shock_effects/robustness_6070_100_cv_75pplot.png}
+%\includegraphics[height=0.8\textheight]{../../3_output/shock_effects/robustness_6070_100_cv_75p.png}
 %\label{fig:coeffplot75highPGS}
 %\end{figure}
 %\hyperlink{frame:robustness}{\beamergotobutton{back}}
@@ -1546,9 +1509,9 @@ Coefficient plot of the main regression.
 %\frametitle{Robustness: high PGS if above 25$^{th}$ percentile}
 %Coefficient plot of the main regression.
 %\begin{figure}[hbtp]
-%%\caption{Raw cessation rate by group}
+%
 %\centering
-%\includegraphics[height=0.8\textheight]{../../3_output/shock_effects/robustness_6070_100_cv_25pplot.png}
+%\includegraphics[height=0.8\textheight]{../../3_output/shock_effects/robustness_6070_100_cv_25p.png}
 %\label{fig:coeffplot25highPGS}
 %\end{figure}
 %\hyperlink{frame:robustness}{\beamergotobutton{back}}
@@ -1562,7 +1525,7 @@ Coefficient plot of the main regression.
 
 \begin{figure}[hbtp]
 \centering
-\includegraphics[height=0.8\textheight]{../../3_output/shock_effects/robustness_cogPGS_6070_100_cvplot.png}
+\includegraphics[height=0.8\textheight]{../../3_output/shock_effects/robustness_cogPGS_6070_100_cv.png}
 \label{fig:cogPGS}
 \end{figure}
 \hyperlink{frame:otherX}{\beamergotobutton{back}}
@@ -1574,7 +1537,7 @@ Coefficient plot of the main regression.
 %
 %\begin{figure}[hbtp]
 %\centering
-%\includegraphics[height=0.8\textheight]{../../3_output/shock_effects/robustness_noncogPGS_6070_100_cvplot.png}
+%\includegraphics[height=0.8\textheight]{../../3_output/shock_effects/robustness_noncogPGS_6070_100_cv.png}
 %\label{fig:noncogPGS}
 %\end{figure}
 %\hyperlink{frame:otherX}{\beamergotobutton{back}}
@@ -1586,7 +1549,7 @@ Coefficient plot of the main regression.
 
 \begin{figure}[hbtp]
 \centering
-\includegraphics[height=0.8\textheight]{../../3_output/shock_effects/robustness_riskPGS_GWAS_6070_100_cvplot.png}
+\includegraphics[height=0.8\textheight]{../../3_output/shock_effects/robustness_riskPGS_GWAS_6070_100_cv.png}
 \label{fig:riskPGS}
 \end{figure}
 \hyperlink{frame:otherX}{\beamergotobutton{back}}
@@ -1598,7 +1561,7 @@ Coefficient plot of the main regression.
 %
 %\begin{figure}[hbtp]
 %\centering
-%\includegraphics[height=0.8\textheight]{../../3_output/shock_effects/robustness_ea3PGS_6070_100_cvplot.png}
+%\includegraphics[height=0.8\textheight]{../../3_output/shock_effects/robustness_ea3PGS_6070_100_cv.png}
 %\label{fig:ea3PGS}
 %\end{figure}
 %\hyperlink{frame:otherX}{\beamergotobutton{back}}
@@ -1612,9 +1575,9 @@ Coefficient plot of the main regression.
 %\frametitle{Retirement: not likely a Confounder}
 %Coefficient plot of the main regression.
 %\begin{figure}[hbtp]
-%%\caption{Raw cessation rate by group}
+%
 %\centering
-%\includegraphics[height=0.8\textheight]{../../3_output/shock_effects/retire_6070_100_cvplot.png}
+%\includegraphics[height=0.8\textheight]{../../3_output/shock_effects/retire_6070_100_cv.png}
 %\label{fig:retire}
 %\end{figure}
 %\hyperlink{frame:robustness}{\beamergotobutton{back}}
@@ -1625,9 +1588,9 @@ Coefficient plot of the main regression.
 %\frametitle{Wage: not likely a Confounder}
 %Coefficient plot of the main regression.
 %\begin{figure}[hbtp]
-%%\caption{Raw cessation rate by group}
+%
 %\centering
-%\includegraphics[height=0.8\textheight]{../../3_output/shock_effects/wage_6070_100_cvplot.png}
+%\includegraphics[height=0.8\textheight]{../../3_output/shock_effects/wage_6070_100_cv.png}
 %\label{fig:wage}
 %\end{figure}
 %\hyperlink{frame:robustness}{\beamergotobutton{back}}

@@ -51,7 +51,7 @@ library(dplyr)
 
 ```{r}
 # Load data
-#Set path to data 
+#Set path to data
 path <- "C:/Users/parce/Desktop/GeiGhei/GxInsurance/"
 hrs <- readRDS(file.path(path,"1_data/processed/hrs_final2.rds")) # 548,125
 
@@ -61,14 +61,14 @@ df6070_100 <- create_df(hrs, min_sample_age=60, max_sample_age=70, ptu=100, high
 # Create dataset only with age restrictions 60 to 70 (keeping no-genetic sample)
 df6070_nogen <- hrs %>%
   filter(age >= 60, age <= 70, !is.na(smoken)) %>%
-  mutate(high_pgs = ifelse(si_1 > quantile(si_1, 0.3333, na.rm = TRUE), 1, 0)) # 76,255 
+  mutate(high_pgs = ifelse(si_1 > quantile(si_1, 0.3333, na.rm = TRUE), 1, 0)) # 76,255
 df6070_100_nogen <- create_df_nogen(hrs, min_sample_age=60, max_sample_age=70, ptu=100, high_cutoff=0.3333, indep_var = "si_1") # 40,790
- 
+
 
 # Create main dataset + individuals with reported shock at ages 65/66
 df6070_6566 <- create_df(hrs, 60, 70, 100, drop_6566_cv = FALSE, indep_var = "si_1") #26896
 
-# Create HRS sample with only restriction: age between 60 and 70 and needs a value for smoken and PGS for smoking by tertiles. 
+# Create HRS sample with only restriction: age between 60 and 70 and needs a value for smoken and PGS for smoking by tertiles.
 df6070_whole_sample <- hrs %>%
   filter(age >= 60, age <= 70, !is.na(smoken), !is.na(si_1)) %>%
   mutate(high_pgs = ifelse(si_1 > quantile(si_1, 0.3333, na.rm = TRUE), 1, 0)) #48269
@@ -166,7 +166,7 @@ pgs_density_female
 ### Smokers
 Share of smokers over different ages, split by PGS
 ```{r}
-over_time(df6070_whole_sample, outcome = "smoken", name = "graph_6070", 
+over_time(df6070_whole_sample, outcome = "smoken", name = "graph_6070",
           filedir = "../3_output/over_time/graph_6070smokenplot_agebypgs.png")
 over_time_discontinuity(df6070_whole_sample, outcome = "smoken", name = "graph_6070",
           filedir = "../3_output/over_time/graph_6070smokenrdd_agebypgs.png")
@@ -194,7 +194,7 @@ summary(rdd_smoken66$rdd_reg)
 ### CV health shock
 Health shock over different ages, split by PGS, hoping there is no jump at 65
 ```{r}
-over_time(df6070_whole_sample, outcome = "cv", name = "graph_6070", 
+over_time(df6070_whole_sample, outcome = "cv", name = "graph_6070",
           filedir = "../3_output/over_time/graph_6070cvplot_agebypgs.png")
 over_time_discontinuity(df6070_whole_sample, outcome = "cv", name = "graph_6070",
           filedir = "../3_output/over_time/graph_6070cvrdd_agebypgs.png")
@@ -225,7 +225,7 @@ summary(rdd_cv66$rdd_reg)
 ### Uninsured
 Percentage of uninsured over time
 ```{r}
-over_time(df6070_whole_sample, outcome = "uninsured", name = "graph_6070", 
+over_time(df6070_whole_sample, outcome = "uninsured", name = "graph_6070",
           filedir = "../3_output/over_time/graph_6070uninsuredplot_agebypgs.png")
 over_time_discontinuity(df6070_whole_sample, outcome = "uninsured", name = "graph_6070",
           filedir = "../3_output/over_time/graph_6070uninsuredrdd_agebypgs.png")
@@ -242,7 +242,7 @@ summary(rdd_uninsured$rdd_reg)
 ### Medicaid
 Share covered by Medicaid shows a big jump
 ```{r}
-over_time(df6070_whole_sample, outcome = "govmr", name = "graph_6070", 
+over_time(df6070_whole_sample, outcome = "govmr", name = "graph_6070",
           filedir = "../3_output/over_time/graph_6070govmrplot_agebypgs.png")
 over_time_discontinuity(df6070_whole_sample, outcome = "govmr", name = "graph_6070",
           filedir = "../3_output/over_time/graph_6070govmrrdd_agebypgs.png")
@@ -281,10 +281,10 @@ print(xtable(desc_t_sub),sanitize.text.function = bold.sometext,hline.after = hl
 
 ##tab: Description between insured and uninsured  -  sample with health shock
 ```{r, rows.print=25}
-# unins is persistantly uninsured (in all rounds) 
-desc_insured <- descriptive_table_var(df = df6070_100, name = "6070_100", 
-                                      vargroup = "unins", 
-                                      group1name = "BOLD Uninsured", 
+# unins is persistantly uninsured (in all rounds)
+desc_insured <- descriptive_table_var(df = df6070_100, name = "6070_100",
+                                      vargroup = "unins",
+                                      group1name = "BOLD Uninsured",
                                       group2name = "BOLD Insured" )
 desc_insured <- unlist_columns(desc_insured, c("BOLD ", "BOLD All","BOLD Uninsured", "BOLD Insured", "BOLD P value"))
 desc_insured
@@ -476,7 +476,7 @@ newreg <- lm(smoken ~ cv +
      +        high_pgs:cv:post65 +
      +        high_pgs:post65:unins +
      +        cv:post65:unins:high_pgs +
-     +        agem + agem2 + agem3, data = df6070_100  ) 
+     +        agem + agem2 + agem3, data = df6070_100  )
 sumreg <- summary(newreg)
 esample <- newreg$model
 nHighPost <- esample %>% filter(cv == 1 & post65 == 1 & high_pgs == 1) %>% count()
@@ -566,7 +566,7 @@ Note: Genetic sample only
 df6070_whole_sample <- df6070_whole_sample %>% mutate(retired = ifelse(lbrf == 5, 1, 0))
 
 # plot to see evolution over time
-over_time(df6070_whole_sample, outcome = "retired", name = "graph_6070", 
+over_time(df6070_whole_sample, outcome = "retired", name = "graph_6070",
           filedir = "../3_output/over_time/graph_6070retiredplot_agebypgs.png")
 over_time_discontinuity(df6070_whole_sample, outcome = "retired", name = "graph_6070",
           filedir = "../3_output/over_time/graph_6070retiredrdd_agebypgs.png")
@@ -612,7 +612,7 @@ Evolution over time (raw wages)
 Note: Genetic sample only
 ```{r}
 # plot to see evolution over time (raw)
-over_time(df6070_whole_sample, outcome = "iearn", name = "graph_6070", 
+over_time(df6070_whole_sample, outcome = "iearn", name = "graph_6070",
           filedir = "../3_output/over_time/graph_6070iearnplot_agebypgs.png")
 over_time_discontinuity(df6070_whole_sample, outcome = "iearn", name = "graph_6070",
           filedir = "../3_output/over_time/graph_6070iearnrdd_agebypgs.png")
@@ -678,7 +678,7 @@ summary(df6070_whole_sample$hitot_no_outlier)
 boxplot(df6070_whole_sample$hitot_no_outlier)
 
 #replotting
-over_time(df6070_whole_sample, outcome = "hitot_no_outlier", name = "graph_6070", 
+over_time(df6070_whole_sample, outcome = "hitot_no_outlier", name = "graph_6070",
           filedir = "../3_output/over_time/graph_6070hitot_no_outlierplot_agebypgs.png")
 over_time_discontinuity(df6070_whole_sample, outcome = "hitot_no_outlier", name = "graph_6070",
           filedir = "../3_output/over_time/graph_6070hitot_no_outlierrdd_agebypgs.png")
@@ -744,7 +744,7 @@ Evolution over time (raw wealth)
 Note: Genetic sample only
 ```{r}
 # plot to see evolution over time
-over_time(df6070_whole_sample, outcome = "hatotw", name = "graph_6070", 
+over_time(df6070_whole_sample, outcome = "hatotw", name = "graph_6070",
           filedir = "../3_output/over_time/graph_6070hatotwplot_agebypgs.png")
 over_time_discontinuity(df6070_whole_sample, outcome = "hatotw", name = "graph_6070",
           filedir = "../3_output/over_time/graph_6070hatotwrdd_agebypgs.png")
@@ -789,7 +789,7 @@ First, show the data and check for some form of "jump" at age 65
 Note: Genetic sample only
 ```{r}
 # plot to see evolution over time
-over_time(df6070_whole_sample, outcome = "jhours", name = "graph_6070", 
+over_time(df6070_whole_sample, outcome = "jhours", name = "graph_6070",
           filedir = "../3_output/over_time/graph_6070jhoursplot_agebypgs.png")
 over_time_discontinuity(df6070_whole_sample, outcome = "jhours", name = "graph_6070",
           filedir = "../3_output/over_time/graph_6070jhoursrdd_agebypgs.png")
@@ -954,11 +954,11 @@ Load partner data for smoking
 ```{r}
 randPartner <- readRDS(file.path(path,"1_data/interim/rand_partnerData.rds")) # 548,125
 randPartner <- randPartner %>% rename(smokenp = smoken,
-                                      smokevp = smokev) 
+                                      smokevp = smokev)
 dfPartner <- left_join(hrs, randPartner, by = c("hhidpn", "year", "round"))
 
 # Create main analytic sample for smoking
-df6070_100_Partner <- create_df(dfPartner, min_sample_age=60, max_sample_age=70, ptu=100, high_cutoff=0.3333, indep_var = "si_1") 
+df6070_100_Partner <- create_df(dfPartner, min_sample_age=60, max_sample_age=70, ptu=100, high_cutoff=0.3333, indep_var = "si_1")
 ```
 
 ```{r}
@@ -982,18 +982,18 @@ srhealth_6070_100$plot
 Note: health shock defined as ever had either a stroke or a heart condition
 ```{r}
 # Create future health shock
-df6070_100 <- df6070_100 %>% 
-  group_by(hhidpn) %>% 
+df6070_100 <- df6070_100 %>%
+  group_by(hhidpn) %>%
   mutate( hshock = ifelse((hearte == 1 |stroke == 1), 1, 0),
     lead_shock1 = dplyr::lead(hshock, n = 1, default = NA),
     lead_shock2 = dplyr::lead(hshock, n = 2, default = NA),
     lead_shock3 = dplyr::lead(hshock, n = 3, default = NA),
     lead_shock4 = dplyr::lead(hshock, n = 4, default = NA),
-    lead_shock5 = dplyr::lead(hshock, n = 5, default = NA)) %>% 
+    lead_shock5 = dplyr::lead(hshock, n = 5, default = NA)) %>%
   mutate(hshock_within2 = ifelse(lead_shock1 == 1 | lead_shock2 == 1, 1, 0),
          hshock_within5 = ifelse(lead_shock1 == 1 | lead_shock2 == 1|
                                   lead_shock3 == 1|  lead_shock4 == 1|
-                                   lead_shock5 == 1, 1, 0)) %>% 
+                                   lead_shock5 == 1, 1, 0)) %>%
   ungroup()
 
 
@@ -1245,9 +1245,9 @@ sh_hhinc$plot
 ```
 
 ### Former smoking behaviour
-Former smoking behaviour is divided by non-smokers, mild smokers and heavy smokers at the time of baseline or before 60 years old. 
+Former smoking behaviour is divided by non-smokers, mild smokers and heavy smokers at the time of baseline or before 60 years old.
 We define mild smoker as above the median amounth of cigarettes per day, and heavy smoker above the median amounth of cigarettes per day for those who smoke.
-RAND files do not include cigarettes per day variables, so we extract them directly for HRS data. 
+RAND files do not include cigarettes per day variables, so we extract them directly for HRS data.
 ```{r}
 # 1. Import max Cigarettes per day variables from rGSES project
 # Set the folder path
@@ -1273,26 +1273,26 @@ rm(hrs_smokeVars, check)
 # Create smoking behaviour:
 
 # 0 if not a current smoker at the time of the interview
-# otherwise, numbers of current cigaretes per day. if current cigs per day is missing we assing max cigarettes per day reported during survey time. 
-hrs_FSB <- hrs_Smoke %>% 
+# otherwise, numbers of current cigaretes per day. if current cigs per day is missing we assing max cigarettes per day reported during survey time.
+hrs_FSB <- hrs_Smoke %>%
   mutate(smokeb = ifelse(smoken == 0 , 0 ,
   ifelse(cigsAll_Current > 0 , cigsAll_Current, ifelse(is.na(cigsAll_Current) &  !is.na(maxCPDCurrent), maxCPDCurrent, NA) )))
 
 # Smoking only for 60 or under
-hrs_FSB <- hrs_FSB %>% mutate(smokeb60 = ifelse(age<= 60 , smokeb, NA)) 
+hrs_FSB <- hrs_FSB %>% mutate(smokeb60 = ifelse(age<= 60 , smokeb, NA))
 
 hrs_FSB %>% select(hhidpn, HHID, round, age,  maxCPDCurrent, maxCPDAll,
                               cigsAll_Current, cigsAmount, cigsUnit,
                               smoken, smokev, smokeb, smokeb60) %>% View()
 
-# create  smokebMax = max amount of cigarettes smoked until 60 years old.  
+# create  smokebMax = max amount of cigarettes smoked until 60 years old.
 #         smokefb = 1 if person do smokes until 60 , 0 if it doesnt smokes, NA if no                      information.
-hrs_fSmokeB <- hrs_FSB %>%  
+hrs_fSmokeB <- hrs_FSB %>%
   group_by(hhidpn) %>% #by id
   arrange(year) %>%
   mutate(smokebMax = ifelse(!all(is.na(smokeb60)), max(smokeb60, na.rm=T), NA) ) %>%   mutate(smokefb = ifelse(smokebMax > 0 , 1,
-                          ifelse(smokebMax == 0 , 0 , NA))) %>% 
-  ungroup() %>% 
+                          ifelse(smokebMax == 0 , 0 , NA))) %>%
+  ungroup() %>%
   arrange(hhidpn, round)
 
 hrs_fSmokeB %>% select(hhidpn, HHID, round, age,  maxCPDCurrent, maxCPDAll,
@@ -1303,7 +1303,7 @@ hrs_fSmokeB %>% select(hhidpn, HHID, round, age,  maxCPDCurrent, maxCPDAll,
 # Create main analytic sample for smoking including cpd variables
 df6070_100_fSmokeB <- create_df(hrs_fSmokeB, min_sample_age=60, max_sample_age=70, ptu=100, indep_var = "smokefb")
 
-# Median Cig per Day (for those bigger than 0)  
+# Median Cig per Day (for those bigger than 0)
 summarySmoke <- df6070_100_fSmokeB %>% select(smokebMax) %>% filter(smokebMax > 0) %>% summary()
 median <- as.numeric(sub('.*:', '', summarySmoke[3]))
 
@@ -1346,9 +1346,9 @@ How much the PGS predicts the other outcomes?
 
 # Import new data
 hrs_new <- readstata13::read.dta13(file.path(path,"/data/HRS/phenoclean/HRS_GxSES_analysis.dta"), generate.factors=FALSE, nonint.factors = FALSE)
-# Select only the phenotypes 
+# Select only the phenotypes
 hrs_rgses <- subset(hrs_new, select = c(
-   HHID, PN,   
+   HHID, PN,
    SESindexHigh,   # highIndex based on 0-4
    SESIndex,       # SESIndex based on 0-4
    SESfactor,      # new factor score
@@ -1398,7 +1398,7 @@ hrs_rgses <- subset(hrs_new, select = c(
    healthRating,   # Overall health rating
    stroke,         # Stroke
    wellBeingSpectrum, # Subjective Wellbeing wellBeingSpectrum
-   T1D             # Type 1 diabetes 
+   T1D             # Type 1 diabetes
   ))
 hrsAll <- merge(hrs, hrs_rgses) # 33034 obs
 
@@ -1406,7 +1406,7 @@ hrsAll <- merge(hrs, hrs_rgses) # 33034 obs
 
 ### OLS with smoke initiation PGS
 
-Create a list with Confounders and new Phenotypes for people between 60 and 70 years old. 
+Create a list with Confounders and new Phenotypes for people between 60 and 70 years old.
 ```{r}
 df6070_All <- hrsAll %>%
   filter(age >= 60, age <= 70,  !is.na(si_1)) %>%
@@ -1453,16 +1453,16 @@ df6070_consc <- subset(df6070_consc, select = c(hhidpn, round,consc_mean))
 df6070_All <- left_join(df6070_All, df6070_consc)
 
 # from rgSES
-df6070_All$cancerBreast <- as.numeric(df6070_All$cancerBreast) 
+df6070_All$cancerBreast <- as.numeric(df6070_All$cancerBreast)
 df6070_All$cancerBreast[df6070_All$cancerBreast == 1] <- 0
 df6070_All$cancerBreast[df6070_All$cancerBreast == 2] <- 1
 
-df6070_All$cancerProstate <- as.numeric(df6070_All$cancerProstate) 
+df6070_All$cancerProstate <- as.numeric(df6070_All$cancerProstate)
 df6070_All$cancerProstate[df6070_All$cancerProstate == 1] <- 0
 df6070_All$cancerProstate[df6070_All$cancerProstate == 2] <- 1
 
-df6070_All$worryFeeling <- as.numeric(df6070_All$worryFeeling) 
-# Standardize Total Cholesterol 
+df6070_All$worryFeeling <- as.numeric(df6070_All$worryFeeling)
+# Standardize Total Cholesterol
 df6070_All$totChol <-as.numeric(df6070_All$totChol)
 df6070_All$totChol <- scale(df6070_All$totChol)
 ```
@@ -1484,7 +1484,7 @@ traits_Confounders            <- c(
             "Conscientiousness",
             "Years of education")
 
-traits_HRS            <- c(       
+traits_HRS            <- c(
             "Height" ,
             "Severe Obesity" ,
             "Physical activity" ,
@@ -1512,11 +1512,11 @@ traits_HRS            <- c(
             "Smoke Cessation",
             "Age start smoke",
             "Breast Cancer",
-            "Prostate Cancer",          
+            "Prostate Cancer",
             "Alzheimer",               # Alzheimers Disease
             "Asthma",                  # Asthma
             "Lack of perseverance",    # Lack of perseverance
-            "Cancer" ,                 # Cancer (diagnosed by a doctor) 
+            "Cancer" ,                 # Cancer (diagnosed by a doctor)
             "Cataract" ,               # Cataracts
             "Coronary Artery Disease (CAD)" , # Coronary Artery Disease (CAD)
             "Hearing difficulty",       # Hearing difficulty/problems
@@ -1530,7 +1530,7 @@ traits_HRS            <- c(
             "Stroke" ,              # Stroke
             "Well-Being Spectrum",  # Subjective Wellbeing wellBeingSpectrum
             "Diabetes Type I")  # Type i diabetes mellitus // HRS makes no diference btw Type 1 or 2
-                       
+
 traits <- c(traits_HRS, traits_Confounders)
 
 varnames_HRS <- c(
@@ -1604,32 +1604,32 @@ df6070_All <- df6070_All %>%  mutate(age2 = age^2)
 df6070_All <- df6070_All %>%  mutate(age3 = (age^3)/100)
 # Get the PCs
 controls <- c("PC1_5A","PC1_5B","PC1_5C","PC1_5D",
-              "PC1_5E", "PC6_10A", "PC6_10B", 
-              "PC6_10C","PC6_10D","PC6_10E",	
+              "PC1_5E", "PC6_10A", "PC6_10B",
+              "PC6_10C","PC6_10D","PC6_10E",
               "age","age2", "age3")
 # Matrix
      D = matrix(nrow=length(traits), ncol=7)
      dimnames(D) = list(traits, c("b", "se", "lci95", "hci95","lci90","hci90", "n"))
- 
+
 for(i in 1:length(traits)){
     # i <- 27
     control1 <- c( pgs , controls)
     x <- paste(varnames[i], " ~ "  ,paste(control1, collapse=" + "), sep = "")
-    
+
     lm_smokeInit       <- lm(x ,  data = df6070_All)
     ci90 <- confint(lm_smokeInit, level = 0.90)
     ci95 <- confint(lm_smokeInit, level = 0.95)
-  
+
     # Populate Matrix
-      D[i,1] <- coef(summary(lm_smokeInit))[pgs, "Estimate"] 
-      D[i,2] <- coef(summary(lm_smokeInit))[pgs, "Std. Error"] 
+      D[i,1] <- coef(summary(lm_smokeInit))[pgs, "Estimate"]
+      D[i,2] <- coef(summary(lm_smokeInit))[pgs, "Std. Error"]
       D[i,3] <- confint(lm_smokeInit, level = 0.95)[pgs, "2.5 %"]
       D[i,4] <- confint(lm_smokeInit, level = 0.95)[pgs, "97.5 %"]
       D[i,5] <- confint(lm_smokeInit, level = 0.90)[pgs, "5 %"]
       D[i,6] <- confint(lm_smokeInit, level = 0.90)[pgs, "95 %"]
-    
+
       D[i, 7] <- nobs(lm_smokeInit) }
-     
+
     pgsPrediction <- data.frame(variables = row.names(D), D)
     #pgsPrediction
 D
@@ -1649,9 +1649,9 @@ lposition <- "none"
 aixs_option <- element_text(size = 15)
 frontsize <- 15
     plotA <<- ggplot(data=pgsPrediction, aes()) + #xlim(-0.9, 0.9) +
-      ################# 
+      #################
     geom_point( aes(x= b, y=reorder( variables, -b), color="red"),
-               size=2, shape = 18, position = position_nudge(y = 0)) +        
+               size=2, shape = 18, position = position_nudge(y = 0)) +
       geom_errorbarh( aes(xmin= lci95, xmax= hci95, y=variables, color="red"),
                    height=0, size=0.5, position = position_nudge(y = 0)) +
       geom_errorbarh( aes(xmin= lci90, xmax= hci90, y=variables, color="red"),
@@ -1667,16 +1667,16 @@ frontsize <- 15
             panel.border     = element_blank(),
             panel.grid.major = element_blank(),
             panel.grid.minor = element_blank(),
-            plot.title = element_text(hjust = 0.5), 
+            plot.title = element_text(hjust = 0.5),
             legend.position = lposition,
-            legend.text = element_text( size= frontsize) 
+            legend.text = element_text( size= frontsize)
             ) +
       geom_vline(xintercept=0, color = "grey", size=0.5, linetype="dashed") +
       labs(caption = " ")
-    
+
     plotA
 
-    # Save the plot 
+    # Save the plot
     ggsave(paste0("../3_output/make_histograms/", "PGSprediction.png"),
        plot = plotA, width = 10, height = 20)
 ```
@@ -1814,24 +1814,24 @@ sh_cpdPGS$plot
 ```
 
 
-# Median split smoke initiation PGS 
-## Create analytic sample for the median 
+# Median split smoke initiation PGS
+## Create analytic sample for the median
 ```{r}
 # Create main analytic sample for smoking
-df6070_100median <- create_df_median(hrs, min_sample_age=60, max_sample_age=70, ptu=100, indep_var = "si_1") 
+df6070_100median <- create_df_median(hrs, min_sample_age=60, max_sample_age=70, ptu=100, indep_var = "si_1")
 
 # Create main dataset + individuals with reported shock at ages 65/66
-df6070_6566 <- create_df(hrs, 60, 70, 100, drop_6566_cv = FALSE, indep_var = "si_1") 
+df6070_6566 <- create_df(hrs, 60, 70, 100, drop_6566_cv = FALSE, indep_var = "si_1")
 
 # Create HRS sample with only restriction: age between 60 and 70 and needs a value for smoken and PGS for smoking by the median
 df6070_whole_sample_median <- hrs %>%
   filter(age >= 60, age <= 70, !is.na(smoken), !is.na(si_1)) %>%
-  mutate(high_pgs = ifelse(si_1 > median(si_1,  na.rm = TRUE), 1, 0)) 
+  mutate(high_pgs = ifelse(si_1 > median(si_1,  na.rm = TRUE), 1, 0))
 
 ```
 
 ## Median tab:reg_results --- Coefficients from Estimating the Linear Probability Model in Equation (2) Using OLS
-This is the main OLS regressions. Coefficients are hard to interpret, so they are broken down in the following chunk. 
+This is the main OLS regressions. Coefficients are hard to interpret, so they are broken down in the following chunk.
 ```{r}
 r_gen_dum_cv_6070_100median <- reg_hipgs(df6070_100median, outcome="smoken", shock_var="cv", name = "6070_100_cv")
 coeftest(r_gen_dum_cv_6070_100median, vcov. = vcovHC(r_gen_dum_cv_6070_100median, cluster = "group"))
@@ -2022,8 +2022,8 @@ add.to.row = addtorow, file="../3_output/OLSresults/median_results.tex", floatin
 sh_6070_100median$plot
 ```
 
-# Placebo test 
-We replicate main analysis for people in between 50 to 60 years old and create a placebo shock at age 55. 
+# Placebo test
+We replicate main analysis for people in between 50 to 60 years old and create a placebo shock at age 55.
 ```{r}
 df5060_100 <- create_df_age(hrs, min_sample_age=50, max_sample_age=60, ptu=100, high_cutoff=0.3333, indep_var = "si_1", shockage = 55) #22,356
 
@@ -2211,7 +2211,7 @@ newreg <- lm(smoken ~ cv +
      +        high_pgs:cv:post65 +
      +        high_pgs:post65:unins +
      +        cv:post65:unins:high_pgs +
-     +        agem + agem2 + agem3, data = df5060_100  ) 
+     +        agem + agem2 + agem3, data = df5060_100  )
 sumreg <- summary(newreg)
 esample <- newreg$model
 nHighPost <- esample %>% filter(cv == 1 & post65 == 1 & high_pgs == 1) %>% count()
@@ -2328,11 +2328,11 @@ Create dataframes and calculate effects:
 df6070_33 <- create_df(hrs, 60, 70, (100/3), indep = "si_1" )
 df6070_66 <- create_df(hrs, 60, 70, (200/3), indep = "si_1")
 
-f_identifier <- paste0("../3_output/shock_effects/","robustness_607033_cvplot")
+f_identifier <- paste0("../3_output/shock_effects/","robustness_607033_cv")
 r_6070_33 <- reg_hipgs(df6070_33, outcome = "smoken", shock_var = "cv", name = f_identifier)
 sh_6070_33 <- shock_effects(r_6070_33, name = f_identifier)
 
-f_identifier <- paste0("../3_output/shock_effects/","robustness_607066_cvplot")
+f_identifier <- paste0("../3_output/shock_effects/","robustness_607066_cv")
 r_6070_66 <- reg_hipgs(df6070_66, outcome = "smoken", shock_var = "cv", name = f_identifier)
 sh_6070_66 <- shock_effects(r_6070_66, name = f_identifier)
 ```
@@ -2375,7 +2375,7 @@ Create dataframes and calculate effects:
 df6070_100_25p <- df6070_100 %>%
   mutate(high_pgs = ifelse(si_1 > quantile(si_1, 0.25), 1, 0))
 
-f_identifier <- paste0("../3_output/shock_effects/robustness_6070__25pt_cvplot")
+f_identifier <- paste0("../3_output/shock_effects/robustness_6070_25pt_cv")
 r_6070_100_25p <- reg_hipgs(df6070_100_25p, outcome = "smoken", shock_var = "cv", name = f_identifier)
 sh_6070_100_25p <- shock_effects(r_6070_100_25p, name = f_identifier)
 
@@ -2384,7 +2384,7 @@ sh_6070_100_25p <- shock_effects(r_6070_100_25p, name = f_identifier)
 df6070_100_50p <- df6070_100 %>%
   mutate(high_pgs = ifelse(si_1 > quantile(si_1, 0.50), 1, 0))
 
-f_identifier <- paste0("../3_output/shock_effects/robustness_6070__50pt_cvplot")
+f_identifier <- paste0("../3_output/shock_effects/robustness_6070_50pt_cv")
 r_6070_100_50p <- reg_hipgs(df6070_100_50p, outcome = "smoken", shock_var = "cv", name = f_identifier)
 sh_6070_100_50p <- shock_effects(r_6070_100_50p, name = f_identifier, nb = 14)
 
@@ -2393,7 +2393,7 @@ sh_6070_100_50p <- shock_effects(r_6070_100_50p, name = f_identifier, nb = 14)
 df6070_100_75p <- df6070_100 %>%
   mutate(high_pgs = ifelse(si_1 > quantile(si_1, 0.75), 1, 0))
 
-f_identifier <- paste0("../3_output/shock_effects/robustness_6070__75pt_cvplot")
+f_identifier <- paste0("../3_output/shock_effects/robustness_6070_75pt_cv")
 r_6070_100_75p <- reg_hipgs(df6070_100_75p, outcome = "smoken", shock_var = "cv", name = f_identifier)
 sh_6070_100_75p <- shock_effects(r_6070_100_75p,name = f_identifier)
 ```
@@ -2442,7 +2442,7 @@ df6070_100_oldpgs <- df6070_100 %>%
   filter(!is.na(EA_PGS2_EvrSmk_TAG10)) %>%
   mutate(high_pgs = ifelse(EA_PGS2_EvrSmk_TAG10 > quantile(EA_PGS2_EvrSmk_TAG10, 0.50), 1, 0))
 
-f_identifier <- paste0("../3_output/shock_effects/robustness_6070__oldpgs_cvplot")
+f_identifier <- paste0("../3_output/shock_effects/robustness_6070_oldpgs_cv")
 r_6070_100_oldpgs <- reg_hipgs(df6070_100_oldpgs, outcome = "smoken", shock_var = "cv", name = f_identifier)
 sh_6070_100_oldpgs <- shock_effects(r_6070_100_oldpgs, name = f_identifier)
 
@@ -2474,7 +2474,7 @@ df6070_100_3oldpgs <- df6070_100 %>%
          mid_pgs = ifelse(EA_PGS2_EvrSmk_TAG10 >= quantile(EA_PGS2_EvrSmk_TAG10, (1/3)) & EA_PGS2_EvrSmk_TAG10 <= quantile(EA_PGS2_EvrSmk_TAG10, (2/3)), 1, 0),
          low_pgs = ifelse(EA_PGS2_EvrSmk_TAG10 < quantile(EA_PGS2_EvrSmk_TAG10, (1/3)), 1, 0))
 
-f_identifier <- paste0("../3_output/shock_effects/robustness_6070__3oldpgs_cvplot")
+f_identifier <- paste0("../3_output/shock_effects/robustness_6070_3oldpgs_cv")
 r_6070_100_3oldpgs <- reg_hipgs(df6070_100_3oldpgs, outcome = "smoken", shock_var = "cv", PGS3 = TRUE, name = f_identifier)
 sh_6070_100_3oldpgs <- shock_effects(r_6070_100_3oldpgs, name = f_identifier, x_achsis = c("Low PGS", "Middle PGS", "High PGS"), PGS3 = TRUE)
 ```
@@ -2508,7 +2508,7 @@ df6070_100_3pgs <- df6070_100 %>%
          mid_pgs = ifelse(si_1 >= quantile(si_1, (1/3)) & si_1 <= quantile(si_1, (2/3)), 1, 0),
          low_pgs = ifelse(si_1 < quantile(si_1, (1/3)), 1, 0))
 
-f_identifier <- paste0("../3_output/shock_effects/robustness_6070__3pgs_cvplot")
+f_identifier <- paste0("../3_output/shock_effects/robustness_6070_3pgs_cv")
 r_6070_100_3pgs <- reg_hipgs(df6070_100_3pgs, outcome = "smoken", shock_var = "cv", PGS3 = TRUE, name = f_identifier)
 sh_6070_100_3pgs <- shock_effects(r_6070_100_3pgs, name = f_identifier, x_achsis = c("Low PGS", "Middle PGS", "High PGS"), PGS3 = TRUE)
 ```
@@ -2541,49 +2541,49 @@ Create dataframes and calculate effects
 ```{r}
 #59-71
 df5971_100 <- create_df(hrs, 59, 71, 100, indep = "si_1")
-f_identifier <- paste0("../3_output/shock_effects/robustness_5971_100_cvplot")
+f_identifier <- paste0("../3_output/shock_effects/robustness_5971_100_cv")
 r_5971_100 <- reg_hipgs(df5971_100, outcome = "smoken", shock_var = "cv", name = f_identifier)
 sh_5971_100 <- shock_effects(r_5971_100,name = f_identifier)
 
 #58-72
 df5872_100 <- create_df(hrs, 58, 72, 100, indep = "si_1")
-f_identifier <- paste0("../3_output/shock_effects/robustness_5872_100_cvplot")
+f_identifier <- paste0("../3_output/shock_effects/robustness_5872_100_cv")
 r_5872_100 <- reg_hipgs(df5872_100, outcome = "smoken", shock_var = "cv", name = f_identifier)
 sh_5872_100 <- shock_effects(r_5872_100,name = f_identifier)
 
 #57-73
 df5773_100 <- create_df(hrs, 57, 73, 100, indep = "si_1")
-f_identifier <- paste0("../3_output/shock_effects/robustness_5773_100_cvplot")
+f_identifier <- paste0("../3_output/shock_effects/robustness_5773_100_cv")
 r_5773_100 <- reg_hipgs(df5773_100, outcome = "smoken", shock_var = "cv", name = f_identifier)
 sh_5773_100 <- shock_effects(r_5773_100,name = f_identifier)
 
 #55-70
 df5570_100 <- create_df(hrs, 55, 70, 100, indep = "si_1")
-f_identifier <- paste0("../3_output/shock_effects/robustness_5570_100_cvplot")
+f_identifier <- paste0("../3_output/shock_effects/robustness_5570_100_cv")
 r_5570_100 <- reg_hipgs(df5570_100, outcome = "smoken", shock_var = "cv", name = f_identifier)
 sh_5570_100 <- shock_effects(r_5570_100,name = f_identifier)
 
 #60-75
 df6075_100 <- create_df(hrs, 60, 75, 100, indep = "si_1")
-f_identifier <- paste0("../3_output/shock_effects/robustness_6075_100_cvplot")
+f_identifier <- paste0("../3_output/shock_effects/robustness_6075_100_cv")
 r_6075_100 <- reg_hipgs(df6075_100, outcome = "smoken", shock_var = "cv", name = f_identifier)
 sh_6075_100 <- shock_effects(r_6075_100,name = f_identifier)
 
 #55-75
 df5575_100 <- create_df(hrs, 55, 75, 100, indep = "si_1")
-f_identifier <- paste0("../3_output/shock_effects/robustness_5575_100_cvplot")
+f_identifier <- paste0("../3_output/shock_effects/robustness_5575_100_cv")
 r_5575_100 <- reg_hipgs(df5575_100, outcome = "smoken", shock_var = "cv", name = f_identifier)
 sh_5575_100 <- shock_effects(r_5575_100,name = f_identifier)
 
 #56-74
 df5674_100 <- create_df(hrs, 56, 74, 100, indep = "si_1")
-f_identifier <- paste0("../3_output/shock_effects/robustness_5674_100_cvplot")
+f_identifier <- paste0("../3_output/shock_effects/robustness_5674_100_cv")
 r_5674_100 <- reg_hipgs(df5674_100, outcome = "smoken", shock_var = "cv", name = f_identifier)
 sh_5674_100 <- shock_effects(r_5674_100,name = f_identifier)
 
 #50-70
 df5070_100 <- create_df(hrs, 50, 70, 100, indep = "si_1")
-f_identifier <- paste0("../3_output/shock_effects/robustness_5070_100_cvplot")
+f_identifier <- paste0("../3_output/shock_effects/robustness_5070_100_cv")
 r_5070_100 <- reg_hipgs(df5070_100, outcome = "smoken", shock_var = "cv", name = f_identifier)
 sh_5070_100 <- shock_effects(r_5070_100,name = f_identifier)
 
@@ -2636,7 +2636,7 @@ sh_5070_100$plot
 Robustness Including Individuals Reporting a Health Shock when Aged 65 or 66 in the Analytic Sample
 **Note:** Table layout in the Supplement may differ.
 ```{r, rows.print=25}
-f_identifier <- paste0("../3_output/shock_effects/robustness_6070_6566_cvplot")
+f_identifier <- paste0("../3_output/shock_effects/robustness_6070_6566_cv")
 r_6070_100_6566 <- reg_hipgs(df6070_6566, outcome = "smoken", shock_var = "cv", name = f_identifier)
 sh_6070_100_6566 <- shock_effects(r_6070_100_6566,name = f_identifier)
 
@@ -2665,7 +2665,7 @@ Robustness Using Medicare Enrollment Status Instead of Medicare Eligibility Stat
 CAUTION: post65 now stands for actual medicare coverage
 
 ```{r, rows.print=25}
-f_identifier <- paste0("../3_output/shock_effects/robustness_6070_100_medicareplot")
+f_identifier <- paste0("../3_output/shock_effects/robustness_6070_100_medicare")
 r_medicare_6070_100 <- reg_hipgs(df6070_100 %>% mutate(post65 = govmr), outcome = "smoken", shock_var = "cv", name = f_identifier)
 sh_medicare_6070_100 <- shock_effects(r_medicare_6070_100,name = f_identifier)
 
