@@ -1,0 +1,71 @@
+#Do not keep track of the files that track changes
+*~
+
+# Mac or Windows or Dropbox useless files
+*.DS_Store*
+*.sync.*
+.dropbox
+desktop.ini
+
+# Output files (also latex)
+*.out
+
+#Do not keep track of STATA or R files, datasets, log files
+#*.log
+*.smcl
+*.dta
+*.csv
+*.gph
+
+*.rds
+*.Rda
+*.RData
+*.Rhistory
+*.Rapp*
+
+# Keep track of only png figures or graphs
+#*.png
+*.jpg
+*.eps
+
+#Do not keep track of the changes in microsoft word or excel files (they are binary files)
+*.xls
+*.xlsx
+*.doc
+*.docx
+
+#Ignore zipped files
+*.zip
+*.tar
+*.gz
+
+#Ignore latex-project files
+*.aux
+*.glo
+*.idx
+*.log
+*.toc
+*.ist
+*.acn
+*.acr
+*.alg
+*.bbl
+*.blg
+*.dvi
+*.glg
+*.gls
+*.ilg
+*.ind
+*.lof
+*.lot
+*.maf
+*.mtc
+*.mtc1
+*.synctex.gz
+*.nav
+*.snm
+*.tdo
+*.bak
+
+#Ignore useless R files
+*.Rhistory
