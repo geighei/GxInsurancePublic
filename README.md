@@ -16,8 +16,10 @@ This repository contains the latest version of all code necessary to implement t
 4. 01_2_PGS_merge
 5. 01_3_consc_merge
 6. 01_3_create_indicators
+01_3_partnerSmoking
 7. 02_0_functions
 8. 02_1_analysis
+9. HRS_LB
 
 ### 3_output
 
