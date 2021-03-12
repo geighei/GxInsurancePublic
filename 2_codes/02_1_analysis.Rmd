@@ -52,7 +52,8 @@ library(dplyr)
 ```{r}
 # Load data
 #Set path to data
-path <- "C:/Users/parce/Desktop/GeiGhei/GxInsurance/"
+path <- "T:/econ/biroli/geighei/code/GxInsurance/"
+#path <- "C:/Users/parce/Desktop/GeiGhei/GxInsurance/"
 hrs <- readRDS(file.path(path,"1_data/processed/hrs_final2.rds")) # 548,125
 
 # Create main analytic sample for smoking
@@ -2022,8 +2023,8 @@ add.to.row = addtorow, file="../3_output/OLSresults/median_results.tex", floatin
 sh_6070_100median$plot
 ```
 
-# Placebo test
-We replicate main analysis for people in between 50 to 60 years old and create a placebo shock at age 55.
+# Falsification test (placebo)
+We replicate main analysis for people in between 50 to 60 years old and create a "placebo" shock at age 55.
 ```{r}
 df5060_100 <- create_df_age(hrs, min_sample_age=50, max_sample_age=60, ptu=100, high_cutoff=0.3333, indep_var = "si_1", shockage = 55) #22,356
 
@@ -2246,7 +2247,7 @@ obs_matrix
 ## tab:main_effects - Summary of Statistical Results for the Pre-55 Uninsured Subgroup, Stratified by Timing of the Shock and Genetic Group
 ```{r, rows.print=25}
 
-sh_5060_100 <- shock_effects(r_gen_dum_cv_5060_100, name = "../3_output/shock_effects/main_5060_100_cv", label1 = "Pre-55", label2 = "Post-55")
+sh_5060_100 <- shock_effects(r_gen_dum_cv_5060_100, name = "../3_output/shock_effects/placebo_5060_100_cv", label1 = "Pre-55", label2 = "Post-55")
 tablePlacebo <- sh_5060_100$overview_table
 
 tablePlacebo[3,1] <- "Pre 55"

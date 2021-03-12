@@ -582,6 +582,57 @@ The derivation of these effects is described in Appendix Section \ref{appsec:der
 \subsection{Robustness Checks}
 \label{supsec:robustness}
 
+\subsubsection{Falsification Test} \label{appsec:placebo}
+Table \ref{tab:placebo_effects} reports the summary results of the falsification test. 
+We run the same analysis but focusing on the age range from 50 to 60, and estimating the effect of suffering a shock after the age of 55.
+Since there should be nothing special about age 55, at least in terms of health insurance, we do not expect any result and consider this to be a falsification or ``placebo'' test of our approach. 
+
+
+Table \ref{tab:placebo_results_multi} reports the all of the coefficients estimated in the main regression of the falsification test.
+
+%%\captionsetup{width = 9cm}
+\begin{table*}[!ht]
+	\caption{Summary of Statistical Results for the Pre-65 Uninsured Subgroup, Stratified by Timing of the Shock and Genetic Group}
+	\label{tab:placebo_effects}
+	%\resizebox{7.5cm}{!}{
+	\input{../3_output/OLSresults/placebo_results.tex}
+		\begin{flushleft}
+			Low PGS = lowest tertile of the polygenic score distribution; high PGS = upper two tertiles of the polygenic score distribution.
+			Pre-55: Health shock since the last survey reported at ages 50-54.
+			Post-55: Health shock since the last survey reported at ages 57-60.
+			$^{*}$P $<$ 0.1; $^{**}$P $<$ 0.05; $^{***}$P $<$ 0.01. Robust standard errors in parentheses are clustered at the individual level.
+			%The covariance matrix used for calculating standard errors is shown in Appendix Table \ref{suptab:cov_matrix}.
+			Effects are estimated using the coefficients in the last column of Table \ref{tab:placebo_results_multi} and following the derivation described in \ref{appsec:derivation}.\\
+			\textit{Data used}: HRS study sample.
+			%Composition of all effects is shown in Tables \ref{suptab:main_explained}, \ref{suptab:main_explained2}, and \ref{suptab:main_explained3} in the Supplement.
+		\end{flushleft}
+	%\headrule
+\end{table*}
+
+
+%\captionsetup{width = 9cm}
+\begin{table}[!ht] \centering
+	\caption{Coefficients from estimating the linear probability model in equation (\ref{eq:regression}) using OLS\vspace{-0.4cm}}
+	\addtolength{\tabcolsep}{-7pt}
+	\label{tab:placebo_results_multi}
+	\resizebox{0.55\textheight}{!}{
+	\input{../3_output/OLSresults/reg_results_multi_checkmarks_Placebo.tex}
+	} %end of resizebox
+	\begin{flushleft}
+	\textit{Notes:}
+	Health shock = binary indicator for having suffered a cardiovascular health shock for the first time since the previous wave.
+	Post-55 = indicator for age $> 65$ at the time of the interview.
+	Uninsured = binary indicator for being persistently uninsured in every observation of the study sample before the age of 55.
+	High PGS = indicator for being in the upper two tertiles of the polygenic score distribution.
+    Age = controls for 3$^{rd}$ degree polynomial in age.
+    FE = adding fixed effects.
+	Robust standard errors in parentheses are clustered at the individual level.
+	$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01.
+	\\ \textit{Data used}: HRS study sample.
+	\end{flushleft}
+\end{table}
+
+
 \subsubsection{Using all tertiles} \label{appsec:3pgs}
 
 In this section, we derive the results using all of the three tertiles of the PGS distribution, as derived in Appendix Section \ref{appsec:3pgs}.

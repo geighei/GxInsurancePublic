@@ -543,6 +543,36 @@ This result is therefore consistent with genetic heterogeneity in moral hazard.
 
 \subsection{Other Interpretations}\label{sec:interpret}
 
+\paragraph{Falsification Test: age 50 to 60}
+To dispel doubts that our results are spurious or driven by unusual variation in the treatment or outcome variables, we run the same analysis but focusing on the age range from 50 to 60, and estimating the effect of suffering a shock after the age of 55.
+Since there should be nothing special about age 55, at least in terms of health insurance, we do not expect any result and consider this to be a falsification or ``placebo'' test of our approach. 
+
+Figure \ref{fig:placebo} indeed show no average or differential effect of suffering a health shock after the age of 55.
+Appendix Table \ref{tab:placebo_results_multi} shows that the most sizable coefficient is the one of the shock itself, associated with a reduction in the probability of smoking by about 8 percentage points.
+
+%\captionsetup{width = \columnwidth}
+\begin{figure}[!ht]
+	\begin{center}
+		\includegraphics[width=0.4\textwidth]{../3_output/shock_effects/placebo_5060_100_cv.png}
+		\caption{Falsification test, age 50 to 60
+		\label{fig:placebo}
+		}
+	\vspace{-0.8cm}
+	\floatfoot{
+	\textsf{
+	\textit{Notes:} Low PGS = lowest tertile of the polygenic score distribution; high PGS = upper two tertiles of the polygenic score distribution.
+	Pre-55: Health shock since the last survey reported at ages 50-54.
+	Post-55: Health shock since the last survey reported at ages 57-60.
+	Effects are estimated using the coefficients in the last column of Table \ref{tab:placebo_results_multi} and following the derivation described in \ref{appsec:derivation}.
+	Bars show 95\% confidence intervals, standard error clustered at the individual level.
+	\\ \textit{Data used}: HRS study sample.
+	%Composition of all effects is shown in Tables \ref{suptab:main_explained}, \ref{suptab:main_explained2}, and \ref{suptab:main_explained3} in the Supplement.
+	} %end of textsf
+	} %end of floatfoot
+	\end{center}
+\end{figure}
+
+
 \paragraph{Is it really Medicare?}
 Other factors besides eligibility to Medicare may be at play around the age of 65, the most prominent being retirement.
 Such factors might affect smoking behavior after health shocks and change the interpretation of our coefficient.
