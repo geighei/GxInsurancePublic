@@ -20,14 +20,6 @@
 % load packages with special options -----------------------------------------
 % Adding Letters and symbols to the numbering of Figures: used in the appendix (by Laura)
 \usepackage{caption}
-\newcommand{\specialformattingstuffC}{ C.} % or use \textasteriskcentered
-\newcommand{\specialformattingstuffD}{ D.} % or use \textasteriskcentered
-\newcommand{\specialformattingstuffE}{ E.} % or use \textasteriskcentered
-\let\origthefigure\thefigure
-\DeclareCaptionFormat{cancaption}{#1#2#3\par} % Normal format actually
-\DeclareCaptionLabelFormat{cancaptionlabelC}{#1 \specialformattingstuffC#2}
-\DeclareCaptionLabelFormat{cancaptionlabelD}{#1 \specialformattingstuffD#2}
-\DeclareCaptionLabelFormat{cancaptionlabelE}{#1 \specialformattingstuffE#2}
 
 \newtheorem{result}{Result}\newtheorem{lemma}{Lemma}\newtheorem{proposition}{Proposition}
 
@@ -46,10 +38,6 @@
 \usepackage[capposition=top, font=sf, capbesideposition=outside,capbesidesep=quad]{floatrow}
 \usepackage{adjustbox}
 
-
-% symbol in the tables
-\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
-
 % make sure hyperref package is loaded last
 \usepackage[colorlinks=true,linkcolor=blue,urlcolor=blue,anchorcolor=blue,citecolor=blue]{hyperref}
 
@@ -58,19 +46,13 @@
 
 \title{
 Moral Hazard Heterogeneity: \\ Genes and Health Insurance Influence Smoking after a Health Shock
-%Individual Variations in Moral Hazard:
-%Genes and Health Insurance Influence Smoking after a Health Shock
-% How Genes and Insurance Status Affect Smoking Decisions after Health Shocks
-%
-%Genetics and Moral Hazard: health shock when uninsured
 }
 
 \author{
 Pietro Biroli \thanks{University of Zurich and UBS Center. Corresponding author. {Email: pietro.biroli@uzh.ch}}
 \and
-Laura Zwyssig \thanks{
-University of Zurich. {Email: laura.zwyssig@uzh.ch}}
-}
+Laura Zwyssig \thanks{University of Zurich. Email: laura.zwyssig@uzh.ch}
+} %end author
 
 \date{
 \today \thanks{
@@ -93,10 +75,8 @@ all of the members of GEIGHEI team, and the various seminar participants for use
 Regina Seibel, Pia Arce, Jeremy Vollen, and Alex Thannhuber are the brave and fierce programmers whose research assistantship brought this project to a new level.
 All remaining errors are probably Pietro's fault.
 All the code necessary to replicate the results can be found on \url{http://github.com/geighei/GxInsurancePublic}
-We gratefully acknowledge financial support from NORFACE DIAL (Grant Reference 462-16-100).
+We gratefully acknowledge financial support from NORFACE DIAL (Grant Reference 462-16-100) and the National Institute On Aging of the National Institutes of Health (R56AG058726).
 } %end of thanks
-%\\
-%\href{https://drive.google.com/file/d/1h_Cc_7cc89B4ZMFreb_BR199n78Bk2wo/view?usp=sharing}{Most recent draft here}
 } % end of date
 
 \maketitle
@@ -140,17 +120,18 @@ Unlike preferences and beliefs, heterogeneity in moral hazard has been proposed 
 Leveraging information on genetic variants associated with smoking behavior, we provide a novel approach to measuring heterogeneity in moral hazard.
 
 %Contribution
-To measure heterogeneity in moral hazard, we estimate how individuals carrying different genetic variants differentially change their smoking behavior following a cardio-vascular health shock when they are not covered by health insurance.
+To measure heterogeneity in moral hazard, we estimate how individuals carrying certain genetic variants differentially change their smoking behavior following a cardio-vascular health shock when they are not covered by health insurance.
 Combining the genetic and moral hazard factors shaping health behaviors, we contribute to the burgeoning literature studying gene-environment interactions \citep{Caspi2002,Fletcher2012,Barcellos2018,Belsky2018mobility,Schmitz2017,Schmitz2017vietnam,Wedow2018,Papageorge2020}. %Murcray2009,Young2016
 Specifically, this study is the first to show how genetic risk and insurance coverage jointly influence individual choices of health behavior.
-We show that moral hazard stemming from health insurance (financial risk) interacts with the genetic predisposition for smoking (Sgenetic risk) in determining the probability of smoking cessation following a health shock.
+We show that moral hazard stemming from health insurance (financial risk) interacts with the genetic predisposition for smoking (genetic risk) in influencing the probability of smoking cessation following a health shock.
 Using data from the Health and Retirement Study (HRS), a longitudinal population-based study of elderly Americans, we estimated how experiencing a health shock between survey waves affected the smoking probability of individuals with different coverage levels and genetic predispositions for smoking.
 
 %Identification
 To cleanly identify this interplay between genes and the environment, we leverage a key feature of the US health insurance system: Medicare, which provides public health insurance to all US citizens older than 65.
 Before the introduction of the Affordable Care Act \citep{Obama2016}, a significant fraction of the population younger than 65 was still uninsured \citep{Cohen2009,Barnett2016}.
-Exploiting the differential timing of health shocks before or after the Medicare-eligibility age of 65 for previously uninsured individuals, we estimate that Medicare eligibility reduced smoking cessation rates after a health shock by 25.6 percentage points, but only for those individuals with a low index of genetic propensity to smoking.
+Exploiting the differential timing of health shocks before or after the Medicare-eligibility age of 65 for previously uninsured individuals, we estimate that Medicare eligibility reduced smoking cessation rates after a health shock by 25.6 percentage points, but \textit{only} for those individuals with a low index of genetic propensity to smoking.
 Comparing this effect between individuals with a high versus a low index of genetic predisposition for smoking allows for an assessment of how the moral hazard problem found in previous research interacts with genetic risk.
+Our results suggests that genetic makeup can be a constraint and limit the response to financial incentives for behavior change.
 
 %Cost of smoking
 We focus on smoking behavior because chronic diseases and health care costs caused by tobacco use are estimated to be one of the biggest health challenges in industrialized countries, and have rapidly increased in importance in the developing world \citep{USDHHS2014,Goodchild2018}.
@@ -159,8 +140,8 @@ Both the health burden from smoking-related illness as well as the economic burd
 
 %Smoking cessation and moral hazard
 Smoking cessation, like many other health behaviors, is influenced both by environmental and genetic factors.
-One environmental factor that has been associated with a reduction in tobacco consumption is health insurance coverage \citep{Dave2009,Richards2014,Marti2017}, especially after experiencing a severe smoking-related health shock, like the onset of a cardiovascular illness \citep{Clark2002,Falba2005,Khwaja2006learn,Keenan2009,Sundmacher2012}.
-%The extent to which smoking behavior is improved after a health shock depends, among other things, on the financial cost the individual is faced with after the shock \citep{Richards2014,Marti2017}
+One environmental factor that has been associated with a reduction in tobacco consumption is health insurance coverage \citep{Dave2009,Richards2014,Marti2017}, especially after experiencing a severe smoking-related health shock, like the onset of a cardiovascular illness \citep{Wray1998,Clark2002,Falba2005,Khwaja2006learn,Keenan2009,Sundmacher2012}.
+A driving mechanisms for this reduction in smoking might be financial costs associated with health shocks \citep{Richards2014,Marti2017}, and not only health considerations \citep{Smith2001,Clark2002,Khwaja2006spouse,Khwaja2006learn}.
 Alleviating the financial burden of health care costs, health insurance can have the unintended side effect of preventing beneficial behavior changes that would have taken place if the individuals were fully responsible for the financial consequences of poor health \citep{Marti2017}.
 This adverse incentive created by health insurance is a typical example of ``moral hazard'': the notion that individuals change their behavior in an undesired way because the consequences of their actions are not (fully) borne by themselves \citep{Einav2018,Zweifel2000}.
 
@@ -198,19 +179,22 @@ Indices of genetic predisposition to health behaviors provide readily available 
 \subsection{Study Sample}\label{sec:sample}
 
 The HRS is a nationally representative longitudinal household survey initiated in 1992 among US citizens aged 50 and older, followed for 12 biannual waves over 22 years, containing detailed medical, economic, social, psychological, and genetic information about the respondents \citep{Sonnega2014cohort}.%
-\footnote{Response rates vary between 80\% and 90\% \citep{HRSResponseRate}. Every 6 years, a new 6-year birth cohort of participants is enrolled \citep{HRS21stCentury}. It is sponsored by the National Institute on Aging (grant number NIA U01AG009740) and is conducted by the University of Michigan \citep{HRSWebsite}.
-The first core interview with every participant is conducted face-to-face, and all follow-up interviews are either face-to-face or over the phone \citep{HRS21stCentury}.
+\footnote{
+%Every 6 years, a new 6-year birth cohort of participants is enrolled \citep{HRS21stCentury}. 
+It is sponsored by the National Institute on Aging (grant number NIA U01AG009740).% and is conducted by the University of Michigan \citep{HRSWebsite}.
+Response rates vary between 80\% and 90\% \citep{HRSResponseRate}. 
+%The first core interview with every participant is conducted face-to-face, and all follow-up interviews are either face-to-face or over the phone \citep{HRS21stCentury}.
 }
 %This study uses data from the publicly available RAND HRS file (version P)\citep{HRSRAND}---an easy-to-use longitudinal data set based on the HRS data---as well as the publicly available initial release of the HRS polygenic scores data \citep{HRSPGENSCORE}.
 
 Genetic information comes from DNA samples collected in face-to-face interviews, for which a random subset of HRS households were selected to participate in 2006, 2008, and 2010.
 Saliva samples are collected and genotyped for more than 15,000 participants \citep{HRSPGenscore2017}.
-More information on the DNA extraction and the genotyping process is provided in Section \ref{supsec:dna_genotyping} in the Appendix.
+More information on the genotyping process is provided in Appedix Section \ref{supsec:dna_genotyping}.
 
 The analysis is done on a subsample of the data selected based on criteria of age (between 60-70 at the time of interview), ever-smokers at baseline (their first observation), observed in at least 2 different time periods, and genetically of European descent.
-5,854 HRS respondents satisfy these criteria and have non-missing values for the main variables of interest (smoking status, polygenic score (PGS) for regular smoking, insurance status, and the occurrence of heart conditions or strokes).\footnote{See Section \ref{supsec:study_sample} in the Appendix for more information on the construction of the study sample.}
+5,854 HRS respondents satisfy these criteria and have non-missing values for the main variables of interest.\footnote{See Section \ref{supsec:study_sample} in the Appendix for more information on the construction of the study sample.}
 The age restriction imposed on the study sample increases comparability between those experiencing a health shock before or after age 65.
-The restriction imposed on genetic ancestry is best-practice in social-science genetics to avoid issues of population stratification, for example, mistaking a genetic variant with different allele frequencies in Asians and Caucasians for a marker of ability to use chopsticks \citep{Hamer2000}. The restriction also increases the sample's similarity with the genetic profile of the discovery sample used in the genome-wide association study (GWAS) that informed the weights for the Single Nucleotide Polymorphisms (SNPs) used for calculating the PGS \citep{Martin2017,Freese2018}.\footnote{\cite{Martin2017} convincingly show that past attempts to use polygenic scores to compare racial or ethnic-group achievements were scientifically flawed. Sadly, this reduces the external validity of any study that uses polygenic scores informed by GWAS of white participants. It might also exacerbate existing health disparities across ethnicity and hamper the potential for scientific knowledge and innovation to improve everyone's lives \citep{Martin2019}. Thankfully, multi-ancestry GWAS are becoming more common, but not yet for smoking behavior \citep{Peterson2019}.}
+The restriction imposed on genetic ancestry is best-practice in social-science genetics to avoid issues of population stratification\citep{Hamer2000}. The restriction also increases the sample's similarity with the genetic profile of the discovery sample used to construct the index of genetic predisposition to smoking \citep{Martin2017,Freese2018}.\footnote{This reduces the external validity of any study that uses polygenic scores informed by GWAS of white participants. It might also exacerbate existing health disparities across ethnicity and hamper the potential for scientific knowledge and innovation \citep{Martin2019}. Thankfully, multi-ancestry GWAS are becoming more common, but not yet for smoking behavior \citep{Peterson2019}.}
 Also, we exclude respondents who reported the onset of a cardiovascular illness since the last survey wave when interviewed at ages 65 or 66. Since HRS surveys are only conducted every 2 years, it is not possible to determine Medicare eligibility status at the time of the health shock for these individuals.\footnote{The results do not change if these individuals are included.}
 
 
@@ -236,145 +220,50 @@ See Section \ref{supsec:PGS} in the Appendix for more information on the constru
 To avoid functional form assumptions and maximize power in the statistical analysis, the sample is divided into high- and low-genetic propensity to smoking based on the PGS.
 A high-PGS indicator is defined to take the value 1 for individuals in the top 2/3 of the PGS distribution.%
 \footnote{We initially ran the analysis separately for each tertile of the PGS distribution, as shown in Appendix Section \ref{appsec:3pgs}, but the results are concentrated in the lower part of the distribution of the PGS, and therefore for simplicity we consider only high and low PGS. Results are robust to splitting the same above and below the median PGS score, as shown in Appendix Section \ref{appsec:median}.}
-As shown in Figure \ref{fig:PGS}, the distribution of the PGS is bell-shaped, it is shifted to the right for baseline smokers, and it is predictive of current smoking behavior: $\approx$ 30\% of individuals with a PGS higher than 2.5 are current smokers, while only $\approx$ 10\% of individuals with a PGS lower than -2.5 currently smoke.
-
-\begin{figure}[!ht]
-	\begin{center}
-	\includegraphics[width=0.7\textwidth]{../3_output/make_histograms/pgs_density_6070_smoken_smooth.png}
-	\caption{PGS distribution and correlation with smoking behavior.
-	\label{fig:PGS}}
-	\vspace{-0.8cm}
-	\floatfoot{
-	\textit{Notes:} Distribution of Polygenic Score (PGS) for baseline smokers (blue) and non-smokers (red).
-	Generalized linear smoothed correlation between current smoking and PGS shown in the blue line (with 95\% confidence intervals in shaded grey area).
-	\\ \textit{Data used}: HRS waves 1-13, restricted to observations with age between 60 and 70 years.
-	}
-	\end{center}
-\end{figure}
+The distribution of the PGS is bell-shaped, it is shifted to the right for baseline smokers, and it is predictive of current smoking behavior: $\approx$ 30\% of individuals with a PGS higher than 2.5 are current smokers, while only $\approx$ 10\% of individuals with a PGS lower than -2.5 currently smoke (Appendix Figure \ref{fig:PGS_distr}).
 
 \paragraph{Health shocks.} Following previous studies \citep{Falba2005,Keenan2009,Khwaja2006spouse,Khwaja2006learn,Smith2001}, we focus on the first occurrence of an acute cardiovascular condition.
 Cardiovascular conditions include either a heart problem (heart attack, coronary heart disease, angina, congestive heart failure, or other heart problems) or a stroke (or transient ischemic attack).
 These conditions have strong links to tobacco use, have a relatively high incidence among older adults, and are likely to require immediate and intensive use of costly medical services \citep{Thorpe2004,Teo2006,Lloyd-Jones2010}.
 Additionally, they can occur repeatedly for the same individual and thereby incentivize improvements in health behaviors to prevent a recurrence.
 
-The health shock is a binary indicator set to 1 if the respondent is diagnosed with a new cardiovascular condition during the time since the last HRS survey, but does not have a history of cardiovascular disease prior to this diagnosis.
-The exact timing of the health shock within the past 2 years since the last interview is not observed, and the diagnoses are all self-reported.
+The health shock is an indicator set to 1 if the respondent is diagnosed with a new cardiovascular condition during the time since the last HRS survey, but does not have a history of cardiovascular disease prior to this diagnosis.
+The exact timing of the health shock is not observed, and the diagnoses are all self-reported.
 
-As shown in Figure \ref{fig:cv}, the rate of cardiovascular health problems increase with age from about 2\% to 4\% annually, but it is not strongly related to the PGS and, most importantly, does not jump around the age of 65 (see also Figure \ref{fig:cv_prob} in the Appendix).
-
-\begin{figure}[!ht]
-	\begin{center}
-	\includegraphics[width=.7\textwidth]
-	{../3_output/over_time/graph_6070cvplot_agebypgs.png}
-	\caption{Prevalence of cardiovascular health shock.
-	\label{fig:cv}}
-	\vspace{-0.8cm}
-	\floatfoot{
-	\textit{Notes:} Self-reported indicator of having been diagnosed for the first time with a cardiovascular condition since the last HRS survey.
-	Age refers to the time of the survey, not the time of the health shock, which is unknown up to a 2-year windows, since HRS surveys are bi-annual.
-	Bin-scattered plot and generalized linear smoothed correlation between age at interview and cardiovascular health shock shown in red (low PGS = lowest tertile of polygenic score) and blue (high PGS = upper two tertiles of polygenic score).\\
-	\textit{Data used}: HRS waves 1-13, restricted to observations with age between 60 and 70 years.
-	}
-	\end{center}
-\end{figure}
-
-
+The rate of cardiovascular health problems increase with age from about 2\% to 4\% annually, but it is not strongly related to the PGS and does not jump around the age of 65 (Figure \ref{fig:cv} and \ref{fig:cv_prob} in the Appendix).
 
 \paragraph{Health Insurance.}
-Before the age of 65, HRS respondents are classified as uninsured in a given survey wave if they report not being covered by \textit{any} health insurance plan.
+Before the age of 65, respondents are classified as uninsured in a given survey wave if they report not being covered by \textit{any} health insurance plan.
 Respondents are classified as being \textit{persistently uninsured} if they were uninsured in every wave between 60 and 65.
 %A binary variable is defined for pre-65 uninsured status that takes the value 1 if a respondent is uninsured in every observation before the age of 65.
 
-The share of persistently uninsured individuals is shown in panel A of Figure \ref{fig:Medicare_unins}.
+%The share of persistently uninsured individuals is shown in panel A of Appendix Figure \ref{fig:Medicare_unins}.
 
-After the age of 65, individuals are considered eligible for Medicare.
-As shown in Panel B of Figure \ref{fig:Medicare_unins}, the vast majority of individuals are aware of Medicare eligibility: more than 90\% of individuals report being covered by Medicare after the age of 65.
+%After the age of 65, individuals are considered eligible for Medicare. The vast majority of individuals are aware of Medicare eligibility: more than 90\% of individuals report being covered by Medicare after the age of 65 (Appendix Figure \ref{fig:Medicare_unins}).
 
-
-\begin{figure}[ht]
-	\begin{center}
-		\subfigure[\textsf{Share uninsured}]
-		{\includegraphics[width=0.4\textwidth]
-		{../3_output/over_time/graph_6070uninsuredrdd_agebypgs.png}
-		}
-		\subfigure[\textsf{Share Enrolled in Medicare}]
-		{\includegraphics[width=0.4\textwidth]
-		{../3_output/over_time/graph_6070govmrrdd_agebypgs.png}
-		}
-		\caption{Share uninsured and enrolled in Medicare across the age 65 threshold by PGS.
-	\label{fig:Medicare_unins}}
-	\vspace{-5ex}
-	\floatfoot{
-	\textit{Notes:} Self-reported indicator for lack of any insurance coverage and being enrolled in Medicare.
-	Bin-scattered plot and generalized linear smoothed correlation between age and outcome variables shown in red (low PGS = lowest tertile of polygenic score) and blue (high PGS = upper two tertiles of polygenic score).\\
-	\textit{Data used}: HRS waves 1-13, restricted to observations with age between 60 and 70 years.
-	}
-	\end{center}
-\end{figure}
-
-\paragraph{Smoking status.} The outcome of interest is a self-reported binary indicator for current smoking status.
-It is set to 1 if the respondent is an ever-smoker (having smoked more than 100 cigarettes throughout one's life) and smoking at the time of the survey.
+\paragraph{Smoking.} The outcome of interest is a self-reported indicator for current smoking status.
+It is set to 1 if the respondent reports smoking at the time of the survey.
 %We also calculate cessation rates, defined as smoking in the previous but not in the current wave.
+The prevalence of smokers in the sample decreases with age and is about 5 percentage points higher for the individuals with a high PGS (Appendix Figure \ref{fig:smoking}).
 
-As shown in Figure \ref{fig:smoking}, the prevalence of smokers in the sample decreases with age and is about 5 percentage points higher for the individuals with a high PGS.
-
-\begin{figure}[!ht]
-	\begin{center}
-	\includegraphics[width=.7\textwidth]
-	{../3_output/over_time/graph_6070smokenplot_agebypgs.png}
-	\caption{Prevalence of smoking.
-	\label{fig:smoking}}
-	\vspace{-0.8cm}
-	\floatfoot{
-	\textit{Notes:} Self-reported smoking rate by age and high or low PGS.
-	Bin-scattered plot and generalized linear smoothed correlation between age and smoking shown in red (low PGS = lowest tertile of polygenic score) and blue (high PGS = upper two tertiles of polygenic score).\\
-	\textit{Data used}: HRS waves 1-13, restricted to observations with age between 60 and 70 years.
-	}
-	\end{center}
-\end{figure}
-
-
-More information on the construction of all variables used in the analysis can be found in Section \ref{supsec:outcome_exposure} in the Appendix.
+More information on the construction of all variables used in the analysis can be found in Appendix Section \ref{supsec:outcome_exposure}.
 
 
 \subsection{Sample Characteristics}\label{sec:sumstats}
 
 Characteristics of the study sample used in the analysis are summarized in the first column of Table \ref{tab:descriptives_full}.
 The study sample consists of 5,854 individuals (and 26,022 person-year observations).
-The average age at baseline is 61.2 years, 49.9\% of the sample is made up of women, and 29.5\% smoke at baseline.
+%The average age at baseline is 61.2 years, 49.9\% of the sample is made up of women, and 29.5\% smoke at baseline.
 Individuals are observed for 4.5 waves on average, a good panel dimension even if restricted to the 60-70 age range.
 %has 12.4 years of education, and reports an income of \$20,101 per year.
 5.9\% of individuals in the sample are uninsured in all observations before the age of 65, and 12.3\% experience a cardiovascular health shock during the observation period.
-The second and third columns in Table \ref{tab:descriptives_full} describe the sample stratified into 2 genetic groups.
-High-PGS respondents are 4 percentage points more likely to smoke at baseline, 0.7 percentage points more likely to be uninsured before the age of 65, and included relatively more women compared to the low-PGS respondents.%
+Stratifying the sample by genetic propensity to smoking, we see that high-PGS respondents are 4 percentage points more likely to smoke at baseline, 0.7 percentage points more likely to be uninsured before the age of 65, and included relatively more women compared to the low-PGS respondents.%
 \footnote{This slight gender imbalance is a feature of our sampling strategy and not of the PGS, which is balanced across genders in the original paper \citep{GSCAN2019gwas}. None of the results are driven by gender differences, which are always controlled for in the analysis.
 Appendix Section \ref{supsec:descriptive} provides additional descriptive information about the study sample that experienced a health shock.}
-
-\begin{table}[!ht]
-	\caption{Descriptive Statistics for the Study Sample, Stratified by Genetic Group \vspace{-0.3cm}}
-	\label{tab:descriptives_full}
-	%\resizebox{\textwidth}{!}{
-		\input{../3_output/descriptive/descriptive_full.tex}
-	%}
-
-	{\footnotesize \raggedright \vspace{1ex}
-	\textit{Notes:}
-	Low PGS = lowest tertile of the polygenic score distribution; high PGS = upper two tertiles of the polygenic score distribution.
-	Baseline = first wave used in the study sample for the empirical analysis.
-	Smoking PGS = polygenic score for smoking constructed according to equation \ref{eq:PGS} used as a proxy for genetic propensity to smoke.
-	Persistently uninsured = binary indicator for being uninsured in every observation of the study sample before the age of 65.
-	CV health shock = binary indicator for having suffered a cardiovascular health shock for the first time since the previous wave.
-	See section \ref{sec:vars} for a thorough definition of the variables used and Section \ref{sec:sample} for a definition of the study sample. \\
-	\textit{Data used}: HRS study sample, n = 5,854.
-	\par}
-\end{table}
-
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% ANALYSIS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Empirical Analysis}\label{sec:analysis}
 
-\noindent
 %We report two sets of results: first of all, we compare the average smoking cessation rates for those who suffer a health shock before and after the age of 65, stratified by high and low genetic propensity.
 %We then run a more sophisticated analysis controlling for age and individual characteristics.
 In a within-person analysis with individual fixed effects, we compare the change in smoking rates after suffering a health shock across four types of persistently uninsured people: younger or older than 65 (as a proxy of exposure to health insurance via Medicare) and high or low genetic propensity to smoking.
@@ -382,17 +271,15 @@ We focus on persistently uninsured people, i.e. people who reported being uninsu
 
 The identification strategy builds on previous work \citep{Marti2017} and leverages the differential timing of health shocks before or after Medicare eligibility at age 65.
 Conditional on having suffered a health shock, the exact \textit{timing} of the shock is arguably both exogenous and unanticipated.
-While the probability of experiencing a health shock increases with age \citep{Lloyd-Jones2010}, no observable jump or change in trend can be seen in our data in the percentage of respondents reporting a health shock around the age of 65 (see Figures \ref{fig:cv} and \ref{fig:cv_prob} as well as Section \ref{supsec:age_pattern_cv} in the appendix for details).
-Notice, however, that only the age at the time of the interview is known, not the age at the time of the cardiovascular health shock, which could have happened any time since the prior interview (about 2 years before).
-Therefore, our dataset is not precise enough to estimate a possible discontinuity in the probability of suffering a cardiovascular health shock at age 65.
-Nevertheless, the absence of a jump at the time of Medicare eligibility is consistent with the work of \cite{Card2008,Card2009medicare} who, using much more granular data, find a sharp increase in health care utilization at age 65, but no discontinuity in the probability of suffering from a health shock.
+While the probability of experiencing a health shock increases with age \citep{Lloyd-Jones2010}, no observable jump or change in trend can be seen in our data around the age of 65 (See Appendix \ref{supsec:age_pattern_cv}), which is consistent with the work of \cite{Card2008,Card2009medicare} who use much more granular data.%
+\footnote{Our dataset is not precise enough to estimate a possible discontinuity in the probability of suffering a cardiovascular health shock at age 65 since the exact age at the time of the cardiovascular health shock is not reported).}
 
 The absence of a jump is reassuring for our identification strategy, which relies on a comparison before and after the age of 65: accounting for age, respondents experiencing the shock after 65 should not be systematically different from respondents experiencing the shock before 65.
 This setting thus provides a good framework for estimating the causal effect of health care eligibility on the smoking response to a health shock in individuals who are uninsured before the age of 65.
 
-Conceptually, this design aims to mimic the following hypothetical comparison: within both the low-PGS and the high-PGS group, compare the change in smoking status after suffering a health shock for two respondents with similar characteristics (ever smokers, persistently uninsured, similar genetic propensity to smoke, gender, etc).
-The only difference between the two individuals is the point in time at which they experience the shock and, hence, their exposure to the financial costs associated with it.
-Who responds more to the financial exposure: the high-PGS or the low-PGS type?
+%Conceptually, this design aims to mimic the following hypothetical comparison: within both the low-PGS and the high-PGS group, compare the change in smoking status after suffering a health shock for two respondents with similar characteristics (ever smokers, persistently uninsured, similar genetic propensity to smoke, gender, etc).
+%The only difference between the two individuals is the point in time at which they experience the shock and, hence, their exposure to the financial costs associated with it.
+%Who responds more to the financial exposure: the high-PGS or the low-PGS type?
 
 Methodologically, we use ordinary least squares (OLS) regression to estimate a linear probability model for smoking.
 Current smoking status ($Y$) is regressed on the full set of interactions between the indicators for the health shock ($shock$), being uninsured pre-65 ($uninsured$), Medicare eligibility ($post65$), and high polygenic score for smoking ($g$):
@@ -414,7 +301,7 @@ Y_{it}& \thinspace  = \thinspace
 \end{align}
 
 Individual fixed effects ($\eta_i$) are included to control for unobserved time-invariant differences between respondents, and time fixed effects ($\tau_t$) to control for time-specific confounders.
-In addition, a third-degree polynomial of the respondent's age in years at the time of the interview ($age$) is added to non-linearly control for the reduction in smoking rates shown in Figure \ref{fig:smoking}.
+In addition, a third-degree polynomial of the respondent's age in years at the time of the interview ($age$) is added to non-linearly control for age-reduction in smoking rates.
 Standard errors are clustered at the individual level.
 %All statistical analyses in this study are conducted with the software R, version 3.4.2, and various open-source packages \citep{broom,car,ggplot2,haven,labelled,lmtest,multcomp,plm,plyr,readr,readxl,reshape2,sandwich,scales,stargazer,stringr,tidyverse}.
 
@@ -423,23 +310,29 @@ The statistical method resembles a difference-in-differences approach: focusing 
 %For this subgroup, which comprises 327 individuals, the comparisons of interest are experiencing the health shock before versus after age 65, and having a low versus a high genetic propensity to smoke.
 %
 
-We are interested in 3 different types of effects for the group of previously uninsured individuals:
+%We are interested in 3 different types of effects for the group of previously uninsured individuals:
+%
+%First, what is the marginal effect of a health shock on smoking?
+%This effect is calculated for 4 different subgroups, given by the combinations of shock timing (pre- or post-65) and genetic risk (high or low), and shown in Figure \ref{fig:shock_effects}.
+%For each subgroup, the effect is comprised of the sum of all coefficient estimates from Equation (\ref{eq:regression}) that applied for the given group.
+%For example, for previously uninsured individuals who experienced the shock before the age of 65 and who had a low genetic susceptibility for smoking, the effect of the health shock is calculated by summing up the estimates for $\beta$ and $\lambda_2$.
+%If the health shock is instead experienced after 65, the effect of the shock (for the same group of previously uninsured low-PGS individuals) is the sum of the estimates for $\beta$, $\lambda_1$, $\lambda_2$, and $\delta_1$.
+%
+%Second, what is the causal effect of Medicare eligibility (and hence a change in the financial costs associated with a health shock) on smoking?
+%This effect is calculated using the difference between the pre-65 shock effect and the post-65 shock effect for each of the 2 genetic groups.
+%For the low-PGS group, it is given by the sum of the estimates for $\lambda_1$ and $\delta_1$.
+%For the high-PGS group, it is given by the sum of  $\lambda_1$, $\delta_1$, $\delta_3$, and $\zeta$.
+%
+%Lastly, does the effect of health insurance vary according to individual genetic predisposition?
+%Comparing the effect of Medicare eligibility on the post-shock smoking decision between the high- and the low-PGS groups we can assess the presence of genetic heterogeneity in moral hazard.
+%The presence of genetic heterogeneity in moral hazard is estimated by the sum of $\delta_3$ and $\zeta$ in Equation (\ref{eq:regression}).%
+%\footnote{See Appendix Section \ref{appsec:derivation} for a derivation of these effects.}
 
-First, what is the marginal effect of a health shock on smoking?
-This effect is calculated for 4 different subgroups, given by the combinations of shock timing (pre- or post-65) and genetic risk (high or low), and shown in Figure \ref{fig:shock_effects}.
-For each subgroup, the effect is comprised of the sum of all coefficient estimates from Equation (\ref{eq:regression}) that applied for the given group.
-For example, for previously uninsured individuals who experienced the shock before the age of 65 and who had a low genetic susceptibility for smoking, the effect of the health shock is calculated by summing up the estimates for $\beta$ and $\lambda_2$.
-If the health shock is instead experienced after 65, the effect of the shock (for the same group of previously uninsured low-PGS individuals) is the sum of the estimates for $\beta$, $\lambda_1$, $\lambda_2$, and $\delta_1$.
-
-Second, what is the causal effect of Medicare eligibility (and hence a change in the financial costs associated with a health shock) on smoking?
-This effect is calculated using the difference between the pre-65 shock effect and the post-65 shock effect for each of the 2 genetic groups.
-For the low-PGS group, it is given by the sum of the estimates for $\lambda_1$ and $\delta_1$.
-For the high-PGS group, it is given by the sum of  $\lambda_1$, $\delta_1$, $\delta_3$, and $\zeta$.
-
-Lastly, does the effect of health insurance vary according to individual genetic predisposition?
+We are aim to answer the following question: does the effect of health insurance vary according to individual genetic predisposition?
 Comparing the effect of Medicare eligibility on the post-shock smoking decision between the high- and the low-PGS groups we can assess the presence of genetic heterogeneity in moral hazard.
 The presence of genetic heterogeneity in moral hazard is estimated by the sum of $\delta_3$ and $\zeta$ in Equation (\ref{eq:regression}).%
 \footnote{See Appendix Section \ref{appsec:derivation} for a derivation of these effects.}
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% RESULTS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -450,6 +343,231 @@ The effect of a health shock on the smoking probability of individuals who are u
 Since we are controlling for individual fixed effects, these coefficients can be interpreted as the change in the probability of smoking after suffering a health shock.
 All of the regression coefficients are presented in the last column of Table \ref{tab:reg_results_multi}.
 
+Following a health shock, persistently uninsured individuals with a high polygenic score tend to reduce their smoking behavior by about 10 percentage points, irrespective of whether the health shock happens before or after the age of 65.
+Since the response to the health shock is the same before and after the age of Medicare eligibility, there is no evidence of moral hazard in this subgroup.
+With a 30.8\% baseline probability of smoking, this 10 percentage point reduction is non-negligible, but it is nosily estimated and indistinguishable from zero.
+
+On the contrary, the response of low polygenic score individuals differs markedly by the \textit{timing} of the health shock: if the shock happens before the age of 65, while not covered by Medicare or another health insurance, they reduce smoking by 17 percentage points.
+With a baseline probability of smoking of 27\%, this reduction is very sizable.
+On the other hand, if the health shock happens after the age of Medicare eligibility, low polygenic score individuals increase their smoking rate by 9 percentage points as compared to the rest of the population.
+Against the backdrop of a steady decline in smoking rates, this positive coefficient can be interpreted as a lower decrease in smoking for this particular sub-population.%
+\footnote{Notice that the magnitude of this coefficient (0.09) is similar to the ones estimated for high polygenic score individuals (-0.108 and -0.13), but it is much more precisely estimated. The main reason behind smaller standard errors for the estimated effect of health shock after 65 for the low polygenic score individuals is the negative covariance $Cov(\hat{\delta}_1,\hat{\lambda}_2) =  -0.0057$. See Appendix Table \ref{suptab:cov_matrix}. %for the variance-covariance matrix of the estimated coefficients of equation \ref{eq:regression}. $\lambda_2$ captures the effect of the health shock in the uninsured population, and $\delta_1$ the incremental effect of that same health shock in the uninsured population after the age of 65.
+}
+
+The difference in the smoking response depending on the timing of the health shock, before or after the age of 65, is summarized in Panel B of Table \ref{tab:main_effects}: individuals with a low polygenic score are 25.6 percentage points more likely to stop smoking if the health shock happens before the age of 65, when they are not covered by health insurance.
+High polygenic score individuals, on the other hand, are 2.3 percentage points more likely to do the opposite, a small and (statistically) insignificant difference.
+
+Such marked difference in the response across the two genetic types is evidence of genetic heterogeneity in the effect of Medicare eligibility on the response to the shock.
+This genetic heterogeneity,\footnote{A form of what behavioral geneticists call `gene-environment interaction' (G$\times$E) \cite{Haldane1946,Plomin1990}.} is summarized in Panel C of Table \ref{tab:main_effects}: low PGS individuals are 27.9 percentage points less likely than high PGS individuals to stop smoking if the health shock happens when they are uninsured.
+
+The evidence in favor of genetic heterogeneity is remarkably stable to the inclusion of different controls and fixed effects, as shown in the different columns of Table \ref{tab:reg_results_multi}.
+The first column does not include polynomial controls for age or any type of time or individual fixed effects; still, the sum of the estimated $\delta_3$ $(shock_{it} \times post65_{it} \times g_i)$ and $\zeta$ $(shock_{it} \times post65_{it} \times uninsured_i \times g_i)$ coefficients is 32.6 percentage points, close to the 27.9 estimated with age controls and time and individual fixed effects.%, as reported in Panel  C of Table \ref{tab:main_effects}.
+
+How can we interpret this evidence of genetic heterogeneity?
+This result is consistent with the interpretation that high polygenic score individuals are less responsive and elastic in their response to shocks and changes in the environment.
+Regardless of whether the health shock happens when they are covered by health insurance, and therefore whether they are financially liable for the consequences of the health shock, they reduce smoking the same amount.
+Individuals with a low polygenic score are instead more flexible, strategic, and reactive to the environment: they reduce their smoking only when they bear the full cost of the consequences of negative health shocks.
+This result is therefore consistent with genetic heterogeneity in moral hazard.
+
+\subsection{Other Interpretations}\label{sec:interpret}
+
+\paragraph{Falsification Test: age 50 to 60}
+To dispel doubts of spurious results, we run a falsification or ``placebo'' test by focusing on the age range from 50 to 60, and estimating the effect of suffering a shock after the age of 55, where nothing happens in terms of health insurance.
+
+We find no average or differential effect of suffering a health shock after the age of 55 (See Appendix Figure \ref{fig:placebo} and Appendix Table \ref{tab:placebo_results_multi}).% shows that the most sizable coefficient is the one of the shock itself, associated with a reduction in the probability of smoking by about 8 percentage points.
+
+\paragraph{Is it really Medicare?}
+Other factors besides eligibility to Medicare may be at play around the age of 65, the most prominent being retirement.
+Such factors might affect smoking behavior after health shocks and change the interpretation of our coefficient.
+Our empirical result about genetic heterogeneity would still stand, but the post-65 dummy could not be considered purely as a measure of health care eligibility, and the differential reduction in smoking before 65 would not be evidence of moral hazard heterogeneity.
+
+These alternative interpretations are at odds with two findings: there is no effect for those already insured before the age of 65, and there is no differential effect on income or retirement.
+
+First, the coefficient on the \textsf{shock x post-65} interaction is close to 0 and not statistically significant, suggesting no differential effect of the health shock for who is already covered by health insurance before the age of 65 (See Table \ref{tab:reg_results_multi}).
+If factors other than health insurance were to cause a differential effect of the health-shock pre- vs. post-65, such effect should be noticeable also for those already insured before the age of 65.
+
+Secondly, there is no big jump in income or retirement at the age of 65 in our sample (Appendix Figure \ref{fig:income_ret}), while there is a sharp change in enrollment in Medicare and drop in the share of uninsured (Appendix Figure \ref{fig:Medicare_unins}). This suggests that the main event captured by the post-65 dummy for the sample of previously uninsured individuals is access to health coverage.
+
+Finally, there is no differential effect of the health shock before or after the age of 65 on income or retirement for persistently uninsured individuals (Appendix Figure \ref{fig:confounders}).
+The absence of any discernible effect suggests that neither income nor retirement are potential mechanisms behind the observed change in smoking responses.
+
+\paragraph{Is it really genes?}
+Other individual-level characteristics, besides genetic predispositions, might be driving this heterogeneity in moral hazard.
+%For instance, education, cognitive abilities, personality traits, or risk aversion might be a better proxy of individual level heterogeneity driving a differential response to health shocks.
+Given the richness of the HRS data, we can run the same analysis outlined in equation \ref{eq:regression} but replacing $g_i$ with other individual characteristics.
+
+None of the other individual measures that we have tried seems to be driving heterogeneity in moral hazard (Appendix Figure \ref{fig:otherX}).
+Specifically, we tested for years of education (highly educated people might be more knowledgeable of the insurance system), a proxy of cognitive abilities%\footnote{Calculated by HRS as the sum of a word recall task (Total Recall Index) and a counting, naming, and vocabulary task (Mental Status Index). %The total recall index (RwTR20, R1TR40, RwATR20, RwHTR40) is available in all waves and summarizes the immediate and delayed word recall tasks. In Waves 1 and 2H, the recall wordlist contained 20 words, while in all other waves it contained 10. Thus the scores range from 0 to 40 in Waves 1 and 2H and from 0 to 20 in other waves. \\
+%The mental status index (RwMSTOT, R2AMSTOT) sums scores from counting, naming, and vocabulary tasks and is available for Wave 2A and from Wave 3 forward. This reflects the absence of some of these tests in Waves 1 and 2H. \\
+%A total cognition score (RwCOGTOT, R2ACGTOT) sums the total recall and mental status indices. Because the mental status index is missing for Waves 1 and 2H, the total cognition index is also missing for these waves.
+%Total Cognition score goes from 0 to 35. \\
+%Further detail on this variables can be found ion RAND HRS Longitudinal File Codebook.} 
+(smart people might be more strategic), risk aversion (risk preferences might moderate smoking behaviors and the response to health shocks), the personality trait conscientiousness (conscientious people might be more likely to stop smoking after a health shock), gender (social scientist's favorite sample split to engage in ex-post rationalizations), and individual or household income (which might buffer negative shocks).%
+\footnote{Notice that some of these variables are not quite predetermined, and might be mediators of the main effect, especially income. We still report the results for completeness, but caution the reader prone to causal interpretations.
+In this regard, genetic variants represent the ideal measure of heterogeneity of treatment effects: they are fixed since conception, immutable, and indexing plausible biological channels.
+In Appendix \ref{appsec:otherPGS}, we report the results of using different polygenic scores as a proxy for $g_i$.
+Moral hazard heterogeneity is also detected in the group having a high PGS for educational attainment or cognitive abilities \citep{Lee2018}, and a low PGS for risk tolerance \citep{KarlssonLinner2019} and a low PGS for non-cognitive skills \citep{Demange2020}.
+%On the other side, there is no evidence of heterogeneity of moral hazard by the PGS for Body-Mass-Index \citep{Yengo2018} or the PGS for cigarettes per day \citep{GSCAN2019gwas}.
+These results suggest that potential mechanisms for the observed heterogeneity should include not only biological channels related to nicotine addiction, but also cognitive processes related to risky and strategic behavior, which are closely related to the concept of moral hazard.
+} %end footnote
+For completeness, results are shown split by tertiles for continuous measures, and in two for binary measures.
+
+\paragraph{Is this driven by confounders?}
+One might worry that the differential change in smoking behavior might be driven by other confounding factors that happen around the age of 65, or are triggered by the health shock.
+Suffering a heart attack might reduce people's income, induce them to retire, change their marital status, increase their out-of-pocket medical spending, or shorten their life expectancy.
+%Any of these changes happening differentially for people with high or a low polygenic score, and before or after the age of 65, could invalidate our results or at least our interpretation of the effect as evidence of moral hazard.
+To dispel such concerns, we estimate equation \ref{eq:regression} including each of these potential confounders as an outcome variable $Y_{it}$ \citep{Pei2018}.
+
+None of these potential confounders seems to be driving our results (Appendix Section \ref{appsec:confounders}).
+If anything, the symmetric results for out-of-pocket medical expenditure shown in panel (e) suggest that the size of the health shock is comparable for both high and low PGS individuals.%: both report an increase of about 2\% in out-of-pocket medical expenditure if the shock happens before the age of 65 (when uninsured) and a change smaller than 0.3\% if the shock happened after for low PGS, and a reduction of about 1\% for those with high PGS (and not statistically significant for neither of these last two estimators).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Discussion %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Robustness checks} \label{sec:robustness}
+These results are robust to changes in the definition of the high-PGS indicator (above median PGS indicator or a linear PGS) and the definition of the pre-65 uninsured status indicator (uninsured in 33\% or 66\% of all pre-65 observations instead of 100\%).
+Relaxing the definition of the uninsured indicator to include respondents uninsured in a minimum of 33\% of pre-65 observations leaves the directions of the effects unchanged, but the magnitudes are smaller and not statistically significant.
+Furthermore, results are robust to the inclusion of HRS respondents who report a health shock at ages 65 or 66 (Medicare eligibility status at the time of the shock is unknown).
+Estimation results for all robustness checks are shown in Section \ref{supsec:robustness} in the Appendix.
+
+
+\subsection{Limitations}\label{sec:limitations}
+This study has a few limitations.
+
+The identification hinges on a small number of respondents who suffer a health shock around the age of 65. Although the total sample size is 5,854 individuals and 26,022 person-year observations, the number of people who suffer a health shock, before or after the age of 65, and have a certain polygenic score is between 110 and 274.\footnote{See Appendix Table \ref{suptab:descriptive_subgroup}.}
+We encourage and welcome a replication of our results, preferably in a within-family design which can better account for the thorny issue of ancestry and population structure, but we are unaware of an existing dataset that contains all of the necessary information to perform it ourselves.
+
+Second, the analysis focused on the short-run smoking response to a health shock, and only considered changes in the extensive margin---i.e., changes between smoking and not smoking.
+
+Third, regarding internal validity.
+We rely on self-reported smoking behavior, health diagnoses, and insurance status.
+Differential misreporting of smoking or health shocks by age or genotype might bias our analysis.
+We found no published evidence that misreporting might be associated with individual genotypes, or vary discontinously before or after 65.
+%It is also possible that those identified as continuously uninsured before the age of 65 had insured spells in between the biennial HRS interviews.
+%These unmeasured episodes with coverage may have biased the results towards not finding a significant effect of Medicare eligibility.
+Finally, we may suffer from survivorship bias, attrition, and self-selection of HRS respondents into the DNA collection, which took place relatively late (starting in 2006). Participants with particularly high PGS and unhealthy smoking habits may have passed away before this date or may have been less likely to reach the age of Medicare eligibility.
+Both problems would likely have lead to an underestimation of the difference between low- and high-PGS individuals.
+
+Lastly, in terms of external validity.
+Medicare is very specific to the health care system in the US.
+While Medicare can generally be seen as just one example of universal health care coverage, it only applies to a specific age group, and it is not clear whether smoking behaviors in response to a health shock in this age group are representative for all ages in the population.
+Another concern is that Medicare eligibility does not necessarily translate into Medicare coverage.
+However, take-up rates in the study sample is high---approximately 90\% at age 65, increasing to 98\% at age 70.
+Additionally, take-up patterns do not differ much between the genetic groups.
+Table \ref{suptab:main_effects_medicare} in the Appendix shows that using actual Medicare enrollment status rather than Medicare eligibility status in the empirical analysis does not change the results.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Conclusion %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Conclusions}\label{sec:conclusion}
+
+Medicare eligibility significantly lowered the probability of smoking cessation after a health shock in individuals aged between 60 and 70 years who are uninsured before the age of 65 and have a low genetic predisposition for smoking.
+Health insurance can plausibly affect the smoking response to a health shock by lowering the financial risk associated with the shock, and thereby eroding additional incentives for behavior change.
+This change in behavior following Medicare eligibility is indicative of moral hazard, and we observe it only among individuals with a low genetic predisposition for smoking.
+The differential effect of Medicare eligibility for the two genetic groups suggests that biological constraints can overpower both health-related and financial incentives for smoking cessation, and provides a readily available measure of heterogeneity in moral hazard.
+Heterogeneity in moral hazard can be used to enrich economic models of health behavior\footnote{For example, see the model in Appendix \ref{appsec:model}.} and our understanding of how individual biological characteristics can influence decision-making.
+
+Building on previous work analyzing the interplay between genes and exogenous environmental changes \citep{Fletcher2012,Schmitz2017,Barcellos2018}, this study provides a contribution to the centennial debate about nature \textit{and} nurture \citep{Mulcaster1582,Galton1874,Haldane1946,Lundborg2010,Kong2018}, casting further doubts about genetic determinism.
+The influence of genetic variants on our choices and outcomes is modulated by the environment around us, just as the response to environmental shocks is filtered through the prism of our genetic predispositions.
+
+Our results show that genetic factors can influence health decisions and strategic behaviors, and therefore should be taken into consideration when evaluating the effectiveness and fairness of different policies, such as health insurance.
+Fairness considerations should take into account the fact that genetic endowments are passed down from one generation to the next, are fixed at conception, and cannot be changed by an individual's choices or effort, raising questions of deservedness, merit, and luck \citep{Pereira2021,Harden2021,Kweon2020}.
+Efficiency considerations should consider that genetic endowments are usually unobserved to the individual, the insurance companies, and the government.
+This unobservability raises important regulatory questions at the intersection between health and information economics: who, if anyone, should have this information? How should the information be provided? How will this information affect demand and supply? Should private contracts or public policies take this information into account?
+Under current US legislation, the 2008 Genetic Information Nondiscrimination Act prohibits health insurers from discriminating based on explicit genetic information.
+However, the recent rise of direct-to-consumer genetic testing services might force further discussion into the public debate.
+
+More generally, future studies should build off of the idea of leveraging existing indices of genetic predispositions to provide biological measures of heterogeneity in human behaviors.
+This can enrich economic models and empirical studies, shedding new light on fundamental economic parameters.
+
+
+% https://www.aeaweb.org/journals/word-count 5962
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% References %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\clearpage
+\newpage
+
+\singlespacing
+%\setlength\bibsep{0pt}
+%\bibliographystyle{ama}
+\bibliographystyle{aea}
+%\bibliographystyle{apalike}
+
+\bibliography{health_genes}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Figures %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Figures}\label{app:fig}
+%
+%\begin{figure}[!ht]
+%	\begin{center}
+%	\includegraphics[width=0.7\textwidth]{../3_output/make_histograms/pgs_density_6070_smoken_smooth.png}
+%	\caption{PGS distribution and correlation with smoking behavior.
+%	\label{fig:PGS}}
+%	\vspace{-0.8cm}
+%	\floatfoot{
+%	\textit{Notes:} Distribution of Polygenic Score (PGS) for baseline smokers (blue) and non-smokers (red).
+%	Generalized linear smoothed correlation between current smoking and PGS shown in the blue line (with 95\% confidence intervals in shaded grey area).
+%	\\ \textit{Data used}: HRS waves 1-13, restricted to observations with age between 60 and 70 years.
+%	}
+%	\end{center}
+%\end{figure}
+%
+%
+%\begin{figure}[!ht]
+%	\begin{center}
+%	\includegraphics[width=.7\textwidth]
+%	{../3_output/over_time/graph_6070cvplot_agebypgs.png}
+%	\caption{Prevalence of cardiovascular health shock.
+%	\label{fig:cv}}
+%	\vspace{-0.8cm}
+%	\floatfoot{
+%	\textit{Notes:} Self-reported indicator of having been diagnosed for the first time with a cardiovascular condition since the last HRS survey.
+%	Age refers to the time of the survey, not the time of the health shock, which is unknown up to a 2-year windows, since HRS surveys are bi-annual.
+%	Bin-scattered plot and generalized linear smoothed correlation between age at interview and cardiovascular health shock shown in red (low PGS = lowest tertile of polygenic score) and blue (high PGS = upper two tertiles of polygenic score).\\
+%	\textit{Data used}: HRS waves 1-13, restricted to observations with age between 60 and 70 years.
+%	}
+%	\end{center}
+%\end{figure}
+%
+%
+%
+%
+%\begin{figure}[ht]
+%	\begin{center}
+%		\subfigure[\textsf{Share uninsured}]
+%		{\includegraphics[width=0.4\textwidth]
+%		{../3_output/over_time/graph_6070uninsuredrdd_agebypgs.png}
+%		}
+%		\subfigure[\textsf{Share Enrolled in Medicare}]
+%		{\includegraphics[width=0.4\textwidth]
+%		{../3_output/over_time/graph_6070govmrrdd_agebypgs.png}
+%		}
+%		\caption{Share uninsured and enrolled in Medicare across the age 65 threshold by PGS.
+%	\label{fig:Medicare_unins}}
+%	\vspace{-5ex}
+%	\floatfoot{
+%	\textit{Notes:} Self-reported indicator for lack of any insurance coverage and being enrolled in Medicare.
+%	Bin-scattered plot and generalized linear smoothed correlation between age and outcome variables shown in red (low PGS = lowest tertile of polygenic score) and blue (high PGS = upper two tertiles of polygenic score).\\
+%	\textit{Data used}: HRS waves 1-13, restricted to observations with age between 60 and 70 years.
+%	}
+%	\end{center}
+%\end{figure}
+%
+%
+%\begin{figure}[!ht]
+%	\begin{center}
+%	\includegraphics[width=.7\textwidth]
+%	{../3_output/over_time/graph_6070smokenplot_agebypgs.png}
+%	\caption{Prevalence of smoking.
+%	\label{fig:smoking}}
+%	\vspace{-0.8cm}
+%	\floatfoot{
+%	\textit{Notes:} Self-reported smoking rate by age and high or low PGS.
+%	Bin-scattered plot and generalized linear smoothed correlation between age and smoking shown in red (low PGS = lowest tertile of polygenic score) and blue (high PGS = upper two tertiles of polygenic score).\\
+%	\textit{Data used}: HRS waves 1-13, restricted to observations with age between 60 and 70 years.
+%	}
+%	\end{center}
+%\end{figure}
+%
+
+%------- Results
 %\captionsetup{width = \columnwidth}
 \begin{figure}[!ht]
 	\begin{center}
@@ -467,175 +585,61 @@ All of the regression coefficients are presented in the last column of Table \re
 	Effects are estimated using the coefficients in the last column of Table \ref{tab:reg_results_multi} and following the derivation described in \ref{appsec:derivation}.
 	Bars show 95\% confidence intervals, standard error clustered at the individual level.
 	\\ \textit{Data used}: HRS study sample, n = 5,854.
-	%Composition of all effects is shown in Tables \ref{suptab:main_explained}, \ref{suptab:main_explained2}, and \ref{suptab:main_explained3} in the Supplement.
+	%Composition of all effects is shown in Tables \ref{suptab:main_explained}, \ref{suptab:main_explained2}, and \ref{suptab:main_explained3} in the Appendix.
 	} %end of textsf
 	} %end of floatfoot
 	\end{center}
 \end{figure}
 
 
-%%\captionsetup{width = 9cm}
-\begin{table*}[!ht]
-	\caption{Summary of Statistical Results for the Pre-65 Uninsured Subgroup, Stratified by Timing of the Shock and Genetic Group}
-	\label{tab:main_effects}
-	%\resizebox{7.5cm}{!}{
-	\input{../3_output/OLSresults/main_results.tex}
-		\begin{flushleft}
-			Low PGS = lowest tertile of the polygenic score distribution; high PGS = upper two tertiles of the polygenic score distribution.
-			Pre-65: Health shock since the last survey reported at ages 60-64.
-			Post-65: Health shock since the last survey reported at ages 67-70.
-			$^{*}$P $<$ 0.1; $^{**}$P $<$ 0.05; $^{***}$P $<$ 0.01. Robust standard errors in parentheses are clustered at the individual level.
-			The covariance matrix used for calculating standard errors is shown in Appendix Table \ref{suptab:cov_matrix}.
-			Effects are estimated using the coefficients in the last column of Table \ref{tab:reg_results_multi} and following the derivation described in \ref{appsec:derivation}.\\
-			\textit{Data used}: HRS study sample, n = 5,854.
-			%Composition of all effects is shown in Tables \ref{suptab:main_explained}, \ref{suptab:main_explained2}, and \ref{suptab:main_explained3} in the Supplement.
-		\end{flushleft}
-	%\headrule
-\end{table*}
-
-
-Following a health shock, persistently uninsured individuals with a high polygenic score tend to reduce their smoking behavior by about 10 percentage points, irrespective of whether the health shock happens before or after the age of 65.
-Since the response to the health shock is the same before and after the age of Medicare eligibility, there is no evidence of moral hazard in this subgroup.
-With a 30.8\% baseline probability of smoking, this 10 percentage point reduction is non-negligible, but it is very nosily estimated and is indistinguishable from zero.
-
-On the contrary, the response of low polygenic score individuals differs markedly by the \textit{timing} of the health shock: if the shock happens before the age of 65, while not covered by Medicare or another health insurance, they reduce smoking by 17 percentage points.
-With a baseline probability of smoking of 27\%, this reduction is very sizable.
-On the other hand, if the health shock happens after the age of Medicare eligibility, low polygenic score individuals increase their smoking rate by 9 percentage points as compared to the rest of the population.
-Against the backdrop of a steady decline in smoking rates, as shown in Figure \ref{fig:smoking}, this positive coefficient can be interpreted as a lower decrease in smoking for this particular sub-population.%
-\footnote{Notice that the magnitude of this coefficient (0.09) is similar to the ones estimated for high polygenic score individuals (-0.108 and -0.13), but it is much more precisely estimated. The main reason behind smaller standard errors for the estimated effect of health shock after 65 for the low polygenic score individuals is the negative covariance $Cov(\hat{\delta}_1,\hat{\lambda}_2) =  -0.0057$. See Appendix Table \ref{suptab:cov_matrix} for the variance-covariance matrix of the estimated coefficients of equation \ref{eq:regression}. $\lambda_2$ captures the effect of the health shock in the uninsured population, and $\delta_1$ the incremental effect of that same health shock in the uninsured population after the age of 65.}
-
-The difference in the smoking response depending on the timing of the health shock, before or after the age of 65, is summarized in Panel B of Table \ref{tab:main_effects}: individuals with a low polygenic score are 25.6 percentage points more likely to stop smoking if the health shock happens before the age of 65, when they are not covered by health insurance.
-High polygenic score individuals, on the other hand, are 2.3 percentage points more likely to do the opposite, a small and (statistically) insignificant difference.
-
-Such marked difference in the response across the two genetic types is evidence of genetic heterogeneity in the effect of Medicare eligibility on the response to the shock.
-This genetic heterogeneity, a form of `gene-environment interaction' (or G$\times$E) according to behavioral geneticists,\footnote{See for instance \cite{Haldane1946,Anastasi1958,Plomin1977,Ottman1990,Plomin1990}.} is summarized in Panel C of Table \ref{tab:main_effects}: low PGS individuals are 27.9 percentage points less likely than high PGS individuals to stop smoking if the health shock happens when they are uninsured.
-
-The evidence in favor of genetic heterogeneity is remarkably stable to the inclusion of different controls and fixed effects, as shown in the different columns of Table \ref{tab:reg_results_multi}.
-The first column does not include polynomial controls for age or any type of time or individual fixed effects; still, the sum of the estimated $\delta_3$ $(shock_{it} \times post65_{it} \times g_i)$ and $\zeta$ $(shock_{it} \times post65_{it} \times uninsured_i \times g_i)$ coefficients is 32.6 percentage points, close to the 27.9 estimated with age controls and time and individual fixed effects, as reported in Panel  C of Table \ref{tab:main_effects}.
-
-%\captionsetup{width = 9cm}
-\begin{table}[!ht] \centering
-	\caption{Coefficients from estimating the linear probability model in equation (\ref{eq:regression}) using OLS\vspace{-0.4cm}}
-	\addtolength{\tabcolsep}{-7pt}
-	\label{tab:reg_results_multi}
-	\resizebox{0.55\textheight}{!}{
-	\input{../3_output/OLSresults/reg_results_multi_checkmarks.tex}
-	} %end of resizebox
-	\begin{flushleft}
-	\textit{Notes:}
-	Health shock = binary indicator for having suffered a cardiovascular health shock for the first time since the previous wave.
-	Post-65 = indicator for age $> 65$ at the time of the interview.
-	Uninsured = binary indicator for being persistently uninsured in every observation of the study sample before the age of 65.
-	High PGS = indicator for being in the upper two tertiles of the polygenic score distribution.
-    Age = controls for 3$^{rd}$ degree polynomial in age.
-    FE = adding fixed effects.
-	Robust standard errors in parentheses are clustered at the individual level.
-	$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01.
-	\\ \textit{Data used}: HRS study sample, n = 5,854.
-	\end{flushleft}
-\end{table}
-
-How can we interpret this evidence of genetic heterogeneity?
-This result is consistent with the interpretation that high polygenic score individuals are less responsive and elastic in their response to shocks and changes in the environment.
-Regardless of whether the health shock happens when they are covered by health insurance, and therefore whether they are financially liable for the consequences of the health shock, they reduce smoking the same amount.
-Individuals with a low polygenic score are instead more flexible, strategic, and reactive to the environment: they reduce their smoking only when they bear the full cost of the consequences of negative health shocks.
-This result is therefore consistent with genetic heterogeneity in moral hazard.
-
-\subsection{Other Interpretations}\label{sec:interpret}
-
-\paragraph{Falsification Test: age 50 to 60}
-To dispel doubts that our results are spurious or driven by unusual variation in the treatment or outcome variables, we run the same analysis but focusing on the age range from 50 to 60, and estimating the effect of suffering a shock after the age of 55.
-Since there should be nothing special about age 55, at least in terms of health insurance, we do not expect any result and consider this to be a falsification or ``placebo'' test of our approach. 
-
-Figure \ref{fig:placebo} indeed show no average or differential effect of suffering a health shock after the age of 55.
-Appendix Table \ref{tab:placebo_results_multi} shows that the most sizable coefficient is the one of the shock itself, associated with a reduction in the probability of smoking by about 8 percentage points.
-
-%\captionsetup{width = \columnwidth}
-\begin{figure}[!ht]
-	\begin{center}
-		\includegraphics[width=0.4\textwidth]{../3_output/shock_effects/placebo_5060_100_cv.png}
-		\caption{Falsification test, age 50 to 60
-		\label{fig:placebo}
-		}
-	\vspace{-0.8cm}
-	\floatfoot{
-	\textsf{
-	\textit{Notes:} Low PGS = lowest tertile of the polygenic score distribution; high PGS = upper two tertiles of the polygenic score distribution.
-	Pre-55: Health shock since the last survey reported at ages 50-54.
-	Post-55: Health shock since the last survey reported at ages 57-60.
-	Effects are estimated using the coefficients in the last column of Table \ref{tab:placebo_results_multi} and following the derivation described in \ref{appsec:derivation}.
-	Bars show 95\% confidence intervals, standard error clustered at the individual level.
-	\\ \textit{Data used}: HRS study sample.
-	%Composition of all effects is shown in Tables \ref{suptab:main_explained}, \ref{suptab:main_explained2}, and \ref{suptab:main_explained3} in the Supplement.
-	} %end of textsf
-	} %end of floatfoot
-	\end{center}
-\end{figure}
-
-
-\paragraph{Is it really Medicare?}
-Other factors besides eligibility to Medicare may be at play around the age of 65, the most prominent being retirement.
-Such factors might affect smoking behavior after health shocks and change the interpretation of our coefficient.
-Our empirical result about genetic heterogeneity would still stand, but the post-65 dummy could not be considered purely as a measure of health care eligibility, and the differential reduction in smoking before 65 would not be evidence of moral hazard heterogeneity.
-
-However, these alternative interpretations are at odds with two findings: there is no effect for those already insured before the age of 65, and there is no differential effect on income or retirement.
-
-First, as Table \ref{tab:reg_results_multi} shows, the estimated coefficient on the \textsf{shock x post-65} interaction is close to 0 and not statistically significant, suggesting no differential effect of the health shock on the probability of smoking for those individuals already covered by health insurance before the age of 65.
-If other factors rather than health insurance status were to cause the difference between the effects of a pre- vs. post-65 health shock in the low-PGS group, one could expect to also see an effect for those already insured before the age of 65.
-
-Secondly, as Panels (a), (b), and (c) of Figure \ref{fig:income_ret} show, there is no apparent jump in income or the probability of retirement exactly at the age of 65 in our sample.
-Contrasting this with the sharp change in enrollment in Medicare (Figure \ref{fig:Medicare_unins}) and drop in the share of uninsured (Figure \ref{fig:Medicare_unins}) suggests that the main event captured by the post-65 dummy for the sample of previously uninsured individuals is access to health coverage.
-
-Finally, as shown in Figure \ref{fig:confounders}, there is no differential effect of the health shock before or after the age of 65 on the reported income or the probability of retirement of persistently uninsured individuals.
-The absence of any discernible effect suggests that neither income nor retirement are potential mechanisms behind the observed change in smoking responses.
-
-
-\begin{figure}[ht]
-	\begin{center}
-		\subfigure[\textsf{Share retired}]
-		{\includegraphics[width=0.3\textwidth]
-		{../3_output/over_time/graph_6070retiredrdd_agebypgs.png}
-		}
-		\subfigure[\textsf{Earned Income}]
-		{\includegraphics[width=0.3\textwidth]
-		{../3_output/over_time/graph_6070iearnrdd_agebypgs.png}
-		}
-		\subfigure[\textsf{Total Household Income}]
-		{\includegraphics[width=0.3\textwidth]
-		{../3_output/over_time/graph_6070hitot_no_outlierrdd_agebypgs.png}
-		}
-		\caption{Retirement and income across the age 65 threshold by PGS.
-			\label{fig:income_ret}}
-	\vspace{-5ex}
-	\floatfoot{
-	\textit{Notes:} Self-reported retirement status, earned income, and total-household income over time.
-	Bin-scattered plot and generalized linear smoothed correlation between age and outcome variables shown in red (low PGS = lowest tertile of polygenic score) and blue (high PGS = upper two tertiles of polygenic score).\\
-	\textit{Data used}: HRS waves 1-13, restricted to observations with age between 60 and 70 years.
-	}
-	\end{center}
-\end{figure}
-
-\paragraph{Is it really genes?}
-Other individual-level characteristics, besides genetic predispositions, might be driving this heterogeneity in moral hazard.
-For instance, education, cognitive abilities, personality traits, or risk aversion might be a better proxy of individual level heterogeneity driving a differential response to health shocks.
-Given the richness of the HRS data, we can run the same analysis outlined in equation \ref{eq:regression} but replacing $g_i$ with other individual characteristics.
-
-None of the other individual measures that we have tried seems to be driving heterogeneity in moral hazard, as shown in Figure \ref{fig:otherX}.
-Specifically, we tested for years of education (highly educated people might be more knowledgeable of the insurance system), a proxy of cognitive abilities\footnote{Calculated by HRS as the sum of a word recall task (Total Recall Index) and a counting, naming, and vocabulary task (Mental Status Index).
-%The total recall index (RwTR20, R1TR40, RwATR20, RwHTR40) is available in all waves and summarizes the immediate and delayed word recall tasks. In Waves 1 and 2H, the recall wordlist contained 20 words, while in all other waves it contained 10. Thus the scores range from 0 to 40 in Waves 1 and 2H and from 0 to 20 in other waves. \\
-%The mental status index (RwMSTOT, R2AMSTOT) sums scores from counting, naming, and vocabulary tasks and is available for Wave 2A and from Wave 3 forward. This reflects the absence of some of these tests in Waves 1 and 2H. \\
-%A total cognition score (RwCOGTOT, R2ACGTOT) sums the total recall and mental status indices. Because the mental status index is missing for Waves 1 and 2H, the total cognition index is also missing for these waves.
-%Total Cognition score goes from 0 to 35. \\
-%Further detail on this variables can be found ion RAND HRS Longitudinal File Codebook.
-} (smart people might be more strategic), risk aversion measured through hypothetical gambles on lifetime income (individual risk preferences might moderate both smoking behaviors and the response to health shocks), the Big-5 personality trait conscientiousness (conscientious people might be more likely to follow the doctor's advice of stopping smoking after a health shock), gender (social scientist's favorite sample split to engage in ex-post rationalizations), and individual and household income (which might be a buffer for the negative shock).%
-\footnote{Notice that some of these variables are not quite predetermined, baseline characteristics of the individuals. Some might actually be mediators of the overall effect, or ``bad controls'' in the terminology of \cite{Angrist2008}, especially income. We still report the results for completeness, but caution the reader prone to causal interpretations.
-In this regard, genetic variants represent the ideal measure of heterogeneity of treatment effects: they are fixed since conception, immutable, identically measured across the whole human species, and indexing plausible biological channels which are increasingly studied and documented by a wide range of disciplines.
-In Appendix \ref{appsec:otherPGS}, we report the results of using different polygenic scores as a proxy for $g_i$.
-Moral hazard heterogeneity is also detected in the group having a high PGS for educational attainment or cognitive abilities \citep{Lee2018}, and a low PGS for risk tolerance \citep{KarlssonLinner2019} and a low PGS for non-cognitive skills \citep{Demange2020}.
-On the other side, there is no evidence of heterogeneity of moral hazard by the PGS for Body-Mass-Index \citep{Yengo2018} or the PGS for cigarettes per day \citep{GSCAN2019gwas}.
-These results suggest that potential mechanisms for the observed heterogeneity should include not only biological channels related to nicotine addiction, but also cognitive processes related to risky and strategic behavior, which are closely related to the concept of moral hazard.
-} %end footnote
-For completeness, results are shown split by tertiles for continuous measures, and in two for binary measures.
+%%\captionsetup{width = \columnwidth}
+%\begin{figure}[!ht]
+%	\begin{center}
+%		\includegraphics[width=0.4\textwidth]{../3_output/shock_effects/placebo_5060_100_cv.png}
+%		\caption{Falsification test, age 50 to 60
+%		\label{fig:placebo}
+%		}
+%	\vspace{-0.8cm}
+%	\floatfoot{
+%	\textsf{
+%	\textit{Notes:} Low PGS = lowest tertile of the polygenic score distribution; high PGS = upper two tertiles of the polygenic score distribution.
+%	Pre-55: Health shock since the last survey reported at ages 50-54.
+%	Post-55: Health shock since the last survey reported at ages 57-60.
+%	Effects are estimated using the coefficients in the last column of Table \ref{tab:placebo_results_multi} and following the derivation described in \ref{appsec:derivation}.
+%	Bars show 95\% confidence intervals, standard error clustered at the individual level.
+%	\\ \textit{Data used}: HRS study sample.
+%	%Composition of all effects is shown in Tables \ref{suptab:main_explained}, \ref{suptab:main_explained2}, and \ref{suptab:main_explained3} in the Appendix.
+%	} %end of textsf
+%	} %end of floatfoot
+%	\end{center}
+%\end{figure}
+%
+%
+%\begin{figure}[ht]
+%	\begin{center}
+%		\subfigure[\textsf{Share retired}]
+%		{\includegraphics[width=0.3\textwidth]
+%		{../3_output/over_time/graph_6070retiredrdd_agebypgs.png}
+%		}
+%		\subfigure[\textsf{Earned Income}]
+%		{\includegraphics[width=0.3\textwidth]
+%		{../3_output/over_time/graph_6070iearnrdd_agebypgs.png}
+%		}
+%		\subfigure[\textsf{Total Household Income}]
+%		{\includegraphics[width=0.3\textwidth]
+%		{../3_output/over_time/graph_6070hitot_no_outlierrdd_agebypgs.png}
+%		}
+%		\caption{Retirement and income across the age 65 threshold by PGS.
+%			\label{fig:income_ret}}
+%	\vspace{-5ex}
+%	\floatfoot{
+%	\textit{Notes:} Self-reported retirement status, earned income, and total-household income over time.
+%	Bin-scattered plot and generalized linear smoothed correlation between age and outcome variables shown in red (low PGS = lowest tertile of polygenic score) and blue (high PGS = upper two tertiles of polygenic score).\\
+%	\textit{Data used}: HRS waves 1-13, restricted to observations with age between 60 and 70 years.
+%	}
+%	\end{center}
+%\end{figure}
+%
 
 \begin{figure}[ht]
 	\begin{center}
@@ -680,188 +684,142 @@ For completeness, results are shown split by tertiles for continuous measures, a
 \end{figure}
 
 
-\paragraph{Is this driven by confounders?}
-One might worry that the differential change in smoking behavior might be driven by other confounding factors that coincidentally happen around the age of 65, or are triggered by the health shock.
-For example, suffering a heart attack might reduce people's income, induce them to retire, change their marital status, increase their out-of-pocket medical spending, or shorten their life expectancy.
-Any of these changes happening differentially for people with high or a low polygenic score, and before or after the age of 65, could invalidate our results or at least our interpretation of the effect as evidence of moral hazard.
-To test the plausibility of these concerns, we estimate equation \ref{eq:regression} again including each of these potential confounders as an outcome variable $Y_{it}$, as suggested by \cite{Pei2018}.
-
-None of these potential confounders seems to be driving our results, as shown in Figure \ref{fig:confounders}.
-If anything, the symmetric results for out-of-pocket medical expenditure shown in panel (e) suggest that the size of the health shock is comparable for both high and low PGS individuals: both report an increase of about 2\% in out-of-pocket medical expenditure if the shock happens before the age of 65 (when uninsured) and a change smaller than 0.3\% if the shock happened after for low PGS, and a reduction of about 1\% for those with high PGS (and not statistically significant for neither of these last two estimators).
-
-\begin{figure}[ht]
-	\begin{center}
-		\subfigure[\textsf{Earned Income (IHS)}]
-		{\includegraphics[width=0.22\textwidth]
-		{../3_output/shock_effects/IHSwage_6070_100_cv.png}
-		}
-		\subfigure[\textsf{Total Household Income (IHS)}]
-		{\includegraphics[width=0.22\textwidth]
-		{../3_output/shock_effects/IHShitot_noout_6070_100_cv.png}
-		}
-%		\subfigure[\textsf{Wealth (IHS)}]
+%
+%\begin{figure}[ht]
+%	\begin{center}
+%		\subfigure[\textsf{Earned Income (IHS)}]
 %		{\includegraphics[width=0.22\textwidth]
-%		{../3_output/shock_effects/IHSwealth_6070_100_cv.png}
+%		{../3_output/shock_effects/IHSwage_6070_100_cv.png}
 %		}
-		\subfigure[\textsf{Probability of Retiring}]
-		{\includegraphics[width=0.22\textwidth]
-		{../3_output/shock_effects/retired_6070_100_cv.png}
-		}
-		\subfigure[\textsf{Relationship status}]
-		{\includegraphics[width=0.22\textwidth]
-		{../3_output/shock_effects/mpart_6070_100_cv.png}
-		}
-		\subfigure[\textsf{Medical expenditure}]
-		{\includegraphics[width=0.22\textwidth]
-		{../3_output/shock_effects/medexp_6070_100_cv.png}
-		}
-		\subfigure[\textsf{2 Year Mortality}]
-		{\includegraphics[width=0.22\textwidth]
-		{../3_output/shock_effects/dead2_6070_100_cv.png}
-		}
-		\subfigure[\textsf{5 Year Mortality}]
-		{\includegraphics[width=0.22\textwidth]
-		{../3_output/shock_effects/dead5_6070_100_cv.png}
-		}
-		\caption{Testing for Potential Confounders
-		\label{fig:confounders}
-		}
-	\vspace{-0.8cm}
-	\floatfoot{
-	\textsf{
+%		\subfigure[\textsf{Total Household Income (IHS)}]
+%		{\includegraphics[width=0.22\textwidth]
+%		{../3_output/shock_effects/IHShitot_noout_6070_100_cv.png}
+%		}
+%%		\subfigure[\textsf{Wealth (IHS)}]
+%%		{\includegraphics[width=0.22\textwidth]
+%%		{../3_output/shock_effects/IHSwealth_6070_100_cv.png}
+%%		}
+%		\subfigure[\textsf{Probability of Retiring}]
+%		{\includegraphics[width=0.22\textwidth]
+%		{../3_output/shock_effects/retired_6070_100_cv.png}
+%		}
+%		\subfigure[\textsf{Relationship status}]
+%		{\includegraphics[width=0.22\textwidth]
+%		{../3_output/shock_effects/mpart_6070_100_cv.png}
+%		}
+%		\subfigure[\textsf{Medical expenditure}]
+%		{\includegraphics[width=0.22\textwidth]
+%		{../3_output/shock_effects/medexp_6070_100_cv.png}
+%		}
+%		\subfigure[\textsf{2 Year Mortality}]
+%		{\includegraphics[width=0.22\textwidth]
+%		{../3_output/shock_effects/dead2_6070_100_cv.png}
+%		}
+%		\subfigure[\textsf{5 Year Mortality}]
+%		{\includegraphics[width=0.22\textwidth]
+%		{../3_output/shock_effects/dead5_6070_100_cv.png}
+%		}
+%		\caption{Testing for Potential Confounders
+%		\label{fig:confounders}
+%		}
+%	\vspace{-0.8cm}
+%	\floatfoot{
+%	\textsf{
+%	\textit{Notes:}
+%	The figures report the effect of suffering a health shock for the pre-65 uninsured subgroup, stratified by timing of the shock (before and after the age of 65) and having a high or low polygenic score, on various possible confounders.
+%	Effects are estimated using a combination of the coefficients from equation \ref{eq:regression} where the outcome $Y_{it}$ is replaced by the different confounders reported in the sub-figure captions, following the derivation described in \ref{appsec:derivation}.
+%	Low PGS = lowest tertile of the polygenic score distribution; high PGS = upper two tertiles of the polygenic score distribution.
+%	IHS: inverse hyperbolic sine (similar to log).
+%	Pre-65: Health shock since the last survey reported at ages 60-64.
+%	Post-65: Health shock since the last survey reported at ages 67-70.
+%	Estimates and standard errors are shown in Panel A of Table \ref{tab:main_effects}.
+%	Effects are estimated using the coefficients in the last column of Table \ref{tab:reg_results_multi} and following the derivation described in \ref{appsec:derivation}.
+%	Bars show 95\% confidence intervals, standard error clustered at the individual level.
+%	\\ \textit{Data used}: HRS study sample, n = 5,854.
+%	%Composition of all effects is shown in Tables \ref{suptab:main_explained}, \ref{suptab:main_explained2}, and \ref{suptab:main_explained3} in the Appendix.
+%	} %end of textsf
+%	} %end of floatfoot
+%	\end{center}
+%\end{figure}
+%
+%
+%
+%
+%
+
+
+
+\clearpage
+\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Tables %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Tables}\label{app:tab}
+
+\begin{table}[!ht]
+	\caption{Descriptive Statistics for the Study Sample, Stratified by Genetic Group \vspace{-0.3cm}}
+	\label{tab:descriptives_full}
+	%\resizebox{\textwidth}{!}{
+		\input{../3_output/descriptive/descriptive_full.tex}
+	%}
+
+	{\footnotesize \raggedright \vspace{1ex}
 	\textit{Notes:}
-	The figures report the effect of suffering a health shock for the pre-65 uninsured subgroup, stratified by timing of the shock (before and after the age of 65) and having a high or low polygenic score, on various possible confounders.
-	Effects are estimated using a combination of the coefficients from equation \ref{eq:regression} where the outcome $Y_{it}$ is replaced by the different confounders reported in the sub-figure captions, following the derivation described in \ref{appsec:derivation}.
 	Low PGS = lowest tertile of the polygenic score distribution; high PGS = upper two tertiles of the polygenic score distribution.
-	IHS: inverse hyperbolic sine (similar to log).
-	Pre-65: Health shock since the last survey reported at ages 60-64.
-	Post-65: Health shock since the last survey reported at ages 67-70.
-	Estimates and standard errors are shown in Panel A of Table \ref{tab:main_effects}.
-	Effects are estimated using the coefficients in the last column of Table \ref{tab:reg_results_multi} and following the derivation described in \ref{appsec:derivation}.
-	Bars show 95\% confidence intervals, standard error clustered at the individual level.
+	Baseline = first wave used in the study sample for the empirical analysis.
+	Smoking PGS = polygenic score for smoking constructed according to equation \ref{eq:PGS} used as a proxy for genetic propensity to smoke.
+	Persistently uninsured = binary indicator for being uninsured in every observation of the study sample before the age of 65.
+	CV health shock = binary indicator for having suffered a cardiovascular health shock for the first time since the previous wave.
+	See section \ref{sec:vars} for a thorough definition of the variables used and Section \ref{sec:sample} for a definition of the study sample. \\
+	\textit{Data used}: HRS study sample, n = 5,854.
+	\par}
+\end{table}
+
+
+
+%%---- Results
+%%\captionsetup{width = 9cm}
+\begin{table*}[!ht]
+	\caption{Summary of Statistical Results for the Pre-65 Uninsured Subgroup, Stratified by Timing of the Shock and Genetic Group}
+	\label{tab:main_effects}
+	%\resizebox{7.5cm}{!}{
+	\input{../3_output/OLSresults/main_results.tex}
+		\begin{flushleft}
+			Low PGS = lowest tertile of the polygenic score distribution; high PGS = upper two tertiles of the polygenic score distribution.
+			Pre-65: Health shock since the last survey reported at ages 60-64.
+			Post-65: Health shock since the last survey reported at ages 67-70.
+			$^{*}$P $<$ 0.1; $^{**}$P $<$ 0.05; $^{***}$P $<$ 0.01. Robust standard errors in parentheses are clustered at the individual level.
+			The covariance matrix used for calculating standard errors is shown in Appendix Table \ref{suptab:cov_matrix}.
+			Effects are estimated using the coefficients in the last column of Table \ref{tab:reg_results_multi} and following the derivation described in \ref{appsec:derivation}.\\
+			\textit{Data used}: HRS study sample, n = 5,854.
+			%Composition of all effects is shown in Tables \ref{suptab:main_explained}, \ref{suptab:main_explained2}, and \ref{suptab:main_explained3} in the Appendix.
+		\end{flushleft}
+	%\headrule
+\end{table*}
+
+
+
+%\captionsetup{width = 9cm}
+\begin{table}[!ht] \centering
+	\caption{Coefficients from estimating the linear probability model in equation (\ref{eq:regression}) using OLS\vspace{-0.4cm}}
+	\addtolength{\tabcolsep}{-7pt}
+	\label{tab:reg_results_multi}
+	\resizebox{0.55\textheight}{!}{
+	\input{../3_output/OLSresults/reg_results_multi_checkmarks.tex}
+	} %end of resizebox
+	\begin{flushleft}
+	\textit{Notes:}
+	Health shock = binary indicator for having suffered a cardiovascular health shock for the first time since the previous wave.
+	Post-65 = indicator for age $> 65$ at the time of the interview.
+	Uninsured = binary indicator for being persistently uninsured in every observation of the study sample before the age of 65.
+	High PGS = indicator for being in the upper two tertiles of the polygenic score distribution.
+    Age = controls for 3$^{rd}$ degree polynomial in age.
+    FE = adding fixed effects.
+	Robust standard errors in parentheses are clustered at the individual level.
+	$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01.
 	\\ \textit{Data used}: HRS study sample, n = 5,854.
-	%Composition of all effects is shown in Tables \ref{suptab:main_explained}, \ref{suptab:main_explained2}, and \ref{suptab:main_explained3} in the Supplement.
-	} %end of textsf
-	} %end of floatfoot
-	\end{center}
-\end{figure}
+	\end{flushleft}
+\end{table}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Discussion %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Robustness checks} \label{sec:robustness}
-These results are robust to changes in the definition of the high-PGS indicator (having a PGS above the median, using a linear PGS, using an older GWAS for the weights) and the definition of the pre-65 uninsured status indicator (uninsured in 33\% or 66\% of all pre-65 observations instead of 100\%). %, and the age range used for the study sample (59-71, 58-72, 57-73, 56-74, or 55-75 instead of 60-70).
-Relaxing the definition of the uninsured indicator to include respondents uninsured in a minimum of 33\% of pre-65 observations leaves the directions of the effects unchanged, but the magnitudes are smaller and statistical significance is lost.
-Furthermore, the findings of this study do not depend on the exclusion of HRS respondents for whom Medicare eligibility status at the time of the shock is unknown (when health shocks are reported at ages 65 or 66).
-Estimation results for all robustness checks are shown in Section \ref{supsec:robustness} in the Appendix.
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Discussion %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Discussion} \label{sec:discussion}
-
-In this study, experiencing a cardiovascular health shock is associated with a significant reduction in the smoking probability of uninsured 60- to 64-year-old individuals with a low index of genetic propensity to smoke.
-Medicare eligibility after age 65 (and hence a lower exposure to the financial costs of illness) fully neutralized this cessation effect, indicating the presence of moral hazard caused by insurance coverage.
-For individuals with a high genetic propensity to smoke, experiencing a health shock does not significantly affect the smoking probability, irrespective of whether the shock is at a time of high or low exposure to the financial costs of illness.
-
-
-The effect of health shocks on changes in smoking behavior, as well as the underlying mechanisms, have been addressed before \citep{Wray1998,Smith2001,Clark2002,Falba2005,Khwaja2006spouse,Khwaja2006learn,Keenan2009,Sundmacher2012,Richards2014,Marti2017}.
-Previous empirical work has found strong evidence of an increase in smoking cessation after a health shock \citep{Wray1998,Clark2002,Falba2005,Keenan2009,Sundmacher2012,Richards2014,Marti2017}.
-The mechanism that has received a lot of attention in earlier research is a changed perception of personal health risks and survival probability, motivating the individual to reduce tobacco consumption to improve future health \citep{Smith2001,Clark2002,Khwaja2006spouse,Khwaja2006learn}.
-
-\cite{Richards2014,Marti2017} have highlighted the role that financial costs associated with health shocks, as opposed to only the health considerations, can play in determining the post-shock smoking decision.
-In individuals with high financial risk exposure, health shocks may bring about significant out-of-pocket medical costs.
-At the same time, the financial consequences of smoking-related illness are likely more complex and opaque to the individual than the health-related consequences of smoking.
-
-The mechanism presented in these studies suggests that through improving their grasp on the financial cost of smoking, the increase in out-of-pocket health care costs following the health shock can serve as an impetus for smoking cessation.
-Using the same design that we follow in this analysis (the age-based eligibility threshold for the Medicare program), a recent study has provided robust evidence for this mechanism \citep{Marti2017}.
-Without investigating potential heterogeneity between genetic groups, they found that, on average, moral hazard is present, and Medicare eligibility reduced the cessation effect that a cardiovascular health shock had for uninsured individuals.
-
-Our analysis shows that this average effect is likely driven by individuals with a low genetic predisposition for smoking only.
-The effect cannot be observed for the subgroup of individuals with a high genetic predisposition for smoking, suggesting that genetic makeup can act as a constraint and limit the extent to which incentives for behavior change are translated into actual behavior change.
-%Genetic predispositions might
-%
-%
-%This study therefore extends prior findings by explicitly accounting for genetic heterogeneity in the population.
-%The findings show that the change in financial risk (moving from being uninsured to being eligible for the federally sponsored Medicare program) can have a significantly different effect on individuals depending on their genotype.
-
-The question of how insurance policies can interact with genetic predispositions for risky health behaviors is interesting from a policy perspective for several reasons. The finding that insurance affected the post-shock smoking decision only in part of the sample suggests that the considered type of moral hazard in health insurance, which causes excess smoking among an already sick population, is less prevalent than an initial inspection may suggest.
-This insight may alleviate one possible concern against universal public health care coverage \citep{Mendoza2016,Einav2018}.
-
-On a broader level, awareness of the possibility of interactions between genetics and health insurance is important for understanding how the health insurance system can increase or reduce genetically induced health inequalities in a society.
-By highlighting the role of genetic influences on the propensity for and ability to quit unhealthy behaviors, this study also points to possible limitations on the extent to which insurance can cause health behavior changes through financial incentives.
-
-Genetically determined limitations on the effectiveness of financial incentives are important to consider not just when evaluating the effectiveness of health insurance policies, but also the fairness therein.
-With recent technological advances, for example in the field of wearable tech, health insurers are discovering more and more possibilities for monitoring health behaviors.
-This information is increasingly used for pricing, with the explicit goal of motivating behavior change through financial incentives in the form of lower insurance premiums or deductibles \citep{Forbes2014,SwissRe2017}.
-
-
-In light of this development, the possibility that genetic predisposition prevents individuals from changing health behaviors, despite strong incentives for doing so, is becoming increasingly relevant.
-By emphasizing the correlation between genetic risk and an inability to quit unhealthy behaviors, the findings in this study may raise the following question: To what extent do insurance policies that price differentiate based on health behaviors ultimately also discriminate based on genetics? Under current US legislation, the 2008 Genetic Information Nondiscrimination Act prohibits health insurers from discriminating based on explicit genetic information.
-Not wanting to punish those who are disadvantaged in terms of their genetic makeup is one of the motivations behind this legislation.
-To create a health insurance system that can incentivize healthy behaviors and simultaneously reflect society's perception of fairness, it will be important for future research to further enhance our understanding of how genetics and health insurance interact and jointly affect health behaviors.
-
-\vspace{5mm}
-
-
-\subsection{Limitations}\label{sec:limitations}
-
-This study has a few limitations.
-First, the results hinge on a small number of respondents who suffer a health shock around the age of 65. Although the total sample size used in the regression is greater than 5 thousand individuals, the number of people in each cell (i.e. those who suffer a health shock, before or after the age of 65, and have a certain polygenic score) is between 110 and 274.\footnote{See number of observations in Appendix Table \ref{suptab:descriptive_subgroup}.}
-We encourage and welcome a replication of our results, preferably in a within-family design which can better account for the thorny issue of ancestry and population structure, but we are unaware of an existing dataset that contains all of the necessary information about genetic predispositions, health insurance coverage, and smoking behaviors.
-
-Second, the analysis focused on the short-run smoking response to a health shock, and only considered changes in the extensive margin---i.e., changes between smoking and not smoking.
-From a public health perspective, interactions of genetics with both the long-term persistence of the behavior change as well as behavior changes along the intensive margin of smoking---i.e., changes in the number of cigarettes smoked or the intention to quit smoking---may be of interest.
-
-Third, a few caveats regarding the internal validity of the study.
-This study relied on self-reported information regarding smoking behavior, health diagnoses, and insurance status.
-If participants of different ages and different genotypes differentially misreported their smoking status, for example, the estimated effect of Medicare eligibility on the smoking response to a health shock could be biased.
-We have found no published evidence that misreporting might be associated with individual genotypes.
-It is also possible that those identified as continuously uninsured before the age of 65 had insured spells in between the biennial HRS interviews.
-These unmeasured episodes with coverage may have biased the results towards not finding a significant effect of Medicare eligibility.
-Finally, this study may also suffer from survivorship bias and attrition.
-Because DNA collection and genotyping took place relatively late during the HRS (starting in 2006), it is possible that study participants with very high genetic susceptibility for smoking, and hence particularly unhealthy smoking habits, passed away before the DNA collection and are systematically excluded from the study population.
-Within the study population, participants with the highest genetic propensity to smoke may have been less likely to reach the age of Medicare eligibility, hence leading to relatively lower genetic risk in the group that experienced health shocks post-65.
-Both problems would likely have lead to an underestimation of the difference between low- and high-PGS individuals.
-
-Lastly, a few words of caution on the external validity of the study.
-The transition from being uninsured to being eligible for Medicare at age 65 is a setting that is very specific to the health care system in the US.
-While Medicare can generally be seen as just one example of universal health care coverage, it only applies to a specific age group, and it is not clear whether smoking behaviors in response to a health shock in this age group are representative for all ages in the population.
-Another possible concern may be that Medicare eligibility does not necessarily translate into Medicare coverage, as take-up rates are not at 100\%.
-As Figure \ref{fig:Medicare_unins} shows, however, the fraction of eligible HRS respondents in the study sample who are actually enrolled in Medicare is high---approximately 90\% at age 65, increasing to 98\% at age 70.
-Additionally, take-up patterns do not differ much between the genetic groups.
-Table \ref{suptab:main_effects_medicare} in the Appendix shows that using actual Medicare enrollment status rather than Medicare eligibility status in the empirical analysis does not change the results.
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Conclusion %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Conclusions}\label{sec:conclusion}
-
-Medicare eligibility significantly lowered the probability of smoking cessation after a health shock in individuals aged between 60 and 70 years who are uninsured before the age of 65 and have a low genetic predisposition for smoking.
-Health insurance can plausibly affect the smoking response to a health shock by lowering the financial risk associated with the shock, and thereby eroding additional incentives for behavior change.
-This change in behavior following Medicare eligibility is indicative of moral hazard and is not observable among individuals with a high genetic predisposition for smoking.
-The differential effect of Medicare eligibility for the two genetic groups suggests that biological constraints can overpower both health-related and financial incentives for smoking cessation, and provides a readily available measure of heterogeneity in moral hazard.
-Heterogeneity in moral hazard can be used to enrich economic models of health behavior\footnote{For example, see the model in Appendix \ref{appsec:model}.} and our understanding of how individual biological characteristics can influence decision-making.
-
-Building on previous work analyzing the interplay between genes and exogenous environmental changes \citep{Fletcher2012,Schmitz2017,Barcellos2018}, this study provides a contribution to the centennial debate about nature \textit{and} nurture \citep{Mulcaster1582,Galton1874,Haldane1946,Lundborg2010,Kong2018}, casting further doubts about genetic determinism.
-The influence of genetic variants on our choices and outcomes is modulated by the environment around us, just as the response to environmental shocks is filtered through the prism of our genetic predispositions.
-
-Our results show that genetic factors can influence health decisions and strategic behaviors, and therefore should be taken into consideration when evaluating the effectiveness and fairness of different policies, such as health insurance.
-Fairness considerations should take into account the fact that genetic endowments are passed down from one generation to the next, are fixed at conception, and cannot be changed by an individual's choices or effort, raising questions of deservedness, merit, and luck \citep{Pereira2021,Harden2021,Kweon2020}.
-Efficiency considerations should consider that genetic endowments are usually unobserved to the individual, the insurance companies, and the government.
-This unobservability raises important regulatory questions at the intersection between health and information economics: who, if anyone, should have this information? How should the information be provided? How will this information affect demand and supply? Should private contracts or public policies take this information into account?
-The recent rise of direct-to-consumer genetic testing services might force this discussion into the public debate sooner than expected.
-
-More generally, future studies should build off of the idea of leveraging existing indices of genetic predispositions to provide biological measures of heterogeneity in human behaviors.
-This can enrich economic models and empirical studies, shedding new light on fundamental economic parameters.
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% References %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\singlespacing
-%\setlength\bibsep{0pt}
-%\bibliographystyle{ama}
-\bibliographystyle{aea}
-%\bibliographystyle{apalike}
-
-\bibliography{health_genes}
 
 \clearpage
 \newpage
